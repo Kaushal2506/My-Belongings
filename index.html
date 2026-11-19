@@ -1,0 +1,3123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Observation Report Tool</title>
+    
+       <style>
+     
+        .report-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .control-group label {
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .summary-stats {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background: #f6f6f6;
+            border-radius: var(--border-radius);
+            padding: 5px 10px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            min-width: 50 px;
+        }
+        
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--dark-color);
+        }
+        
+        .stat-box.on {
+            border-bottom: 3px solid #28a745;
+        }
+        
+        .stat-box.off {
+            border-bottom: 3px solid #dc3545;
+        }
+        
+        .stat-box.total {
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        /* Rest of the existing CSS remains unchanged */
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --warning-color: #f8961e;
+            --danger-color: #f72585;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom:500px ;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .control-group label {
+    font-weight: bold;
+}
+        .report-controls .form-control {
+    font-weight: bold;
+}
+
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background: #d1145a;
+        }
+
+        .btn-sm {
+            padding: 4px 4px;
+            font-size: 10px;
+            min-width: 70px;
+        }
+
+        .btn-group {
+            display: flex;
+        
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .status-dropdowns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .status-dropdown {
+            width: 100%;
+        }
+
+        .status-dropdown select {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 25px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .checkbox-item input {
+            width: auto;
+        }
+
+        .part-info {
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent-color);
+            position: relative;
+        }
+
+        .part-info h4 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .remove-part-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .remove-part {
+            width: 100px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 10px;
+            border-radius: var(--border-radius);
+            border: 1px solid #ddd;
+            font-size: 10px;
+        }
+
+        .observation-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 200px;
+            font-size: 10px;
+        }
+
+        .observation-table th, .observation-table td {
+            padding: 1px 3px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            font-size: 10px;
+        }
+
+        .observation-table th {
+            background-color: var(--primary-color);
+            color: white;
+            position: sticky;
+            top: 0;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .observation-table td:nth-child(1), 
+        .observation-table td:nth-child(2), 
+        .observation-table td:nth-child(3), 
+        .observation-table td:nth-child(4), 
+        .observation-table td:nth-child(5), 
+        .observation-table td:nth-child(6), 
+        .observation-table td:nth-child(7), 
+        .observation-table td:nth-child(8), 
+        .observation-table td:nth-child(9),
+        .observation-table td:nth-child(10){
+            padding: 2px 3px; 
+        }
+
+        .observation-table th:nth-child(1),
+        .observation-table th:nth-child(2),
+        .observation-table th:nth-child(3),
+        .observation-table th:nth-child(4),
+        .observation-table th:nth-child(5),
+        .observation-table th:nth-child(6),
+        .observation-table th:nth-child(7),
+        .observation-table th:nth-child(8),
+        .observation-table th:nth-child(9),
+        .observation-table th:nth-child(10){
+            padding: 1px 4px;
+        }
+
+        .observation-table th:last-child {
+            border-right: none;
+        }
+
+        .observation-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .observation-table tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .observation-table input {
+            width: 100%;
+            padding: 3px 3px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+
+        .alternate-gc-input {
+            width: 100%;
+            padding: 3px 3px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+
+        .tolerance {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tolerance .upper {
+            color: var(--danger-color);
+        }
+
+        .tolerance .lower {
+            color: var(--success-color);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            padding-left: 40px;
+        }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+        }
+
+        .part-list {
+            max-height: 400px;
+            max-width: 320px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            margin-top: 10px;
+            display: none;
+            position: absolute;
+            width: calc(100% - 30px);
+            background: white;
+            z-index: 100;
+        }
+
+        .part-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .part-item:hover {
+            background-color: #f0f7ff;
+        }
+
+        .part-item:last-child {
+            border-bottom: none;
+        }
+
+        .no-results {
+            padding: 15px;
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .selected-parts-container {
+            margin-top: 30px;
+        }
+
+        /* Summary Modal Styles */
+        .summary-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .summary-content {
+            background: white;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 1000px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .summary-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark-color);
+        }
+
+        .summary-close:hover {
+            color: var(--danger-color);
+        }
+
+        .summary-title {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        /* New Matrix Style for Summary */
+        .summary-matrix {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .summary-matrix th, .summary-matrix td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .summary-matrix th {
+            background-color: var(--primary-color);
+            color: white;
+            top: 0;
+            z-index: 3;
+        }
+
+        .summary-matrix th.side-header {
+            background-color: var(--secondary-color);
+            text-align: left;
+            left: 0;
+            z-index: 2;
+        }
+
+        .summary-matrix td.side-cell {
+            background-color: #f8f9fa;
+            text-align: left;
+            left: 0;
+            z-index: 1;
+        }
+
+        .summary-matrix th:nth-child(1){
+    width: 120px;
+    min-width: 120px;
+}
+
+        .summary-matrix tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .summary-matrix tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .machine-name-cell {
+            font-weight: bold;
+            background-color: #e0e0e0 !important;
+        }
+
+        .part-name-cell {
+            font-weight: 500;
+        }
+
+        /* Status Colors */
+        .status-on {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .status-off {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .status-setup {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .status-setup-change {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .status-development {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .check-tick {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .check-cross {
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .checkbox-cell {
+            text-align: center;
+            width: 15px;
+            height: 15px;
+        }
+        
+        .tri-state-checkbox {
+            display: none;
+        }
+        
+        .tri-state-checkbox + label {
+            cursor: pointer;
+            padding: 4px 2px;
+            border-radius: 3px;
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            text-align: center;
+            line-height: 5px;
+            border: 1px solid #ddd;
+            user-select: none;
+            background-color: white;
+        }
+        
+        .tri-state-checkbox[data-state="checked"] + label {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .tri-state-checkbox[data-state="unchecked"] + label {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .tri-state-checkbox[data-state="checked"] + label::after {
+            content: "✓";
+        }
+        
+        .tri-state-checkbox[data-state="unchecked"] + label::after {
+            content: "✘";
+        }
+        
+        .tri-state-checkbox[data-state="indeterminate"] + label::after {
+            content: "";
+        }
+
+        /* Freeze columns styles */
+        .freeze-toggle-container {
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        /* Toggle switch styles */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-left: 10px;
+            margin-top: 15px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-label {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+       /* Freeze first column */
+.freeze-columns .observation-table th:nth-child(1) {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background-color: var(--primary-color);
+}
+.freeze-columns .observation-table td:nth-child(1) {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background-color: white;
+}
+
+/* Freeze second column */
+.freeze-columns .observation-table th:nth-child(2) {
+    position: sticky;
+    left: 75px; /* Adjust based on actual width of column 1 */
+    z-index: 2;
+    background-color: var(--primary-color);
+}
+.freeze-columns .observation-table td:nth-child(2) {
+    position: sticky;
+    left: 75px; /* Same offset */
+    z-index: 2;
+    background-color: white;
+}
+
+
+        .freeze-columns .observation-table tr:hover td:nth-child(1),
+        .freeze-columns .observation-table tr:hover td:nth-child(2) {
+            background-color: #e9ecef;
+        }
+
+        /* Notes section styles */
+        .notes-section {
+            margin-top: 15px;
+        }
+
+        .notes-section label {
+            margin-bottom: 8px;
+        }
+
+        .notes-section textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        /* Observation column background colors */
+        .observation-table td.obs-on {
+            background-color: #d4edda !important; /* Light green */
+        }
+
+        .observation-table td.obs-off {
+            background-color: #f8d7da !important; /* Light red */
+        }
+
+        .observation-table td.obs-setup {
+            background-color: #cce5ff !important; /* Light blue */
+        }
+
+        /* New Machine Selection Grid Styles */
+        .machine-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            margin-bottom: 5px;
+        }
+
+        .machine-box {
+            background-color: white;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 3.75px 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: bold;
+            font-size: 12px;
+            height: 28px;
+            width: 75px;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .machine-box:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .machine-box.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+        
+.value-selector-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0px;
+    top: 25px;
+    width: 380px;
+    height: 400px;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: top;
+}
+
+.value-selector-content {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.value-selector-header {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.value-selector-title {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #222;
+}
+
+#value-selector-custom-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.value-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.value-item {
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f9f9f9;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
+}
+
+.value-item:hover {
+    background-color: #e6f0ff;
+    border-color: #3399ff;
+    transform: translateY(-2px);
+}
+
+.value-selector-grid.grid-5x10 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.value-selector-grid.grid-10x10 {
+    grid-template-columns: repeat(10, 1fr);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.page-button {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.page-button.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border-color: #007bff;
+}
+
+.page-button:hover:not(.active) {
+    background-color: #e9f3ff;
+    border-color: #007bff;
+}
+
+.no-values {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.value-selector-close {
+    position: absolute;
+    top: 0px;
+    right: 35px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.value-selector-close:hover {
+    color: black;
+}
+
+/* Observation Summary Styles */
+.observation-summary-item {
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+}
+
+.observation-summary-item:last-child {
+    border-bottom: none;
+}
+
+.observation-summary-machine {
+    font-weight: bold;
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.observation-summary-part {
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.observation-summary-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    font-size: 10px;
+}
+
+.observation-summary-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px;
+    text-align: left;
+    border: 0.5px solid #000000;
+    font-size: 10px;
+}
+
+.observation-summary-table td {
+    padding: 3px;
+    border: 0.5px solid #000000 ;
+}
+
+.observation-summary-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Summary-specific freeze toggle styles */
+.summary-freeze-toggle-container {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.summary-toggle-label {
+    font-size: 8px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.summary-toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 15px;
+}
+
+.summary-toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.summary-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.summary-toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 7px;
+    width: 7px;
+    left: 3px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .summary-toggle-slider {
+    background-color: #2196F3;
+}
+
+input:checked + .summary-toggle-slider:before {
+    transform: translateX(16px);
+}
+
+/* Summary-specific freeze columns styling */
+.observation-summary-table.summary-freeze-columns {
+    position: relative;
+}
+
+.observation-summary-table.summary-freeze-columns th:nth-child(1){
+    position: sticky;
+    left: 0;
+    background-color: var(--primary-color);
+    z-index: 1;
+}
+.observation-summary-table.summary-freeze-columns th:nth-child(2){
+    position: sticky;
+    left: 80px;
+    background-color: var(--primary-color);
+    z-index: 1;
+}
+.observation-summary-table.summary-freeze-columns td:nth-child(1){
+    position: sticky;
+    left: 0;
+    background-color: #f8f9fa;
+    z-index: 1;
+}
+.observation-summary-table.summary-freeze-columns td:nth-child(2) {
+    position: sticky;
+    left: 80px;
+    background-color: #f8f9fa;
+    z-index: 1;
+}
+
+
+
+
+
+
+#surface-finish-modal {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+#surface-finish-modal .summary-content {
+    width: 96%;
+    max-width: 1600px;
+    max-height: 90vh;
+    overflow: auto;
+    padding: 0;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    border: 1px solid #e5e9f0;
+}
+
+.sfr-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid #f0f2f7;
+    background: linear-gradient(to right, #f8fafd, #ffffff);
+}
+
+.sfr-header h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a2b4d;
+    display: flex;
+    align-items: center;
+}
+
+.sfr-header h2:before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 20px;
+    background: #4361ee;
+    margin-right: 12px;
+    border-radius: 2px;
+}
+
+.sfr-matrix-container {
+    overflow-x: auto;
+    padding: 8px;
+}
+
+.sfr-matrix-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+    table-layout: fixed;
+    min-width: 800px;
+}
+
+/* Header specific styling */
+
+.sfr-matrix-table thead tr {
+    background: linear-gradient(to right, #4361ee, #3a56d4);
+}
+
+.sfr-matrix-table th {
+    color: white;
+    padding: 16px 12px;
+    font-weight: 500;
+    text-align: center;
+    position: relative;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    min-width: 120px;
+    width: 120px;
+}
+
+/* First column header */
+.sfr-matrix-table th:first-child {
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
+    text-align: left;
+    padding-left: 24px;
+    
+}
+
+/* Body specific styling */
+.sfr-matrix-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #f0f2f7;
+    vertical-align: middle;
+    position: relative;
+    min-width: 120px;
+    width: 120px;
+}
+
+/* First column cells */
+.sfr-matrix-table td:first-child {
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
+    text-align: left;
+    padding-left: 24px;
+    font-weight: 500;
+    color: #1a2b4d;
+    
+}
+
+/* Machine row styling */
+.sfr-machine-cell {
+    background: #f8fafd !important;
+    font-weight: 600;
+    color: #1a2b4d;
+    border-bottom: 1px solid #e5e9f0;
+    border-top: 1px solid #e5e9f0;
+}
+
+.sfr-machine-cell:first-child {
+    color: #4361ee;
+    background: #f8fafd !important;
+}
+
+/* Part group styling */
+.sfr-part-group {
+    background: #ffffff;
+}
+
+.sfr-part-cell {
+    background: #ffffff !important;
+    font-weight: 600;
+    color: #2d374d;
+    border-right: 1px solid #f0f2f7 !important;
+    position: relative;
+}
+
+.sfr-part-cell:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    background: #4361ee;
+    border-radius: 3px;
+}
+
+/* Characteristic rows */
+.sfr-char-label {
+    font-weight: 500;
+    color: #4a5568;
+    padding-left: 32px !important;
+    text-align: left !important;
+    position: relative;
+}
+
+.sfr-char-label:before {
+    content: "•";
+    position: absolute;
+    left: 18px;
+    color: #a0aec0;
+}
+
+.sfr-spec-cell {
+    font-family: 'Roboto Mono', monospace;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+/* Observation cells */
+.sfr-obs-cell {
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    border-right: 1px solid #f0f2f7;
+}
+
+
+/* Show gridlines clearly */
+.sfr-matrix-table {
+    border: 1px solid #d1d5db; /* Slightly darker for visibility */
+    border-collapse: collapse;
+}
+
+.sfr-matrix-table th,
+.sfr-matrix-table td {
+    border: 1px solid #d1d5db; /* All 4 sides of cells */
+}
+
+
+
+/* Hover effects */
+.sfr-matrix-table tbody tr:hover td {
+    background: rgba(67, 97, 238, 0.03) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1600px) {
+    #surface-finish-modal .summary-content {
+        width: 98%;
+    }
+
+    .sfr-matrix-table {
+        font-size: 13.5px;
+    }
+
+    .sfr-matrix-table th,
+    .sfr-matrix-table td {
+        padding: 12px 10px;
+    }
+
+    .sfr-matrix-table th:first-child,
+    .sfr-matrix-table td:first-child {
+        width: 150px;
+        min-width: 150px;
+        max-width: 150px;
+    }
+    
+    /* Example: Set column 3 width to 150px */
+.sfr-matrix-table th:nth-child(1) {
+    width: 420px;
+    min-width: 420px;
+}
+
+
+.sfr-matrix-table th:nth-child(2),
+.sfr-matrix-table th:nth-child(3),
+.sfr-matrix-table th:nth-child(4),
+.sfr-matrix-table th:nth-child(5){
+    width: 120px;
+    min-width: 120px;
+}
+
+    
+}
+
+@media print {
+    #surface-finish-modal .summary-content {
+        width: 100%;
+        max-width: 100%;
+        box-shadow: none;
+        padding: 0;
+        border: none;
+    }
+
+    .sfr-matrix-table {
+        border: 1px solid #e2e8f0;
+    }
+
+    .sfr-matrix-table thead tr {
+        background: #4361ee !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .sfr-machine-cell {
+        background: #f8fafd !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+
+
+
+
+
+        @media (max-width: 768px) {
+            .status-dropdown {
+                min-width: 100%;
+            }
+            
+            .btn-group {
+                flex-direction: row;
+            }
+            
+            .btn {
+                width: auto;
+            }
+            
+            .observation-table {
+                font-size: 14px;
+            }
+            
+            .observation-table th, .observation-table td {
+                padding: 8px 10px;
+            }
+
+            .detail-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-matrix {
+                font-size: 12px;
+            }
+            
+            .summary-matrix th, .summary-matrix td {
+                padding: 4px;
+            }
+
+            /* Adjust machine grid for mobile */
+            .machine-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2px;
+            }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    
+    
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Inprocess Inspection Report</h1>
+            <!-- Date and Shift Selection Controls -->
+            <div class="report-controls">
+                <div class="control-group">
+                    <label for="report-date">Date</label>
+                    <input type="date" id="report-date" class="form-control">
+                </div>
+                <div class="control-group">
+                    <label for="report-shift">Shift</label>
+                    <select id="report-shift" class="form-control"> 
+                        <option value="A">A</option> 
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="A1/2">A1/2</option>
+                        <option value="B1/2">B1/2</option>
+                        <option value="C1/2">C1/2</option>
+                    </select>
+                </div>
+            </div>
+            
+        </header>
+
+       <div class="btn-group" style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px;">
+    <button class="btn btn-danger" id="remove-all-btn" style="margin-right: 200px;">Remove All</button>
+    <button class="btn" id="summary-btn">M/C Summary</button>
+    <button class="btn" id="observation-summary-btn">Obs Summary</button>
+    <button class="btn" id="surface-finish-btn">SF Report</button>
+</div>
+
+
+        <!-- Machine Selection Grid -->
+        <div class="card">
+            <h2 class="card-title">Machine Selection</h2>
+            <div class="machine-grid" id="machine-grid">
+                <div class="machine-box" data-machine="PMT-A">PMT-A</div>
+                <div class="machine-box" data-machine="PMT-B">PMT-B</div>
+                <div class="machine-box" data-machine="PMT-C">PMT-C</div>
+                <div class="machine-box" data-machine="PMT-D">PMT-D</div>
+                <div class="machine-box" data-machine="PMT-E">PMT-E</div>
+                <div class="machine-box" data-machine="OD-D">OD-D</div>
+                <div class="machine-box" data-machine="OD-E">OD-E</div>
+                <div class="machine-box" data-machine="OD-F">OD-F</div>
+                <div class="machine-box" data-machine="OD-G">OD-G</div>
+                <div class="machine-box" data-machine="OD-I">OD-I</div>
+                <div class="machine-box" data-machine="OD-K">OD-K</div>
+                <div class="machine-box" data-machine="LMW-Q">LMW-Q</div>
+                <div class="machine-box" data-machine="LMW-R">LMW-R</div>
+                <div class="machine-box" data-machine="LMW-S">LMW-S</div>
+                <div class="machine-box" data-machine="LMW-T">LMW-T</div>
+                <div class="machine-box" data-machine="LMW-U">LMW-U</div>
+                <div class="machine-box" data-machine="LMW-V">LMW-V</div>
+                <div class="machine-box" data-machine="LMW-W">LMW-W</div>
+                <div class="machine-box" data-machine="SR-D">SR-D</div>
+                <div class="machine-box" data-machine="SR-E">SR-E</div>
+                <div class="machine-box" data-machine="SR-F">SR-F</div>
+                <div class="machine-box" data-machine="GR-B">GR-B</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Part Selection</h2>
+            <div class="form-group">
+                <label for="part-search">Search Parts</label>
+                <div class="search-box">
+                    <input type="text" id="part-search" placeholder="Click to search parts...">
+                </div>
+                <div class="part-list" id="part-list">
+                    <!-- Parts will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="selected-parts-container" id="selected-parts-container">
+            <!-- Selected parts with their tables will appear here -->
+        </div>
+
+        <!-- Value Selector Modal -->
+        <div class="value-selector-modal" id="value-selector-modal">
+            <div class="value-selector-content">
+                <span class="value-selector-close" id="value-selector-close">&times;</span>
+                <div class="value-selector-header">
+                    <h3 class="value-selector-title">Select a Value</h3>
+                    <input type="text" id="value-selector-custom-input" placeholder="Or type custom value...">
+                </div>
+                <div class="value-selector-grid" id="value-selector-grid">
+                    <!-- Values will be populated here -->
+                </div>
+                <div class="value-selector-pagination" id="value-selector-pagination">
+                    <!-- Pagination will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Modal -->
+        <div class="summary-modal" id="summary-modal">
+            <div class="summary-content">
+                <span class="summary-close" id="summary-close">&times;</span>
+                <h2 class="summary-title">Machine Summary</h2>
+                
+                            <!-- Machine Status Summary -->
+                <div class="summary-stats" id="summary-stats">
+                    <div class="stat-box on">
+                        <div class="stat-value" id="machines-on">0</div>
+                        <div class="stat-label">No. of M/C ON</div>
+                    </div>
+                    <div class="stat-box off">
+                        <div class="stat-value" id="machines-off">0</div>
+                        <div class="stat-label">No. of M/C OFF</div>
+                    </div>
+                    <div class="stat-box total">
+                        <div class="stat-value" id="total-machines">0</div>
+                        <div class="stat-label">Total Machines</div>
+                    </div>
+                </div>
+                
+                <div id="summary-list">
+                    <!-- Summary will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Observation Summary Modal -->
+        <div class="summary-modal" id="observation-summary-modal">
+            <div class="summary-content">
+                <span class="summary-close" id="observation-summary-close">&times;</span>
+                <h2 class="summary-title">Observation Summary</h2>
+                <div id="observation-summary-list">
+                    <!-- Observation summary will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Surface Finish Report Modal -->
+        <div class="summary-modal" id="surface-finish-modal">
+            <div class="summary-content">
+                <span class="summary-close" id="surface-finish-close">&times;</span>
+                <h2 class="summary-title">Surface Finish Report</h2>
+                <div id="surface-finish-list">
+                    <!-- Surface finish report will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="spinner" id="loading-spinner"></div>
+    </div>
+
+    <script>
+        // Extended sample data for parts with tolerance values
+ 
+ 
+ 
+         const partsDatabase = [ 
+            {id:'G0001',name:'2nd/6th Speed Gear Mainshaft G1150',note:'',machineCompatibility:["LMW-Q","LMW-S","LMW-T","LMW-U","LMW-V","LMW-W"],characteristics:[{"name":"Bore Diameter","specification":"Ø 80.0 (+0.016)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6053","alternateGcNo":"","tolerance":{"upper":0.013,"lower":0.005,"step":0.001},"tolerance2":{"upper":0.016,"lower":0,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"","measurement":"Job Master","gcNo":"","alternateGcNo":""},{"name":"Boss Height","specification":"42.5 (-0.05)","measurement":"Hight Master","gcNo":"5448","alternateGcNo":"","tolerance":{"upper":-0.015,"lower":-0.03,"step":0.001},"tolerance2":{"upper":0,"lower":-0.05,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"3.9 (±0.1)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.04,"lower":-0.02,"step":0.01},"tolerance2":{"upper":0.1,"lower":-0.1,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance1","specification":"10.95 (±0.03)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.02,"lower":-0.02,"step":0.01},"tolerance2":{"upper":0.03,"lower":-0.03,"step":0.01},"rangeRule":true},{"name":"Distance2","specification":"7.13 (±0.05)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.05,"lower":-0.05,"step":0.01},"rangeRule":true},{"name":"S/F on Bore","specification":"0.35","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.33,"lower":0.12,"step":0.001},"tolerance2":{"upper":0.35,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.4,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.013,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0002',name:'5th Drive Gear (5MT320-UPP-G2)',note:'',machineCompatibility:["LMW-Q","LMW-S","LMW-T","LMW-U","LMW-V","LMW-W"],characteristics:[{"name":"Bore Diameter","specification":"Ø 24.9 (+0.005/-0.011)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"Air Plug Gauge","alternateGcNo":"","tolerance":{"upper":24.902,"lower":24.893,"step":0.001},"tolerance2":{"upper":24.905,"lower":24.889,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":"9897"},{"name":"Cone Diameter","specification":"","measurement":"Job Master","gcNo":"","alternateGcNo":""},{"name":"Boss Height","specification":"38.40 ± 0.030","measurement":"Hight Master","gcNo":"9899","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.03,"lower":-0.03,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"C.B. Ring Height","specification":"6.6 (±0.25)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.05,"lower":0,"step":0.01},"tolerance2":{"upper":0.25,"lower":-0.25,"step":0.01},"rangeRule":true},{"name":"Distance1","specification":"26.65 (±0.1)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":0,"step":0.01},"tolerance2":{"upper":0.1,"lower":-0.1,"step":0.01},"rangeRule":true},{"name":"Distance2","specification":"6.65 (±0.01)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":0,"step":0.01},"tolerance2":{"upper":0.1,"lower":-0.1,"step":0.01},"rangeRule":true},{"name":"S/F on Bore","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.6,"lower":0.1,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.4,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.025","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.02,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.025,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0003-1',name:'Assy 5th Driven Gear (5MT320)',note:'Cone angle is 6.5° ±2',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E"],characteristics:[{"name":"Bore Diameter","specification":"Ø 44.2 (+0.025/+0.009)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6021","alternateGcNo":"","tolerance":{"upper":0.022,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.025,"lower":0.009,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":"","tolerance":{"text":"✓"}},{"name":"Cone Diameter","specification":"Ø 77.5 (±0.007)","measurement":"Job Master","gcNo":"77.500","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.007,"lower":-0.007,"step":0.001},"showCheckbox":true},{"name":"Boss Height","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Thickness","specification":"30.975 (±0.025)","measurement":"Hight Master","gcNo":"2587/6","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.025,"lower":-0.025,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Back Face Depth","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"C.B. Ring Height","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance1","specification":"28.7 (+0.23/-0.20)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.15,"lower":0.09,"step":0.01},"tolerance2":{"upper":0.23,"lower":-0.2,"step":0.01},"rangeRule":true},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.4,"lower":0.24,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"0.2 - 0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.39,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.010","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.01,"lower":0.007,"step":0.001},"tolerance2":{"upper":0.01,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0003-3',name:'Assy 5th Driven Gear (5MT320)',note:'Cone angle is 6.5° ±2',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 77.5 (±0.007)","measurement":"Job Master","gcNo":"77.500","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.007,"lower":-0.007,"step":0.001},"showCheckbox":true},{"name":"S/F on Cone","specification":"0.2 - 0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.4,"lower":0.24,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0004-1',name:'Assy Rev Driven Gear (5MT320)',note:'Cone angle is 7° ±2',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E"],characteristics:[{"name":"Bore Diameter","specification":"Ø 41.0 (+0.025/+0.009)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6022","alternateGcNo":"","tolerance":{"upper":0.022,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.025,"lower":0.009,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":"","tolerance":{"text":"✓"}},{"name":"Cone Diameter","specification":"Ø 77.5 (±0.007)","measurement":"Job Master","gcNo":"77.500","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.007,"lower":-0.007,"step":0.001},"showCheckbox":true},{"name":"Boss Height","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Thickness","specification":"30.975 (±0.020)","measurement":"Hight Master","gcNo":"2587/3","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Back Face Depth","specification":"2.0 (±0.02)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.02,"lower":-0.02,"step":0.01},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance1","specification":"28.7 (+0.3)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.15,"lower":0.09,"step":0.01},"tolerance2":{"upper":0.3,"lower":0,"step":0.01},"rangeRule":true},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.38,"lower":0.24,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"0.2 - 0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.39,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.010","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.01,"lower":0.007,"step":0.001},"tolerance2":{"upper":0.01,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0004-3',name:'Assy Rev Driven Gear (5MT320)',note:'Cone angle is 7° ±2',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 77.5 (±0.007)","measurement":"Job Master","gcNo":"77.500","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.007,"lower":-0.007,"step":0.001},"showCheckbox":true},{"name":"S/F on Cone","specification":"0.2 - 0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.39,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0006-2',name:'Gear 1st Driven U321 New Ratio',note:'Cone angle is 7° ±5',machineCompatibility:["LMW-Q","LMW-S","LMW-T","LMW-U","LMW-V","LMW-W"],characteristics:[{"name":"Bore Diameter","specification":"Ø 46.0 (+0.022/+0.009)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6035","alternateGcNo":"","tolerance":{"upper":0.022,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.022,"lower":0.009,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"","measurement":"Job Master","gcNo":"","alternateGcNo":""},{"name":"Boss Height","specification":"24.9 (± 0.02)","measurement":"Hight Master","gcNo":"4914","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"2.5 (±0.05)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.02,"step":0.01},"tolerance2":{"upper":0.05,"lower":-0.05,"step":0.01}},{"name":"C.B. Ring Height","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance1","specification":"14.45 (+0.130/-0.095)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.1,"lower":0.05,"step":0.01},"tolerance2":{"upper":0.13,"lower":-0.09,"step":0.01},"rangeRule":true},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.3","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.29,"lower":0.101,"step":0.001},"tolerance2":{"upper":0.3,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.4,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"},"rangeRule":true}]},
+            {id:'G0006-3',name:'Gear 1st Driven U321 New Ratio',note:'Cone angle is 7° ±5',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 64.4 (±0.011)","measurement":"Job Master","gcNo":"64.400","alternateGcNo":"","tolerance":{"upper":0.008,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.011,"lower":-0.011,"step":0.001},"showCheckbox":true},{"name":"Ra","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"Rpk","specification":"0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.395,"lower":0.29,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"Mr1","specification":"15%","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":8.95,"lower":7.05,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0007-1',name:'Gear 2nd Driven Assy (6R320M) (6MT)',note:'Cone angle is 7° ±2',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E"],characteristics:[{"name":"Bore Diameter","specification":"Ø 47.0 (+0.025/+0.009)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6031","alternateGcNo":"","tolerance":{"upper":0.022,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.025,"lower":0.009,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"Ø 65.2 (±0.007)","measurement":"Job Master","gcNo":"65.200","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.007,"lower":-0.007,"step":0.001},"showCheckbox":true},{"name":"Boss Height","specification":"38.6 (±0.02)","measurement":"Hight Master","gcNo":"4527","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"2.2 (±0.05)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.05,"lower":-0.05,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"29.27 (+0.130/-0.095)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.1,"lower":0.03,"step":0.01},"tolerance2":{"upper":0.13,"lower":-0.09,"step":0.01},"rangeRule":true},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.38,"lower":0.24,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0007-3',name:'Gear 2nd Driven Assy (6R320M) (6MT)',note:'Cone angle is 7° ±2',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 65.2 (±0.007)","measurement":"Job Master","gcNo":"65.200","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.007,"lower":-0.007,"step":0.001},"showCheckbox":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0008',name:'Gear 3rd Speed Layshaft TA6300',note:'',machineCompatibility:["LMW-Q","LMW-S","LMW-T","LMW-U","LMW-V","LMW-W"],characteristics:[{"name":"Bore Diameter","specification":"Ø 30.02 (+0.07)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"","alternateGcNo":""},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"8102","alternateGcNo":"","tolerance":{"text":"✓"},"showCheckbox":true},{"name":"Cone Diameter","specification":"","measurement":"Job Master","gcNo":"","alternateGcNo":""},{"name":"Boss Height","specification":"36.7 (±0.03)","measurement":"Hight Master","gcNo":"6848","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.03,"lower":-0.03,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"C.B. Ring Height","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance1","specification":"14.4 (±0.05)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.05,"lower":-0.05,"step":0.01},"rangeRule":true},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.75,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"S/F on Grd. Face","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0010',name:'Gear 5th Driven S201 Diesel',note:'',machineCompatibility:["LMW-Q","LMW-S","LMW-T","LMW-U","LMW-V","LMW-W"],characteristics:[{"name":"Bore Diameter","specification":"Ø 34.782 (+0.013)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6042","alternateGcNo":"","tolerance":{"upper":0.012,"lower":0.005,"step":0.001},"tolerance2":{"upper":0.013,"lower":0,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"","measurement":"Job Master","gcNo":"","alternateGcNo":""},{"name":"Boss Height","specification":"15.475 (±0.020)","measurement":"Hight Master","gcNo":"4319","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.00,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"0.5 (±0.03)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.03,"lower":-0.03,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance1","specification":"0.15 (±0.03)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.03,"lower":-0.03,"step":0.01},"rangeRule":true},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":0.1,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.4,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0011',name:'Gear 5th Driven S201 Petrol',note:'',machineCompatibility:["LMW-Q","LMW-S","LMW-T","LMW-U","LMW-V","LMW-W"],characteristics:[{"name":"Bore Diameter","specification":"Ø 34.782 (+0.013)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6042","alternateGcNo":"","tolerance":{"upper":0.012,"lower":0.005,"step":0.001},"tolerance2":{"upper":0.013,"lower":0,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"","measurement":"Job Master","gcNo":"","alternateGcNo":""},{"name":"Boss Height","specification":"15.475 (±0.020)","measurement":"Hight Master","gcNo":"4319","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.00,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"0.5 (±0.03)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.03,"lower":-0.03,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance1","specification":"0.15 (±0.03)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.03,"lower":-0.03,"step":0.01},"rangeRule":true},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":0.1,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.4,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0012',name:'Gear 5th Driven U321',note:'',machineCompatibility:["LMW-Q","LMW-S","LMW-T","LMW-U","LMW-V","LMW-W"],characteristics:[{"name":"Bore Diameter","specification":"Ø 34.782 (+0.013)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6042","alternateGcNo":"","tolerance":{"upper":0.012,"lower":0.005,"step":0.001},"tolerance2":{"upper":0.013,"lower":0,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"","measurement":"Job Master","gcNo":"","alternateGcNo":""},{"name":"Boss Height","specification":"15.475 (±0.020)","measurement":"Hight Master","gcNo":"4319","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.00,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"0.5 (±0.03)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.03,"lower":-0.03,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance1","specification":"0.15 (±0.03)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.03,"lower":-0.03,"step":0.01},"rangeRule":true},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":0.1,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.4,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0013',name:'Gear 6th Driven S201 Diesel',note:'',machineCompatibility:["LMW-Q","LMW-S","LMW-T","LMW-U","LMW-V","LMW-W"],characteristics:[{"name":"Bore Diameter","specification":"Ø 34.62 (+0.013)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6043","alternateGcNo":"","tolerance":{"upper":0.012,"lower":0.005,"step":0.001},"tolerance2":{"upper":0.013,"lower":0,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"","measurement":"Job Master","gcNo":"","alternateGcNo":""},{"name":"Boss Height","specification":"27.3 (±0.020)","measurement":"Hight Master","gcNo":"5290","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.000,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"0.5 (±0.05)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.05,"lower":-0.05,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":100,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.25,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"S/F on Grd. Face","specification":"1.6","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":1.25,"lower":0.4,"step":0.001},"tolerance2":{"upper":1.6,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0014',name:'Gear 6th Driven S201 Petrol',note:'',machineCompatibility:["LMW-Q","LMW-S","LMW-T","LMW-U","LMW-V","LMW-W"],characteristics:[{"name":"Bore Diameter","specification":"Ø 34.62 (+0.013)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6043","alternateGcNo":"","tolerance":{"upper":0.012,"lower":0.005,"step":0.001},"tolerance2":{"upper":0.013,"lower":0,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"","measurement":"Job Master","gcNo":"","alternateGcNo":""},{"name":"Boss Height","specification":"27.3 (±0.020)","measurement":"Hight Master","gcNo":"5290","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.000,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"0.5 (±0.05)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.05,"lower":-0.05,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":100,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.25,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"S/F on Grd. Face","specification":"1.6","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":1.25,"lower":0.4,"step":0.001},"tolerance2":{"upper":1.6,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0015',name:'Gear 6th Driven U321',note:'',machineCompatibility:["LMW-Q","LMW-S","LMW-T","LMW-U","LMW-V","LMW-W"],characteristics:[{"name":"Bore Diameter","specification":"Ø 34.62 (+0.013)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6043","alternateGcNo":"","tolerance":{"upper":0.012,"lower":0.005,"step":0.001},"tolerance2":{"upper":0.013,"lower":0,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"","measurement":"Job Master","gcNo":"","alternateGcNo":""},{"name":"Boss Height","specification":"27.3 (±0.020)","measurement":"Hight Master","gcNo":"5290","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.000,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"0.5 (±0.05)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.05,"lower":-0.05,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":100,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.25,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"S/F on Grd. Face","specification":"1.6","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":1.25,"lower":0.4,"step":0.001},"tolerance2":{"upper":1.6,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0016-1',name:'Gear Assy 1st Driven (6R450)',note:'Cone angle is 7.5° -5',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E"],characteristics:[{"name":"Bore Diameter","specification":"Ø 56.0 (+0.025/+0.012)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"4986","alternateGcNo":"","tolerance":{"upper":0.022,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.025,"lower":0.012,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":"","tolerance":{"text":"✓"}},{"name":"Cone Diameter","specification":"Ø 70.395 (±0.005)","measurement":"Job Master","gcNo":"70.395","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"Boss Height","specification":"39.575 (±0.020)","measurement":"Hight Master","gcNo":"6720/1","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"1.625 (±0.1)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":1.7,"lower":1.64,"step":0.01},"tolerance2":{"upper":1.73,"lower":1.53,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"29.845 (+0.130/-0.095)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":29.91,"lower":29.91,"step":0.001},"tolerance2":{"upper":29.97,"lower":29.75,"step":0.01},"rangeRule":true},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.3","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.29,"lower":0.23,"step":0.001},"tolerance2":{"upper":0.3,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"S/F on Grd. Face","specification":"0.6","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.58,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.6,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0016-3',name:'Gear Assy 1st Driven (6R450)',note:'Cone angle is 7.5° -5',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 70.395 (±0.005)","measurement":"Job Master","gcNo":"70.395","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0018-1',name:'Gear Assy 2nd Driven (6R450)',note:'Cone angle is 7.5° -5',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E"],characteristics:[{"name":"Bore Diameter","specification":"Ø 57.0 (+0.025/+0.012)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"4998","alternateGcNo":"","tolerance":{"upper":0.022,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.025,"lower":0.012,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":"","tolerance":{"text":"✓"}},{"name":"Cone Diameter","specification":"Ø 70.395 (±0.005)","measurement":"Job Master","gcNo":"70.395","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"Boss Height","specification":"30.38 (±0.020)","measurement":"Hight Master","gcNo":"4997/1","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"3.45 (±0.1)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.04,"lower":-0.02,"step":0.01},"tolerance2":{"upper":0.1,"lower":-0.1,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"25.0 (+0.130/-0.095)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.05,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.13,"lower":-0.09,"step":0.01},"rangeRule":true},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.3","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.29,"lower":0.23,"step":0.001},"tolerance2":{"upper":0.3,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"S/F on Grd. Face","specification":"0.6","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.58,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.6,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0018-3',name:'Gear Assy 2nd Driven (6R450)',note:'Cone angle is 7.5° -5',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 70.395 (±0.005)","measurement":"Job Master","gcNo":"70.395","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0020',name:'Gear Assy 3rd Driven P405 Refresh',note:'Cone angle is 6.5° -5',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 51.90 (±0.005)","measurement":"Job Master","gcNo":"51.900","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0021-1',name:'Gear Assy 5th Drive (6R320M-BSVI)',note:'Cone angle is 6.5° ±2',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E"],characteristics:[{"name":"Bore Diameter","specification":"Ø 35.0 (+0.025/+0.009)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6032","alternateGcNo":"","tolerance":{"upper":0.022,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.025,"lower":0.009,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":"","tolerance":{"text":"✓"}},{"name":"Cone Diameter","specification":"Ø 68.44 (±0.007)","measurement":"Job Master","gcNo":"68.440","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.007,"lower":-0.007,"step":0.001},"showCheckbox":true},{"name":"Boss Height","specification":"27.25 (± 0.020)","measurement":"Hight Master","gcNo":"5837","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"3.6 (±0.05)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.02,"lower":-0.02,"step":0.01},"tolerance2":{"upper":0.05,"lower":-0.05,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"18.73 (+0.130/-0.095)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.08,"lower":0.03,"step":0.01},"tolerance2":{"upper":0.13,"lower":-0.09,"step":0.01},"rangeRule":true},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.38,"lower":0.24,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0021-2',name:'Gear Assy 5th Drive (6R320M-BSVI)',note:'Cone angle is 6.5° ±2',machineCompatibility:["LMW-Q","LMW-S","LMW-T","LMW-U","LMW-V","LMW-W"],characteristics:[{"name":"Bore Diameter","specification":"Ø 35.0 (+0.025/+0.009)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6032","alternateGcNo":"","tolerance":{"upper":0.022,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.025,"lower":0.009,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"","measurement":"Job Master","gcNo":"","alternateGcNo":""},{"name":"Boss Height","specification":"27.25 (± 0.020)","measurement":"Hight Master","gcNo":"5837","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"3.6 (±0.05)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.02,"lower":-0.02,"step":0.01},"tolerance2":{"upper":0.05,"lower":-0.05,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"18.73 (+0.130/-0.095)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.08,"lower":0.03,"step":0.01},"tolerance2":{"upper":0.13,"lower":-0.09,"step":0.01},"rangeRule":true},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.38,"lower":0.24,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"","measurement":"Surface Tester","gcNo":"","alternateGcNo":""},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0021-3',name:'Gear Assy 5th Drive (6R320M-BSVI)',note:'Cone angle is 6.5° ±2',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 68.44 (±0.007)","measurement":"Job Master","gcNo":"68.440","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.007,"lower":-0.007,"step":0.001},"showCheckbox":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0022-1',name:'Gear Assy 5th Drive (6R450)',note:'Cone angle is 6.5° -5',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E"],characteristics:[{"name":"Bore Diameter","specification":"Ø 56.5 (+0.025/+0.012)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6771","alternateGcNo":"","tolerance":{"upper":0.022,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.025,"lower":0.012,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":"","tolerance":{"text":"✓"}},{"name":"Cone Diameter","specification":"Ø 76.863 (±0.005)","measurement":"Job Master","gcNo":"76.863","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"Boss Height","specification":"31.54 (±0.020)","measurement":"Hight Master","gcNo":"5673","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"0.4 (±0.1)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.03,"step":0.01},"tolerance2":{"upper":0.1,"lower":-0.1,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"29.35 (+0.130/-0.095)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.04,"lower":0,"step":0.01},"tolerance2":{"upper":0.13,"lower":-0.09,"step":0.01},"rangeRule":true},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.3","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.29,"lower":0.23,"step":0.001},"tolerance2":{"upper":0.3,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"S/F on Grd. Face","specification":"0.6","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.58,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.6,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0022-3',name:'Gear Assy 5th Drive (6R450)',note:'Cone angle is 6.5° -5',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 76.863 (±0.005)","measurement":"Job Master","gcNo":"76.863","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0023-1',name:'Gear Assy 5th Drive S201 Diesel',note:'Cone angle is 6.5° -5',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E"],characteristics:[{"name":"Bore Diameter","specification":"Ø 45.0 (+0.022/+0.009)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6036","alternateGcNo":"","tolerance":{"upper":0.02,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.022,"lower":0.009,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"Ø 76.497 (±0.005)","measurement":"Job Master","gcNo":"76.497","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"Boss Height","specification":"26.3 (±0.020)","measurement":"Hight Master","gcNo":"4581","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"C.B. Ring Height","specification":"19.8 (+0.130/-0.095)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.1,"lower":0.03,"step":0.01},"tolerance2":{"upper":0.13,"lower":-0.09,"step":0.01},"rangeRule":true},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.3","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.29,"lower":0.23,"step":0.001},"tolerance2":{"upper":0.3,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0023-3',name:'Gear Assy 5th Drive S201 Diesel',note:'Cone angle is 6.5° -5',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 76.497 (±0.005)","measurement":"Job Master","gcNo":"76.497","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"Ra","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"Rpk","specification":"0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.395,"lower":0.29,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"Mr1","specification":"15%","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":8.95,"lower":7.05,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0024-1',name:'Gear Assy 5th Drive S201 Petrol',note:'Cone angle is 6.5° -5',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E"],characteristics:[{"name":"Bore Diameter","specification":"Ø 45.0 (+0.022/+0.009)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6036","alternateGcNo":"","tolerance":{"upper":0.02,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.022,"lower":0.009,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"Ø 76.497 (±0.005)","measurement":"Job Master","gcNo":"76.497","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"Boss Height","specification":"26.3 (±0.020)","measurement":"Hight Master","gcNo":"4581","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"C.B. Ring Height","specification":"19.8 (+0.130/-0.095)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.1,"lower":0.03,"step":0.01},"tolerance2":{"upper":0.13,"lower":-0.09,"step":0.01},"rangeRule":true},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.3","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.29,"lower":0.23,"step":0.001},"tolerance2":{"upper":0.3,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0024-3',name:'Gear Assy 5th Drive S201 Petrol',note:'Cone angle is 6.5° -5',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 76.497 (±0.005)","measurement":"Job Master","gcNo":"76.497","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"Ra","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"Rpk","specification":"0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.395,"lower":0.29,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"Mr1","specification":"15%","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":8.95,"lower":7.05,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0025-1',name:'Gear Assy 6th Drive (6R320M-BSVI)',note:'Cone angle is 6.5° ±2',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E"],characteristics:[{"name":"Bore Diameter","specification":"Ø 35.0 (+0.025/+0.009)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6036","alternateGcNo":"","tolerance":{"upper":0.022,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.025,"lower":0.009,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":""},{"name":"Cone Diameter","specification":"Ø 68.44 (±0.007)","measurement":"Job Master","gcNo":"68.440","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.007,"lower":-0.007,"step":0.001},"showCheckbox":true},{"name":"Boss Height","specification":"27.25 (± 0.020)","measurement":"Hight Master","gcNo":"4581","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"0.5 (±0.05)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.03,"lower":-0.02,"step":0.01},"tolerance2":{"upper":0.05,"lower":-0.05,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"23.93 (+0.130/-0.095)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.08,"lower":0.03,"step":0.01},"tolerance2":{"upper":0.13,"lower":-0.09,"step":0.01},"rangeRule":true},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.4","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.38,"lower":0.24,"step":0.001},"tolerance2":{"upper":0.4,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"S/F on Grd. Face","specification":"0.8","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.65,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.8,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0025-3',name:'Gear Assy 6th Drive (6R320M-BSVI)',note:'Cone angle is 6.5° ±2',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 68.44 (±0.007)","measurement":"Job Master","gcNo":"68.440","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.007,"lower":-0.007,"step":0.001},"showCheckbox":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            
+            {id:'G0030-1',name:'Gear Assy Rev Driven (6R450)',note:'Cone angle is 6.5° -5',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E"],characteristics:[{"name":"Bore Diameter","specification":"Ø 47.0 (+0.022/+0.010)","measurement":"Bore Dial Gauge & Ring Master","gcNo":"6764","alternateGcNo":"","tolerance":{"upper":0.02,"lower":0.015,"step":0.001},"tolerance2":{"upper":0.022,"lower":0.01,"step":0.001},"showCheckbox":true},{"name":"","specification":"","measurement":"Plug Gauge","gcNo":"","alternateGcNo":"","tolerance":{"text":"✓"}},{"name":"Cone Diameter","specification":"Ø 68.440 (± 0.005)","measurement":"Job Master","gcNo":"68.440","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"Boss Height","specification":"30.065 (±0.020)","measurement":"Hight Master","gcNo":"5014/1","alternateGcNo":"","tolerance":{"upper":0.015,"lower":-0.005,"step":0.001},"tolerance2":{"upper":0.02,"lower":-0.02,"step":0.001},"showCheckbox":true,"rangeRule":true},{"name":"Thickness","specification":"","measurement":"Hight Master","gcNo":"","alternateGcNo":""},{"name":"Back Face Depth","specification":"0 (±0.1)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.04,"lower":-0.04,"step":0.01},"tolerance2":{"upper":0.1,"lower":-0.1,"step":0.01},"rangeRule":true},{"name":"C.B. Ring Height","specification":"24.30 (+0.130/-0.095)","measurement":"Hight Gauge","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.08,"lower":0.02,"step":0.01},"tolerance2":{"upper":0.13,"lower":-0.09,"step":0.01},"rangeRule":true},{"name":"Distance1","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"Distance2","specification":"","measurement":"Hight Gauge","gcNo":"","alternateGcNo":""},{"name":"S/F on Bore","specification":"0.3","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.29,"lower":0.23,"step":0.001},"tolerance2":{"upper":0.3,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"S/F on Grd. Face","specification":"0.6","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.58,"lower":0.48,"step":0.001},"tolerance2":{"upper":0.6,"lower":0.101,"step":0.001},"rangeRule":true},{"name":"R/O on Rest Face","specification":"0.015","measurement":"Spl. Fixture & Dial","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.015,"lower":0.01,"step":0.001},"tolerance2":{"upper":0.015,"lower":0,"step":0.001}},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+            {id:'G0030-3',name:'Gear Assy Rev Driven (6R450)',note:'Cone angle is 6.5° -5',machineCompatibility:["OD-D","OD-E","OD-F","OD-G","OD-I","OD-K"],characteristics:[{"name":"Cone Diameter","specification":"Ø 68.440 (± 0.005)","measurement":"Job Master","gcNo":"68.440","alternateGcNo":"","tolerance":{"upper":0.005,"lower":-0.003,"step":0.001},"tolerance2":{"upper":0.005,"lower":-0.005,"step":0.001},"showCheckbox":true},{"name":"S/F on Cone","specification":"0.2 - 0.5","measurement":"Surface Tester","gcNo":"","alternateGcNo":"","tolerance":{"upper":0.49,"lower":0.25,"step":0.001},"tolerance2":{"upper":0.5,"lower":0.201,"step":0.001},"rangeRule":true},{"name":"No Visual Defect","specification":"As per CP & Defect Matrix","measurement":"Visual","gcNo":"","alternateGcNo":"","tolerance":{"text":"OK"}}]},
+
+
+
+
+           
+
+
+
+            {id:'G0000',name:'Machine OFF',note:'',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E","OD-D","OD-E","OD-F","OD-G","OD-I","OD-K","LMW-Q","LMW-S","LMW-R","LMW-T","LMW-U","LMW-V","LMW-W","SR-D","SR-E","SR-F","GR-B"],characteristics:[{"name":"","specification":"","measurement":"","gcNo":"","alternateGcNo":""}]},
+            {id:'N0000',name:'New Part',note:'',machineCompatibility:["PMT-A","PMT-B","PMT-C","PMT-D","PMT-E","OD-D","OD-E","OD-F","OD-G","OD-I","OD-K","LMW-Q","LMW-S","LMW-R","LMW-T","LMW-U","LMW-V","LMW-W","SR-D","SR-E","SR-F","GR-B"],characteristics:[{"name":"","specification":"","measurement":"","gcNo":"","alternateGcNo":""}]},
+
+        ]
+ 
+ 
+        
+        // DOM elements
+        const machineGrid = document.getElementById('machine-grid');
+        const partSearch = document.getElementById('part-search');
+        const partList = document.getElementById('part-list');
+        const selectedPartsContainer = document.getElementById('selected-parts-container');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const summaryBtn = document.getElementById('summary-btn');
+        const observationSummaryBtn = document.getElementById('observation-summary-btn');
+        const surfaceFinishBtn = document.getElementById('surface-finish-btn');
+        const removeAllBtn = document.getElementById('remove-all-btn');
+        const summaryModal = document.getElementById('summary-modal');
+        const observationSummaryModal = document.getElementById('observation-summary-modal');
+        const surfaceFinishModal = document.getElementById('surface-finish-modal');
+        const summaryClose = document.getElementById('summary-close');
+        const observationSummaryClose = document.getElementById('observation-summary-close');
+        const surfaceFinishClose = document.getElementById('surface-finish-close');
+        const summaryList = document.getElementById('summary-list');
+        const observationSummaryList = document.getElementById('observation-summary-list');
+        const surfaceFinishList = document.getElementById('surface-finish-list');
+        const reportDate = document.getElementById('report-date');
+        const reportShift = document.getElementById('report-shift');
+        const machinesOnElement = document.getElementById('machines-on');
+        const machinesOffElement = document.getElementById('machines-off');
+        const totalMachinesElement = document.getElementById('total-machines');
+        
+        // New elements for value selector
+        const valueSelectorModal = document.getElementById('value-selector-modal');
+        const valueSelectorClose = document.getElementById('value-selector-close');
+        const valueSelectorGrid = document.getElementById('value-selector-grid');
+        const valueSelectorPagination = document.getElementById('value-selector-pagination');
+        const valueSelectorCustomInput = document.getElementById('value-selector-custom-input');
+
+        // Current state
+        let currentMachine = '';
+        let machinePartsMap = {}; // { machineId: { partId: { observations: {}, alternateGC: {}, checkboxes: {}, dropdowns: {}, characteristicChecks: {}, notes: '' } } }
+        
+        // State for value selector
+        let currentValueSelector = {
+            inputElement: null,
+            partId: null,
+            charName: null,
+            obsNum: null,
+            values: [],
+            currentPage: 1,
+            itemsPerPage: 25 // 5 columns x 5 rows
+        };
+
+        // Initialize the app
+        function init() {
+            // Set default date to today
+            const today = new Date();
+            const dateString = today.toISOString().split('T')[0];
+            reportDate.value = dateString;
+            
+            loadFromLocalStorage();
+            
+            // Add click handlers to machine boxes
+            document.querySelectorAll('.machine-box').forEach(box => {
+                box.addEventListener('click', () => {
+                    // Remove active class from all boxes
+                    document.querySelectorAll('.machine-box').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked box
+                    box.classList.add('active');
+                    
+                    // Set current machine
+                    currentMachine = box.dataset.machine;
+                    
+                    // Show parts for selected machine
+                    showPartsForMachine(currentMachine);
+                    saveToLocalStorage();
+                    
+                    // Update summary stats
+                    updateSummaryStats();
+                });
+            });
+            
+            partSearch.addEventListener('focus', handleSearchFocus);
+            partSearch.addEventListener('input', handlePartSearch);
+            summaryBtn.addEventListener('click', showSummary);
+            observationSummaryBtn.addEventListener('click', showObservationSummary);
+            surfaceFinishBtn.addEventListener('click', showSurfaceFinishReport);
+            removeAllBtn.addEventListener('click', removeAllParts);
+            summaryClose.addEventListener('click', () => {
+                summaryModal.style.display = 'none';
+            });
+            observationSummaryClose.addEventListener('click', () => {
+                observationSummaryModal.style.display = 'none';
+            });
+            surfaceFinishClose.addEventListener('click', () => {
+                surfaceFinishModal.style.display = 'none';
+            });
+            
+            // New event listeners for value selector
+            valueSelectorClose.addEventListener('click', closeValueSelector);
+            valueSelectorCustomInput.addEventListener('keydown', handleCustomValueInput);
+            window.addEventListener('click', (e) => {
+                if (e.target === valueSelectorModal) {
+                    closeValueSelector();
+                }
+            });
+            
+            // Close part list when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!partSearch.contains(e.target) && !partList.contains(e.target)) {
+                    partList.style.display = 'none';
+                }
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === summaryModal) {
+                    summaryModal.style.display = 'none';
+                }
+                if (e.target === observationSummaryModal) {
+                    observationSummaryModal.style.display = 'none';
+                }
+                if (e.target === surfaceFinishModal) {
+                    surfaceFinishModal.style.display = 'none';
+                }
+            });
+            
+            // If we have a current machine from localStorage, activate its box
+            if (currentMachine) {
+                const machineBox = document.querySelector(`.machine-box[data-machine="${currentMachine}"]`);
+                if (machineBox) {
+                    machineBox.classList.add('active');
+                }
+            }
+            
+            // Initialize summary stats
+            updateSummaryStats();
+        }
+
+        // Show Surface Finish Report
+        function showSurfaceFinishReport() {
+            surfaceFinishList.innerHTML = '';
+            
+            // Get all machine IDs from the machine boxes
+            const machineBoxes = document.querySelectorAll('.machine-box');
+            const allMachineIds = Array.from(machineBoxes)
+                .map(box => box.dataset.machine)
+                .filter(value => value !== ''); // Remove any empty values
+            
+            if (allMachineIds.length === 0) {
+                surfaceFinishList.innerHTML = '<p>No machines available</p>';
+                surfaceFinishModal.style.display = 'flex';
+                return;
+            }
+            
+            // Create the table
+            const table = document.createElement('table');
+            table.className = 'sfr-matrix-table';
+            
+            // Create table header
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            
+            // Add empty corner cell
+            const cornerHeader = document.createElement('th');
+            cornerHeader.textContent = 'Machine / Part';
+            headerRow.appendChild(cornerHeader);
+            
+            // Get all observation labels (rounds 1-4)
+            const observationLabels = ['Round 1', 'Round 2', 'Round 3', 'Round 4'];
+            
+            // Add column headers for each observation round
+            observationLabels.forEach(label => {
+                const th = document.createElement('th');
+                th.textContent = label;
+                headerRow.appendChild(th);
+            });
+            
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+            
+            // Create table body
+            const tbody = document.createElement('tbody');
+            
+            // Add rows for each machine and part
+            allMachineIds.forEach(machineId => {
+                if (!machinePartsMap[machineId] || Object.keys(machinePartsMap[machineId]).length === 0) {
+                    return; // Skip machines with no parts
+                }
+                
+                // Add machine row
+                const machineRow = document.createElement('tr');
+                const machineCell = document.createElement('td');
+                machineCell.className = 'sfr-machine-cell';
+                machineCell.textContent = machineId;
+                machineCell.colSpan = observationLabels.length + 1;
+                machineRow.appendChild(machineCell);
+                tbody.appendChild(machineRow);
+                
+                // Add rows for each part in this machine
+                for (const partId in machinePartsMap[machineId]) {
+                    const part = partsDatabase.find(p => p.id === partId);
+                    if (!part) continue;
+                    
+                    // Find surface finish characteristics for this part
+                    const sfBoreChar = part.characteristics.find(c => c.name === 'S/F on Bore');
+                    const sfConeChar = part.characteristics.find(c => c.name === 'S/F on Cone');
+                    
+                    // Skip parts without any surface finish characteristics
+                    if (!sfBoreChar && !sfConeChar) continue;
+                    
+                    // Create part row group
+                    const partRowGroup = document.createElement('tbody');
+                    partRowGroup.className = 'sfr-part-group';
+                    
+                    // Create first row (S/F on Bore)
+                    const boreRow = document.createElement('tr');
+                    
+                    // Part name cell (merged vertically)
+                    const partNameCell = document.createElement('td');
+                    partNameCell.className = 'sfr-part-cell';
+                    partNameCell.textContent = part.name;
+                    partNameCell.rowSpan = (sfBoreChar && sfConeChar) ? 2 : 1;
+                    boreRow.appendChild(partNameCell);
+                    
+                    // Characteristic label cell
+                    const boreLabelCell = document.createElement('td');
+                    boreLabelCell.className = 'sfr-char-label';
+                    boreLabelCell.textContent = 'S/F on Bore';
+                    boreRow.appendChild(boreLabelCell);
+                    
+                    // Specification cell
+                    const boreSpecCell = document.createElement('td');
+                    boreSpecCell.className = 'sfr-spec-cell';
+                    boreSpecCell.textContent = sfBoreChar ? sfBoreChar.specification || 'NA' : 'NA';
+                    boreRow.appendChild(boreSpecCell);
+                    
+                    // Observation cells for each round
+                    for (let i = 1; i <= 4; i++) {
+                        const obsCell = document.createElement('td');
+                        obsCell.className = 'sfr-obs-cell';
+                        
+                        if (sfBoreChar) {
+                            const status = machinePartsMap[machineId][partId].dropdowns[`status${i}`];
+                            if (status === 'On') {
+                                const obsValue = machinePartsMap[machineId][partId].observations?.['S/F on Bore']?.[i] || '';
+                                obsCell.textContent = obsValue || 'NA';
+                            } else {
+                                obsCell.textContent = status || 'NA';
+                            }
+                        } else {
+                            obsCell.textContent = 'NA';
+                        }
+                        
+                        boreRow.appendChild(obsCell);
+                    }
+                    
+                    partRowGroup.appendChild(boreRow);
+                    
+                    // Create second row (S/F on Cone) if exists
+                    if (sfConeChar) {
+                        const coneRow = document.createElement('tr');
+                        
+                        // Characteristic label cell
+                        const coneLabelCell = document.createElement('td');
+                        coneLabelCell.className = 'sfr-char-label';
+                        coneLabelCell.textContent = 'S/F on Cone';
+                        coneRow.appendChild(coneLabelCell);
+                        
+                        // Specification cell
+                        const coneSpecCell = document.createElement('td');
+                        coneSpecCell.className = 'sfr-spec-cell';
+                        coneSpecCell.textContent = sfConeChar.specification || 'NA';
+                        coneRow.appendChild(coneSpecCell);
+                        
+                        // Observation cells for each round
+                        for (let i = 1; i <= 4; i++) {
+                            const obsCell = document.createElement('td');
+                            obsCell.className = 'sfr-obs-cell';
+                            
+                            const status = machinePartsMap[machineId][partId].dropdowns[`status${i}`];
+                            if (status === 'On') {
+                                const obsValue = machinePartsMap[machineId][partId].observations?.['S/F on Cone']?.[i] || '';
+                                obsCell.textContent = obsValue || 'NA';
+                            } else {
+                                obsCell.textContent = status || 'NA';
+                            }
+                            
+                            coneRow.appendChild(obsCell);
+                        }
+                        
+                        partRowGroup.appendChild(coneRow);
+                    }
+                    
+                    tbody.appendChild(partRowGroup);
+                }
+            });
+            
+            table.appendChild(tbody);
+            surfaceFinishList.appendChild(table);
+            surfaceFinishModal.style.display = 'flex';
+        }
+
+        // Update the machine status summary
+        function updateSummaryStats() {
+    // Get all machine IDs from the machine boxes
+    const machineBoxes = document.querySelectorAll('.machine-box');
+    const allMachineIds = Array.from(machineBoxes)
+        .map(box => box.dataset.machine)
+        .filter(value => value !== ''); // Remove any empty values
+
+    const totalMachines = allMachineIds.length;
+
+    // Count machines that are OFF (have part G0000)
+    let machinesOff = 0;
+    allMachineIds.forEach(machineId => {
+        if (machinePartsMap[machineId] && machinePartsMap[machineId]['G0000']) {
+            machinesOff++;
+        }
+    });
+
+    // Machines ON = total - OFF
+    const machinesOn = totalMachines - machinesOff;
+
+    // Update the UI
+    machinesOnElement.textContent = machinesOn;
+    machinesOffElement.textContent = machinesOff;
+    totalMachinesElement.textContent = totalMachines;
+}
+
+
+        // Remove all parts from all machines
+        function removeAllParts() {
+            if (confirm('Are you sure you want to remove all observations for all parts across all machines?')) {
+                machinePartsMap = {};
+                selectedPartsContainer.innerHTML = '';
+                saveToLocalStorage();
+                updateSummaryStats();
+            }
+        }
+
+        // Load data from localStorage
+        function loadFromLocalStorage() {
+            const savedData = localStorage.getItem('machineObservationData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                if (data.machinePartsMap) {
+                    machinePartsMap = data.machinePartsMap;
+                }
+                if (data.currentMachine) {
+                    currentMachine = data.currentMachine;
+                    showPartsForMachine(currentMachine);
+                }
+                if (data.reportDate) {
+                    reportDate.value = data.reportDate;
+                }
+                if (data.reportShift) {
+                    reportShift.value = data.reportShift;
+                }
+            }
+        }
+
+        // Save data to localStorage
+        function saveToLocalStorage() {
+            const data = {
+                currentMachine,
+                machinePartsMap,
+                reportDate: reportDate.value,
+                reportShift: reportShift.value
+            };
+            localStorage.setItem('machineObservationData', JSON.stringify(data));
+        }
+
+        // Show machine summary in matrix format
+        function showSummary() {
+            summaryList.innerHTML = '';
+            
+            // Get all machine IDs from the machine boxes
+            const machineBoxes = document.querySelectorAll('.machine-box');
+            const allMachineIds = Array.from(machineBoxes)
+                .map(box => box.dataset.machine)
+                .filter(value => value !== ''); // Remove any empty values
+            
+            if (allMachineIds.length === 0) {
+                summaryList.innerHTML = '<p>No machines available</p>';
+                summaryModal.style.display = 'flex';
+                return;
+            }
+            
+            // Create matrix table
+            const table = document.createElement('table');
+            table.className = 'summary-matrix';
+            
+            // Create table header
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            
+            // Add empty corner cell
+            const cornerHeader = document.createElement('th');
+            cornerHeader.textContent = 'Machine / Part';
+            headerRow.appendChild(cornerHeader);
+            
+            // Add column headers
+            const columnHeaders = [
+                '1st Piece Report',
+                'Calib Due',
+                'Round 1',
+                'Round 2',
+                'Round 3',
+                'Round 4'
+            ];
+            
+            columnHeaders.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+            
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+            
+            // Create table body
+            const tbody = document.createElement('tbody');
+            
+            // Add rows for each machine and part
+            allMachineIds.forEach(machineId => {
+                // Add machine row
+                const machineRow = document.createElement('tr');
+                const machineCell = document.createElement('td');
+                machineCell.className = 'side-header machine-name-cell';
+                machineCell.textContent = machineId;
+                machineCell.colSpan = columnHeaders.length + 1;
+                machineRow.appendChild(machineCell);
+                tbody.appendChild(machineRow);
+                
+                if (!machinePartsMap[machineId] || Object.keys(machinePartsMap[machineId]).length === 0) {
+                    // No parts for this machine
+                    const noPartsRow = document.createElement('tr');
+                    const noPartsCell = document.createElement('td');
+                    noPartsCell.className = 'side-cell';
+                    noPartsCell.textContent = 'No parts selected';
+                    noPartsCell.colSpan = columnHeaders.length + 1;
+                    noPartsRow.appendChild(noPartsCell);
+                    tbody.appendChild(noPartsRow);
+                } else {
+                    // Add rows for each part in this machine
+                    for (const partId in machinePartsMap[machineId]) {
+                        const part = partsDatabase.find(p => p.id === partId);
+                        if (part) {
+                            const partRow = document.createElement('tr');
+                            
+                            // Part name cell
+                            const partNameCell = document.createElement('td');
+                            partNameCell.className = 'side-cell part-name-cell';
+                            partNameCell.textContent = part.name;
+                            partRow.appendChild(partNameCell);
+                            
+                            // 1st Piece Report
+                            const inspectionCell = document.createElement('td');
+                            inspectionCell.innerHTML = `
+                                <span class="${machinePartsMap[machineId][partId].checkboxes.inspectionChecked ? 'check-tick' : 'check-cross'}">
+                                    ${machinePartsMap[machineId][partId].checkboxes.inspectionChecked ? '✓' : '✗'}
+                                </span>
+                            `;
+                            partRow.appendChild(inspectionCell);
+                            
+                            // Calibration Due
+                            const calibrationCell = document.createElement('td');
+                            calibrationCell.innerHTML = `
+                                <span class="${machinePartsMap[machineId][partId].checkboxes.calibrationChecked ? 'check-tick' : 'check-cross'}">
+                                    ${machinePartsMap[machineId][partId].checkboxes.calibrationChecked ? '✓' : '✗'}
+                                </span>
+                            `;
+                            partRow.appendChild(calibrationCell);
+                            
+                            // Observation statuses
+                            for (let i = 1; i <= 4; i++) {
+                                const status = machinePartsMap[machineId][partId].dropdowns[`status${i}`];
+                                let statusClass = '';
+                                
+                                if (status === 'On') statusClass = 'status-on';
+                                else if (status === 'Off' || status === 'Maintenance') statusClass = 'status-off';
+                                else if (status === 'Setup' || status === 'Setup Change') statusClass = 'status-setup';
+                                else if (status === 'Other Setup') statusClass = 'status-development';
+                                
+                                const statusCell = document.createElement('td');
+                                statusCell.className = statusClass;
+                                statusCell.textContent = status;
+                                partRow.appendChild(statusCell);
+                            }
+                            
+                            tbody.appendChild(partRow);
+                        }
+                    }
+                }
+            });
+            
+            table.appendChild(tbody);
+            summaryList.appendChild(table);
+            summaryModal.style.display = 'flex';
+        }
+
+        // Show observation summary
+        function showObservationSummary() {
+    observationSummaryList.innerHTML = '';
+    
+    // Get all machine IDs from the machine boxes
+    const machineBoxes = document.querySelectorAll('.machine-box');
+    const allMachineIds = Array.from(machineBoxes)
+        .map(box => box.dataset.machine)
+        .filter(value => value !== ''); // Remove any empty values
+    
+    if (allMachineIds.length === 0) {
+        observationSummaryList.innerHTML = '<p>No machines available</p>';
+        observationSummaryModal.style.display = 'flex';
+        return;
+    }
+    
+    // Create summary for each machine
+    allMachineIds.forEach(machineId => {
+        if (machinePartsMap[machineId] && Object.keys(machinePartsMap[machineId]).length > 0) {
+            const machineDiv = document.createElement('div');
+            machineDiv.className = 'observation-summary-item';
+            
+            const machineName = document.createElement('div');
+            machineName.className = 'observation-summary-machine';
+            machineName.textContent = machineId;
+            machineDiv.appendChild(machineName);
+            
+            // Add parts for this machine
+            for (const partId in machinePartsMap[machineId]) {
+                const part = partsDatabase.find(p => p.id === partId);
+                if (part) {
+                    const partContainer = document.createElement('div');
+                    partContainer.className = 'summary-part-container';
+                    
+                    const partName = document.createElement('div');
+                    partName.className = 'observation-summary-part';
+                    partName.textContent = part.name;
+                    partContainer.appendChild(partName);
+                    
+                    // Add summary-specific freeze toggle container
+                    const summaryFreezeToggle = document.createElement('div');
+                    summaryFreezeToggle.className = 'summary-freeze-toggle-container';
+                    summaryFreezeToggle.innerHTML = `
+                        <span class="summary-toggle-label">Freeze First Two Columns:</span>
+                        <label class="summary-toggle-switch">
+                            <input type="checkbox" id="summary-freeze-toggle-${machineId}-${partId}">
+                            <span class="summary-toggle-slider"></span>
+                        </label>
+                    `;
+                    partContainer.appendChild(summaryFreezeToggle);
+                    
+                    // Create observation table
+                    const table = document.createElement('table');
+                    table.className = 'observation-summary-table';
+                    table.id = `summary-table-${machineId}-${partId}`;
+                    
+                    // Create table header
+                    const thead = document.createElement('thead');
+                    const headerRow = document.createElement('tr');
+                    
+                    // Add column headers
+                    const columnHeaders = [
+                        'Characteristic',
+                        'Specification',
+                        'Measurement Techniques',
+                        'GC No',
+                        'tick',
+                        'Alternate GC No.',
+                        'Reading 1',
+                        'Reading 2',
+                        'Reading 3',
+                        'Reading 4'
+                    ];
+                    
+                    columnHeaders.forEach(headerText => {
+                        const th = document.createElement('th');
+                        th.textContent = headerText;
+                        headerRow.appendChild(th);
+                    });
+                    
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+                    
+                    // Create table body
+                    const tbody = document.createElement('tbody');
+                    
+                    // Add rows for each characteristic
+                    part.characteristics.forEach(char => {
+                        const row = document.createElement('tr');
+                        
+                        // Characteristic name
+                        const charCell = document.createElement('td');
+                        charCell.textContent = char.name;
+                        row.appendChild(charCell);
+                        
+                        // Specification
+                        const specCell = document.createElement('td');
+                        specCell.textContent = char.specification;
+                        row.appendChild(specCell);
+                        
+                        // Measurement Techniques
+                        const measurementCell = document.createElement('td');
+                        measurementCell.textContent = char.measurement || '';
+                        row.appendChild(measurementCell);
+                        
+                        // GC No
+                        const gcNoCell = document.createElement('td');
+                        gcNoCell.textContent = char.gcNo || '';
+                        row.appendChild(gcNoCell);
+                        
+                        // tick
+                        const tickCell = document.createElement('td');
+                        const checkboxState = machinePartsMap[machineId][partId].characteristicChecks?.[char.name] || 'indeterminate';
+                        tickCell.textContent = checkboxState === 'checked' ? '✓' : 
+                                             checkboxState === 'unchecked' ? '✗' : '';
+                        row.appendChild(tickCell);
+                        
+                        // Alternate GC No
+                        const altGcCell = document.createElement('td');
+                        const altGcValue = machinePartsMap[machineId][partId].alternateGC?.[char.name] || 
+                                          char.alternateGcNo || '';
+                        altGcCell.textContent = altGcValue;
+                        row.appendChild(altGcCell);
+                        
+                        // Observations
+                        for (let i = 1; i <= 4; i++) {
+                            const obsCell = document.createElement('td');
+                            const obsValue = machinePartsMap[machineId][partId].observations?.[char.name]?.[i] || '';
+                            obsCell.textContent = obsValue;
+                            row.appendChild(obsCell);
+                        }
+                        
+                        tbody.appendChild(row);
+                    });
+                    
+                    table.appendChild(tbody);
+                    partContainer.appendChild(table);
+                    
+                    // Add event listener for freeze toggle
+                    const freezeToggle = summaryFreezeToggle.querySelector('input');
+                    freezeToggle.addEventListener('change', (e) => {
+                        if (e.target.checked) {
+                            table.classList.add('summary-freeze-columns');
+                        } else {
+                            table.classList.remove('summary-freeze-columns');
+                        }
+                    });
+                    
+                    machineDiv.appendChild(partContainer);
+                }
+            }
+            
+            observationSummaryList.appendChild(machineDiv);
+        }
+    });
+    
+    // Show the modal
+    observationSummaryModal.style.display = 'flex';
+}
+
+        // Show parts for selected machine
+        function showPartsForMachine(machineId) {
+            selectedPartsContainer.innerHTML = '';
+            
+            if (machinePartsMap[machineId]) {
+                for (const partId in machinePartsMap[machineId]) {
+                    const part = partsDatabase.find(p => p.id === partId);
+                    if (part) {
+                        addPartToUI(part);
+                    }
+                }
+            }
+            
+            // Update summary stats when showing parts
+            updateSummaryStats();
+        }
+
+        // Handle search focus - modified to always show part list on first click
+        function handleSearchFocus() {
+            if (currentMachine) {
+                filterPartsByMachine();
+                partList.style.display = 'block';
+            } else {
+                partSearch.blur();
+                alert('Please select a machine first');
+            }
+        }
+
+        // Filter parts by selected machine
+        function filterPartsByMachine() {
+            if (!currentMachine) return;
+            
+            const filteredParts = partsDatabase.filter(part => 
+                part.machineCompatibility.includes(currentMachine) &&
+                (!machinePartsMap[currentMachine] || !machinePartsMap[currentMachine][part.id])
+            );
+            
+            renderPartList(filteredParts);
+        }
+
+        // Handle part search
+        function handlePartSearch(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            if (!searchTerm) {
+                filterPartsByMachine();
+                return;
+            }
+            
+            const results = partsDatabase.filter(part => 
+                part.name.toLowerCase().includes(searchTerm) && 
+                part.machineCompatibility.includes(currentMachine) &&
+                (!machinePartsMap[currentMachine] || !machinePartsMap[currentMachine][part.id])
+            );
+            
+            renderPartList(results);
+        }
+
+        // Render part list
+        function renderPartList(parts) {
+            if (!parts.length) {
+                partList.innerHTML = '<div class="no-results">No parts found</div>';
+                return;
+            }
+            
+            partList.innerHTML = parts.map(part => `
+                <div class="part-item" data-id="${part.id}">
+                    <strong>${part.name}</strong>
+                </div>
+            `).join('');
+            
+            // Add click handlers to part items
+            document.querySelectorAll('.part-item').forEach(item => {
+                item.addEventListener('click', () => selectPart(item.dataset.id));
+            });
+        }
+
+        // Select a part
+        function selectPart(partId) {
+            const part = partsDatabase.find(p => p.id === partId);
+            
+            if (!part) return;
+            
+            // Initialize machine parts map if not exists
+            if (!machinePartsMap[currentMachine]) {
+                machinePartsMap[currentMachine] = {};
+            }
+            
+            // Initialize part data if not exists
+            if (!machinePartsMap[currentMachine][partId]) {
+                machinePartsMap[currentMachine][partId] = {
+                    observations: {},
+                    alternateGC: {},
+                    checkboxes: {
+                        inspectionChecked: false,
+                        calibrationChecked: false
+                    },
+                    dropdowns: {
+                        status1: 'NA',
+                        status2: 'NA',
+                        status3: 'NA',
+                        status4: 'NA'
+                    },
+                    characteristicChecks: {}, // New property to store checkbox states for characteristics
+                    notes: '', // Initialize notes property
+                    lastValues: {} // Store last values for range rule
+                };
+                
+                // Initialize characteristic checks for this part
+                part.characteristics.forEach(char => {
+                    if (char.showCheckbox) {
+                        machinePartsMap[currentMachine][partId].characteristicChecks[char.name] = 'indeterminate';
+                    }
+                });
+            }
+            
+            saveToLocalStorage();
+            
+            // Add to UI
+            addPartToUI(part);
+            
+            // Reset search
+            partSearch.value = '';
+            partList.style.display = 'none';
+            partList.innerHTML = '';
+            
+            // Update summary stats when adding a new part
+            updateSummaryStats();
+        }
+
+        // Add part to UI
+        function addPartToUI(part) {
+            const partCard = document.createElement('div');
+            partCard.className = 'card part-info';
+            partCard.dataset.partId = part.id;
+            partCard.dataset.machineId = currentMachine;
+            
+            partCard.innerHTML = `
+                <div class="remove-part-container">
+                    <button class="btn btn-danger btn-sm remove-part">Remove</button>
+                </div>
+                <h4>${part.name}</h4>
+                <p>${part.note}</p>
+                
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="inspection-checked-${part.id}" ${machinePartsMap[currentMachine][part.id].checkboxes.inspectionChecked ? 'checked' : ''}>
+                        <label for="inspection-checked-${part.id}">1st Piece Report</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="calibration-checked-${part.id}" ${machinePartsMap[currentMachine][part.id].checkboxes.calibrationChecked ? 'checked' : ''}>
+                        <label for="calibration-checked-${part.id}">Calibration Due</label>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <label for="notes-${part.id}">Additional Notes</label>
+                    <textarea id="notes-${part.id}" placeholder="Enter any additional notes or remarks...">${machinePartsMap[currentMachine][part.id].notes || ''}</textarea>
+                </div>
+
+                <div class="status-dropdowns">
+                    <div class="status-dropdown">
+                        <label for="status-1-${part.id}">Round 1</label>
+                        <select id="status-1-${part.id}" class="status-dropdown" style="font-weight: bold;">
+    <option value="NA" ${machinePartsMap[currentMachine][part.id].dropdowns.status1 === 'NA' ? 'selected' : ''}>NA</option>
+    <option value="On" ${machinePartsMap[currentMachine][part.id].dropdowns.status1 === 'On' ? 'selected' : ''}>On</option>
+    <option value="Off" ${machinePartsMap[currentMachine][part.id].dropdowns.status1 === 'Off' ? 'selected' : ''}>Off</option>
+    <option value="Setup" ${machinePartsMap[currentMachine][part.id].dropdowns.status1 === 'Setup' ? 'selected' : ''}>Setup</option>
+    <option value="Setup Change" ${machinePartsMap[currentMachine][part.id].dropdowns.status1 === 'Setup Change' ? 'selected' : ''}>Setup Change</option>
+    <option value="Other Setup" ${machinePartsMap[currentMachine][part.id].dropdowns.status1 === 'Other Setup' ? 'selected' : ''}>Other Setup</option>
+</select>
+                    </div>
+                    <div class="status-dropdown">
+                        <label for="status-2-${part.id}">Round 2</label>
+                        <select id="status-2-${part.id}" class="status-dropdown" style="font-weight: bold;">
+    <option value="NA" ${machinePartsMap[currentMachine][part.id].dropdowns.status2 === 'NA' ? 'selected' : ''}>NA</option>
+    <option value="On" ${machinePartsMap[currentMachine][part.id].dropdowns.status2 === 'On' ? 'selected' : ''}>On</option>
+    <option value="Off" ${machinePartsMap[currentMachine][part.id].dropdowns.status2 === 'Off' ? 'selected' : ''}>Off</option>
+    <option value="Setup" ${machinePartsMap[currentMachine][part.id].dropdowns.status2 === 'Setup' ? 'selected' : ''}>Setup</option>
+    <option value="Setup Change" ${machinePartsMap[currentMachine][part.id].dropdowns.status2 === 'Setup Change' ? 'selected' : ''}>Setup Change</option>
+    <option value="Other Setup" ${machinePartsMap[currentMachine][part.id].dropdowns.status2 === 'Other Setup' ? 'selected' : ''}>Other Setup</option>
+</select>
+                    </div>
+                    <div class="status-dropdown">
+                        <label for="status-3-${part.id}">Round 3</label>
+                        <select id="status-3-${part.id}" class="status-dropdown" style="font-weight: bold;">
+    <option value="NA" ${machinePartsMap[currentMachine][part.id].dropdowns.status3 === 'NA' ? 'selected' : ''}>NA</option>
+    <option value="On" ${machinePartsMap[currentMachine][part.id].dropdowns.status3 === 'On' ? 'selected' : ''}>On</option>
+    <option value="Off" ${machinePartsMap[currentMachine][part.id].dropdowns.status3 === 'Off' ? 'selected' : ''}>Off</option>
+    <option value="Setup" ${machinePartsMap[currentMachine][part.id].dropdowns.status3 === 'Setup' ? 'selected' : ''}>Setup</option>
+    <option value="Setup Change" ${machinePartsMap[currentMachine][part.id].dropdowns.status3 === 'Setup Change' ? 'selected' : ''}>Setup Change</option>
+    <option value="Other Setup" ${machinePartsMap[currentMachine][part.id].dropdowns.status3 === 'Other Setup' ? 'selected' : ''}>Other Setup</option>
+</select>
+                    </div>
+                    <div class="status-dropdown">
+                        <label for="status-4-${part.id}">Round 4</label>
+                        <select id="status-4-${part.id}" class="status-dropdown" style="font-weight: bold;">
+    <option value="NA" ${machinePartsMap[currentMachine][part.id].dropdowns.status4 === 'NA' ? 'selected' : ''}>NA</option>
+    <option value="On" ${machinePartsMap[currentMachine][part.id].dropdowns.status4 === 'On' ? 'selected' : ''}>On</option>
+    <option value="Off" ${machinePartsMap[currentMachine][part.id].dropdowns.status4 === 'Off' ? 'selected' : ''}>Off</option>
+    <option value="Setup" ${machinePartsMap[currentMachine][part.id].dropdowns.status4 === 'Setup' ? 'selected' : ''}>Setup</option>
+    <option value="Setup Change" ${machinePartsMap[currentMachine][part.id].dropdowns.status4 === 'Setup Change' ? 'selected' : ''}>Setup Change</option>
+    <option value="Other Setup" ${machinePartsMap[currentMachine][part.id].dropdowns.status4 === 'Other Setup' ? 'selected' : ''}>Other Setup</option>
+</select>
+                    </div>
+                </div>
+
+                <div class="freeze-toggle-container">
+    <span class="toggle-label">Freeze First Two Columns:</span>
+    <label class="toggle-switch">
+        <input type="checkbox" id="freeze-toggle-${part.id}">
+        <span class="toggle-slider"></span>
+    </label>
+</div>
+
+                <div class="table-container">
+                    
+                    <table class="observation-table" id="observation-table-${part.id}">
+                        <thead>
+                            <tr>
+                                <th>Characteristics</th>
+                                <th>Specifications</th>
+                                <th>Measurement Techniques</th>
+                                <th>GC No.</th>
+                                <th>tick</th>
+                                <th>Alternate GC No.</th>
+                                <th>Reading 1</th>
+                                <th>Reading 2 </th>
+                                <th>Reading 3</th>
+                                <th>Reading 4</th>
+                            </tr>
+                        </thead>
+                        <tbody class="observation-body" data-part-id="${part.id}">
+                            ${renderObservationRows(part)}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-sm fill-obs-1" data-part-id="${part.id}">Fill Obs 1</button>
+                    <button class="btn btn-sm btn-secondary clear-obs-1" data-part-id="${part.id}">Clear Obs 1</button>
+                    <button class="btn btn-sm fill-obs-2" data-part-id="${part.id}">Fill Obs 2</button>
+                    <button class="btn btn-sm btn-secondary clear-obs-2" data-part-id="${part.id}">Clear Obs 2</button>
+                    <button class="btn btn-sm fill-obs-3" data-part-id="${part.id}">Fill Obs 3</button>
+                    <button class="btn btn-sm btn-secondary clear-obs-3" data-part-id="${part.id}">Clear Obs 3</button>
+                    <button class="btn btn-sm fill-obs-4" data-part-id="${part.id}">Fill Obs 4</button>
+                    <button class="btn btn-sm btn-secondary clear-obs-4" data-part-id="${part.id}">Clear Obs 4</button>
+                </div>
+            `;
+            
+            selectedPartsContainer.appendChild(partCard);
+            
+            // Add event listeners
+            partCard.querySelector('.remove-part').addEventListener('click', () => removePart(part.id));
+            
+            // Add listeners for each observation button
+            for (let i = 1; i <= 4; i++) {
+                partCard.querySelector(`.fill-obs-${i}`).addEventListener('click', () => {
+                    // Only fill if the status is "On"
+                    if (machinePartsMap[currentMachine][part.id].dropdowns[`status${i}`] === 'On') {
+                        fillObservation(part.id, i);
+                    } else {
+                        alert(`Cannot fill observations for Round ${i} - status must be set to "On"`);
+                    }
+                });
+                partCard.querySelector(`.clear-obs-${i}`).addEventListener('click', () => clearObservation(part.id, i));
+            }
+            
+            // Add listeners for checkboxes
+            partCard.querySelector(`#inspection-checked-${part.id}`).addEventListener('change', (e) => {
+                machinePartsMap[currentMachine][part.id].checkboxes.inspectionChecked = e.target.checked;
+                saveToLocalStorage();
+            });
+            
+            partCard.querySelector(`#calibration-checked-${part.id}`).addEventListener('change', (e) => {
+                machinePartsMap[currentMachine][part.id].checkboxes.calibrationChecked = e.target.checked;
+                saveToLocalStorage();
+            });
+            
+            // Add listener for notes
+            partCard.querySelector(`#notes-${part.id}`).addEventListener('change', (e) => {
+                machinePartsMap[currentMachine][part.id].notes = e.target.value;
+                saveToLocalStorage();
+            });
+            
+            // Add listeners for dropdowns and update observation column colors
+            for (let i = 1; i <= 4; i++) {
+                const dropdown = partCard.querySelector(`#status-${i}-${part.id}`);
+                dropdown.addEventListener('change', (e) => {
+                    machinePartsMap[currentMachine][part.id].dropdowns[`status${i}`] = e.target.value;
+                    saveToLocalStorage();
+                    updateObservationColumnColors(part.id);
+                    updateInputFieldStates(part.id, i, e.target.value);
+                });
+                
+                // Initialize input field states based on current dropdown value
+                updateInputFieldStates(part.id, i, machinePartsMap[currentMachine][part.id].dropdowns[`status${i}`]);
+            }
+            
+            // Add input change listeners for observation fields
+            partCard.querySelectorAll('.observation-input').forEach(input => {
+                input.addEventListener('click', (e) => {
+                    // Only allow input if the corresponding status is "On"
+                    const obsNum = e.target.dataset.obs;
+                    if (machinePartsMap[currentMachine][part.id].dropdowns[`status${obsNum}`] === 'On') {
+                        showValueSelector(e.target, part.id, input.dataset.char, input.dataset.obs);
+                    }
+                });
+                
+                input.addEventListener('change', (e) => {
+                    saveObservationValue(
+                        part.id, 
+                        e.target.dataset.char, 
+                        e.target.dataset.obs, 
+                        e.target.value
+                    );
+                });
+            });
+            
+            // Add input change listeners for alternate GC fields
+            partCard.querySelectorAll('.alternate-gc-input').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    saveAlternateGC(
+                        part.id, 
+                        e.target.dataset.char, 
+                        e.target.value
+                    );
+                });
+            });
+            
+            // Add listeners for characteristic checkboxes
+            partCard.querySelectorAll('.tri-state-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('click', (e) => {
+                    const charName = e.target.dataset.char;
+                    const currentState = e.target.dataset.state;
+                    
+                    // Cycle through the three states
+                    let newState;
+                    if (currentState === 'indeterminate') {
+                        newState = 'checked';
+                    } else if (currentState === 'checked') {
+                        newState = 'unchecked';
+                    } else {
+                        newState = 'indeterminate';
+                    }
+                    
+                    // Update the state
+                    e.target.dataset.state = newState;
+                    machinePartsMap[currentMachine][part.id].characteristicChecks[charName] = newState;
+                    saveToLocalStorage();
+                });
+            });
+            
+            // Add listener for freeze toggle
+            const freezeToggle = partCard.querySelector(`#freeze-toggle-${part.id}`);
+            freezeToggle.addEventListener('change', (e) => {
+                const table = partCard.querySelector(`#observation-table-${part.id}`);
+                if (e.target.checked) {
+                    table.parentElement.classList.add('freeze-columns');
+                } else {
+                    table.parentElement.classList.remove('freeze-columns');
+                }
+            });
+            
+            // Load saved observation values
+            loadSavedObservations(part.id);
+            // At the end of addPartToUI function:
+applyDropdownStyles();
+            // Update observation column colors based on dropdown selections
+            updateObservationColumnColors(part.id);
+        }
+        
+        // Update input field states based on dropdown selection
+        function updateInputFieldStates(partId, obsNum, status) {
+            const partCard = document.querySelector(`.part-info[data-part-id="${partId}"]`);
+            if (!partCard) return;
+            
+            const inputs = partCard.querySelectorAll(`.observation-input[data-obs="${obsNum}"]`);
+            inputs.forEach(input => {
+                if (status === 'On') {
+                    input.disabled = false;
+                    input.style.backgroundColor = '';
+                } else {
+                    input.disabled = true;
+                    input.style.backgroundColor = '#f0f0f0';
+                }
+            });
+        }
+        
+        function applyDropdownStyles() {
+    document.querySelectorAll('.status-dropdown').forEach(dropdown => {
+        // Apply color based on current value
+        if (dropdown.value === 'On') {
+            dropdown.style.color = 'green';
+        } else if (dropdown.value === 'Off') {
+            dropdown.style.color = 'red';
+        } else if (dropdown.value === 'Setup') {
+            dropdown.style.color = 'blue';
+        } else if (dropdown.value === 'Setup Change' || dropdown.value === 'Other Setup') {
+            dropdown.style.color = 'red';
+        } else {
+            dropdown.style.color = 'black';
+        }
+
+        // Add change event listener to maintain styling when value changes
+        dropdown.addEventListener('change', function() {
+            this.style.fontWeight = 'bold';
+            if (this.value === 'On') {
+                this.style.color = 'green';
+            } else if (this.value === 'Off') {
+                this.style.color = 'red';
+            } else if (this.value === 'Setup') {
+                this.style.color = 'blue';
+            } else if (this.value === 'Setup Change' || this.value === 'Other Setup') {
+                this.style.color = 'red';
+            } else {
+                this.style.color = 'black';
+            }
+        });
+    });
+}
+
+
+        // Update observation column colors based on dropdown selections
+     function updateObservationColumnColors(partId) {
+    const partCard = document.querySelector(`.part-info[data-part-id="${partId}"]`);
+    if (!partCard) return;
+    
+    // Get all observation columns (7th to 10th columns)
+    const observationColumns = [
+        { colIndex: 6, dropdownId: `status-1-${partId}` },  // Reading 1 (index 6)
+        { colIndex: 7, dropdownId: `status-2-${partId}` },  // Reading 2 (index 7)
+        { colIndex: 8, dropdownId: `status-3-${partId}` },  // Reading 3 (index 8)
+        { colIndex: 9, dropdownId: `status-4-${partId}` }   // Reading 4 (index 9)
+    ];
+    
+    observationColumns.forEach(({ colIndex, dropdownId }) => {
+        const dropdown = partCard.querySelector(`#${dropdownId}`);
+        if (!dropdown) return;
+        
+        const selectedValue = dropdown.value;
+        const table = partCard.querySelector('.observation-table');
+        if (!table) return;
+        
+        // Get all cells in this column (including header row)
+        const rows = table.querySelectorAll('tr');
+        for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].cells;
+            if (cells.length > colIndex) {
+                // Remove all existing color classes
+                cells[colIndex].classList.remove('obs-on', 'obs-off', 'obs-setup');
+                
+                // Add appropriate color class based on dropdown value
+                if (selectedValue === 'On') {
+                    cells[colIndex].classList.add('obs-on');
+                } else if (selectedValue === 'Off' || selectedValue === 'Setup Change' || selectedValue === 'Other Setup') {
+                    cells[colIndex].classList.add('obs-off');
+                } else if (selectedValue === 'Setup') {
+                    cells[colIndex].classList.add('obs-setup');
+                }
+            }
+        }
+    });
+}
+
+
+function renderObservationRows(part) {
+            return part.characteristics.map(char => {
+                // Parse specification for tolerance formatting
+                const specParts = char.specification.split(' ');
+                let specDisplay = char.specification;
+                
+                // Get saved observation values if they exist
+                const obs1Value = machinePartsMap[currentMachine][part.id].observations?.[char.name]?.['1'] || '';
+                const obs2Value = machinePartsMap[currentMachine][part.id].observations?.[char.name]?.['2'] || '';
+                const obs3Value = machinePartsMap[currentMachine][part.id].observations?.[char.name]?.['3'] || '';
+                const obs4Value = machinePartsMap[currentMachine][part.id].observations?.[char.name]?.['4'] || '';
+                
+                // Get saved alternate GC value if it exists, otherwise use the part's default
+                const savedAlternateGcValue = machinePartsMap[currentMachine][part.id].alternateGC?.[char.name];
+                const alternateGcValue = savedAlternateGcValue !== undefined ? savedAlternateGcValue : (char.alternateGcNo || '');
+                
+                // Get saved checkbox state if it exists
+                const checkboxState = machinePartsMap[currentMachine][part.id].characteristicChecks?.[char.name] || 'indeterminate';
+                
+                // Only show checkbox if the characteristic has showCheckbox property set to true
+                const checkboxCell = char.showCheckbox 
+                    ? `<td class="checkbox-cell">
+                          <input type="checkbox" class="tri-state-checkbox" 
+                                 data-state="${checkboxState}" 
+                                 data-char="${char.name}" 
+                                 data-part-id="${part.id}" 
+                                 id="check-${part.id}-${char.name}">
+                          <label for="check-${part.id}-${char.name}"></label>
+                       </td>`
+                    : '<td></td>';
+                
+                return `
+                    <tr>
+                        <td>${char.name}</td>
+                        <td>${specDisplay}</td>
+                        <td>${char.measurement}</td>
+                        <td>${char.gcNo}</td>
+                        ${checkboxCell}
+                        <td><input type="text" class="alternate-gc-input" data-char="${char.name}" data-part-id="${part.id}" value="${alternateGcValue}"></td>
+                        <td><input type="text" class="observation-input" data-char="${char.name}" data-obs="1" data-part-id="${part.id}" value="${obs1Value}"></td>
+                        <td><input type="text" class="observation-input" data-char="${char.name}" data-obs="2" data-part-id="${part.id}" value="${obs2Value}"></td>
+                        <td><input type="text" class="observation-input" data-char="${char.name}" data-obs="3" data-part-id="${part.id}" value="${obs3Value}"></td>
+                        <td><input type="text" class="observation-input" data-char="${char.name}" data-obs="4" data-part-id="${part.id}" value="${obs4Value}"></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Remove a part
+        function removePart(partId) {
+            if (machinePartsMap[currentMachine] && machinePartsMap[currentMachine][partId]) {
+                delete machinePartsMap[currentMachine][partId];
+            }
+            
+            document.querySelector(`.part-info[data-part-id="${partId}"]`).remove();
+            saveToLocalStorage();
+            updateSummaryStats();
+        }
+
+        // Fill a specific observation column with enhanced logic
+        function fillObservation(partId, obsNum) {
+            const part = partsDatabase.find(p => p.id === partId);
+            if (!part) return;
+
+            const inputs = document.querySelectorAll(`.observation-input[data-part-id="${partId}"][data-obs="${obsNum}"]`);
+
+            inputs.forEach(input => {
+                if (input.value.trim() !== '') return;
+
+                const charName = input.dataset.char;
+                const characteristic = part.characteristics.find(c => c.name === charName);
+                if (!characteristic) return;
+
+                let value = '';
+                const spec = characteristic.specification;
+                const tol = characteristic.tolerance;
+                const hasRangeRule = characteristic.rangeRule;
+
+                // If text tolerance is defined, use it directly
+                if (tol && typeof tol.text !== 'undefined') {
+                    value = String(tol.text); // Always treat text as string (handles ✓, OK, etc.)
+                } 
+                else if (tol && tol.upper !== undefined && tol.lower !== undefined && tol.step !== undefined) {
+                    const { upper, lower, step } = tol;
+                    
+                    // Check if we should apply the range rule
+                    if (hasRangeRule && machinePartsMap[currentMachine][partId].lastValues?.[charName]) {
+                        const lastValue = parseFloat(machinePartsMap[currentMachine][partId].lastValues[charName]);
+                        if (!isNaN(lastValue)) {
+                            // Calculate ±30% of the full range
+                            const fullRange = upper - lower;
+                            const range10Percent = fullRange * 0.3;
+                            
+                            // Calculate min/max values based on previous value ±10% of full range
+                            const minValue = lastValue - range10Percent;
+                            const maxValue = lastValue + range10Percent;
+                            
+                            // Find the range that fits within both the ±10% range and the tolerance limits
+                            const adjustedMin = Math.max(minValue, lower);
+                            const adjustedMax = Math.min(maxValue, upper);
+                            
+                            if (adjustedMin <= adjustedMax) {
+                                // Generate random value within the constrained range
+                                const steps = Math.floor((adjustedMax - adjustedMin) / step) + 1;
+                                const randomStep = Math.floor(Math.random() * steps);
+                                const randomValue = adjustedMin + (randomStep * step);
+                                value = randomValue >= 0 ? `+${randomValue.toFixed(3)}` : randomValue.toFixed(3);
+                            } else {
+                                // If range doesn't overlap with tolerance, fall back to standard logic
+                                value = generateRandomValueWithinTolerance(upper, lower, step);
+                            }
+                        } else {
+                            // Last value wasn't a number, fall back to standard logic
+                            value = generateRandomValueWithinTolerance(upper, lower, step);
+                        }
+                    } else {
+                        // No range rule or no last value, use standard logic
+                        value = generateRandomValueWithinTolerance(upper, lower, step);
+                    }
+                } 
+                else if (spec.includes('±')) {
+                    const parts = spec.split('±');
+                    const tolerance = parseFloat(parts[1].split(' ')[0]);
+                    const randomValue = (Math.random() * 2 - 1) * tolerance;
+                    value = randomValue >= 0 ? `+${randomValue.toFixed(3)}` : randomValue.toFixed(3);
+                } 
+                else if (spec.includes('+') && spec.includes('-')) {
+                    const parts = spec.match(/([\d.]+)/g);
+                    const base = parseFloat(parts[0]);
+                    const upper = parseFloat(parts[1]);
+                    const lower = parseFloat(parts[2]);
+                    const randomValue = base + (Math.random() * (upper + lower) - lower);
+                    value = randomValue.toFixed(3);
+                } 
+                else if (spec.includes('max')) {
+                    const maxVal = parseFloat(spec.split('max')[0]);
+                    const randomValue = Math.random() * maxVal * 0.8;
+                    value = randomValue.toFixed(3);
+                } 
+                else if (spec.includes('-')) {
+                    const range = spec.split('-').map(v => parseFloat(v));
+                    const randomValue = range[0] + Math.random() * (range[1] - range[0]);
+                    value = randomValue.toFixed(1);
+                } 
+                else {
+                    value = ''; // Default fallback
+                }
+
+                input.value = value;
+                saveObservationValue(partId, charName, obsNum, value);
+                
+                // Store the last value for characteristics with range rule
+                if (hasRangeRule) {
+                    if (!machinePartsMap[currentMachine][partId].lastValues) {
+                        machinePartsMap[currentMachine][partId].lastValues = {};
+                    }
+                    machinePartsMap[currentMachine][partId].lastValues[charName] = value;
+                    saveToLocalStorage();
+                }
+            });
+        }
+
+        // Helper function to generate random value within tolerance range
+        function generateRandomValueWithinTolerance(upper, lower, step) {
+            const start = Math.min(lower, upper);
+            const end = Math.max(lower, upper);
+            const isDescending = lower > upper;
+
+            const values = [];
+            for (let v = start; v <= end + 1e-8; v += step) {
+                values.push(parseFloat(v.toFixed(3)));
+            }
+            if (isDescending) values.reverse();
+
+            const randomValue = values[Math.floor(Math.random() * values.length)];
+            return randomValue >= 0 ? `+${randomValue.toFixed(3)}` : randomValue.toFixed(3);
+        }
+
+        // Clear a specific observation column
+        function clearObservation(partId, obsNum) {
+            const inputs = document.querySelectorAll(`.observation-input[data-part-id="${partId}"][data-obs="${obsNum}"]`);
+            inputs.forEach(input => {
+                input.value = '';
+                saveObservationValue(partId, input.dataset.char, obsNum, '');
+            });
+        }
+
+        // Save observation value
+        function saveObservationValue(partId, charName, obsNum, value) {
+            if (!machinePartsMap[currentMachine][partId].observations) {
+                machinePartsMap[currentMachine][partId].observations = {};
+            }
+            
+            if (!machinePartsMap[currentMachine][partId].observations[charName]) {
+                machinePartsMap[currentMachine][partId].observations[charName] = {};
+            }
+            
+            machinePartsMap[currentMachine][partId].observations[charName][obsNum] = value;
+            saveToLocalStorage();
+        }
+
+        // Save alternate GC number
+        function saveAlternateGC(partId, charName, value) {
+            if (!machinePartsMap[currentMachine][partId].alternateGC) {
+                machinePartsMap[currentMachine][partId].alternateGC = {};
+            }
+            
+            machinePartsMap[currentMachine][partId].alternateGC[charName] = value;
+            saveToLocalStorage();
+        }
+
+        // Load saved observations
+        function loadSavedObservations(partId) {
+            // Load observation values
+            if (machinePartsMap[currentMachine][partId].observations) {
+                const partObservations = machinePartsMap[currentMachine][partId].observations;
+                
+                for (const charName in partObservations) {
+                    for (const obsNum in partObservations[charName]) {
+                        const input = document.querySelector(`.observation-input[data-part-id="${partId}"][data-char="${charName}"][data-obs="${obsNum}"]`);
+                        if (input) {
+                            input.value = partObservations[charName][obsNum];
+                        }
+                    }
+                }
+            }
+            
+            // Load alternate GC values
+            if (machinePartsMap[currentMachine][partId].alternateGC) {
+                const partAlternateGC = machinePartsMap[currentMachine][partId].alternateGC;
+                
+                for (const charName in partAlternateGC) {
+                    const input = document.querySelector(`.alternate-gc-input[data-part-id="${partId}"][data-char="${charName}"]`);
+                    if (input) {
+                        input.value = partAlternateGC[charName];
+                    }
+                }
+            }
+            
+            // Load characteristic checkbox values
+            if (machinePartsMap[currentMachine][partId].characteristicChecks) {
+                const partChecks = machinePartsMap[currentMachine][partId].characteristicChecks;
+                
+                for (const charName in partChecks) {
+                    const checkbox = document.querySelector(`.tri-state-checkbox[data-part-id="${partId}"][data-char="${charName}"]`);
+                    if (checkbox) {
+                        checkbox.dataset.state = partChecks[charName];
+                    }
+                }
+            }
+        }
+
+        // Show loading spinner
+        function showLoading(show) {
+            loadingSpinner.style.display = show ? 'block' : 'none';
+        }
+
+        // =============================================
+        // New functions for value selector functionality
+        // =============================================
+
+    function showValueSelector(inputElement, partId, charName, obsNum) {
+        const part = partsDatabase.find(p => p.id === partId);
+        if (!part) return;
+
+        const characteristic = part.characteristics.find(c => c.name === charName);
+        if (!characteristic) return;
+
+        const tolerance = characteristic.tolerance2;
+
+        // Store current context
+        currentValueSelector.inputElement = inputElement;
+        currentValueSelector.partId = partId;
+        currentValueSelector.charName = charName;
+        currentValueSelector.obsNum = obsNum;
+        currentValueSelector.currentPage = 1;
+
+        // Generate values from tolerance2
+        if (tolerance && typeof tolerance.text !== 'undefined') {
+            currentValueSelector.values = [tolerance.text];
+        } else if (
+            tolerance &&
+            tolerance.upper !== undefined &&
+            tolerance.lower !== undefined &&
+            tolerance.step !== undefined
+        ) {
+            const { upper, lower, step } = tolerance;
+            const start = Math.min(lower, upper);
+            const end = Math.max(lower, upper);
+            const isDescending = lower > upper;
+
+            currentValueSelector.values = [];
+            for (let v = start; v <= end + 1e-8; v += step) {
+                const value = parseFloat(v.toFixed(3));
+                currentValueSelector.values.push(value >= 0 ? `+${value.toFixed(3)}` : value.toFixed(3));
+            }
+            if (isDescending) currentValueSelector.values.reverse();
+        } else {
+            currentValueSelector.values = [];
+        }
+
+        // Add common options
+        const commonOptions = ['NA', 'OFF', 'OK', '✓', '-', ''];
+        currentValueSelector.values = [...currentValueSelector.values, ...commonOptions];
+
+        // Set pagination limit
+        currentValueSelector.itemsPerPage = currentValueSelector.values.length > 100 ? 100 : currentValueSelector.values.length;
+
+        // Show the modal
+        valueSelectorModal.style.display = 'flex';
+        valueSelectorCustomInput.value = inputElement.value;
+        valueSelectorCustomInput.focus();
+
+        // Render the grid
+        renderValueSelectorGrid();
+    }
+
+    function closeValueSelector() {
+        valueSelectorModal.style.display = 'none';
+    }
+
+    function handleCustomValueInput(e) {
+        if (e.key === 'Enter') {
+            const value = valueSelectorCustomInput.value.trim();
+            if (value !== '') {
+                currentValueSelector.inputElement.value = value;
+                currentValueSelector.inputElement.dispatchEvent(new Event('change'));
+                closeValueSelector();
+            }
+        }
+    }
+
+function renderValueSelectorGrid() {
+    valueSelectorGrid.innerHTML = '';
+    valueSelectorPagination.innerHTML = '';
+
+    const { values, currentPage, itemsPerPage } = currentValueSelector;
+
+    if (values.length === 0) {
+        valueSelectorGrid.innerHTML = '<div class="no-values">No predefined values available</div>';
+        return;
+    }
+
+    const totalPages = Math.ceil(values.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, values.length);
+    const pageValues = values.slice(startIndex, endIndex);
+
+    // Create grid and apply appropriate class
+    const grid = document.createElement('div');
+    grid.classList.add('value-selector-grid');
+
+    if (values.length <= 90) {
+        grid.classList.add('grid-5x10');
+    } else {
+        grid.classList.add('grid-10x10');
+    }
+
+    pageValues.forEach(value => {
+        const valueItem = document.createElement('div');
+        valueItem.className = 'value-item';
+        valueItem.textContent = value;
+        valueItem.addEventListener('click', () => {
+            currentValueSelector.inputElement.value = value;
+            currentValueSelector.inputElement.dispatchEvent(new Event('change'));
+            closeValueSelector();
+        });
+        grid.appendChild(valueItem);
+    });
+
+    valueSelectorGrid.appendChild(grid);
+
+    // Pagination
+    if (totalPages > 1) {
+        const pagination = document.createElement('div');
+        pagination.className = 'pagination';
+
+        if (currentPage > 1) {
+            const prevButton = document.createElement('button');
+            prevButton.className = 'page-button';
+            prevButton.innerHTML = '&laquo;';
+            prevButton.addEventListener('click', () => {
+                currentValueSelector.currentPage--;
+                renderValueSelectorGrid();
+            });
+            pagination.appendChild(prevButton);
+        }
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.className = `page-button ${i === currentPage ? 'active' : ''}`;
+            pageButton.textContent = i;
+            pageButton.addEventListener('click', () => {
+                currentValueSelector.currentPage = i;
+                renderValueSelectorGrid();
+            });
+            pagination.appendChild(pageButton);
+        }
+
+        if (currentPage < totalPages) {
+            const nextButton = document.createElement('button');
+            nextButton.className = 'page-button';
+            nextButton.innerHTML = '&raquo;';
+            nextButton.addEventListener('click', () => {
+                currentValueSelector.currentPage++;
+                renderValueSelectorGrid();
+            });
+            pagination.appendChild(nextButton);
+        }
+
+        valueSelectorPagination.appendChild(pagination);
+    }
+}
+
+
+    document.addEventListener('DOMContentLoaded', init);
+    
+</script>
+
+</body>
+
+
+</html>

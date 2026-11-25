@@ -10,18 +10,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     /* ==================== RESET & VARIABLES ==================== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     :root {
       --bg: #f5f6fa;
-      --bg-pattern: #eef0f6;
       --surface: #ffffff;
-      --surface-elevated: #ffffff;
       --text-primary: #1a1c22;
       --text-secondary: #5b5e6b;
       --text-tertiary: #8e919f;
@@ -31,18 +24,11 @@
       --accent-soft: #ececfd;
       --accent-hover: #4a4ac4;
       --accent-2: #0d9e8a;
-      --accent-2-soft: #e5f7f3;
-      --accent-3: #e85d75;
-      --accent-3-soft: #fdeef1;
       --accent-4: #f5a623;
-      --accent-4-soft: #fef5e7;
-      --accent-5: #3a9ef5;
-      --accent-5-soft: #e8f3fe;
       --danger: #e03e3e;
       --danger-soft: #fdeaea;
       --success: #1e9e6a;
       --success-soft: #e6f7ef;
-      --warning: #d4831e;
       --shadow-sm: 0 1px 3px rgba(26, 28, 34, 0.03), 0 1px 2px rgba(26, 28, 34, 0.04);
       --shadow-md: 0 4px 16px rgba(26, 28, 34, 0.06), 0 2px 6px rgba(26, 28, 34, 0.03);
       --shadow-lg: 0 12px 40px rgba(26, 28, 34, 0.1), 0 4px 12px rgba(26, 28, 34, 0.04);
@@ -78,36 +64,24 @@
     ::-webkit-scrollbar-thumb:hover { background: #c5c9d0; }
 
     .hidden { display: none !important; }
-    .text-ellipsis { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     /* ==================== LOGIN SCREEN ==================== */
     .login-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: fixed; inset: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: center;
       padding: 20px;
       background: linear-gradient(135deg, #1a1c22 0%, #2a2d3a 50%, #1a1c22 100%);
       overflow: hidden;
     }
-
     .login-screen::before {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content: ''; position: absolute; inset: 0;
       background-image:
         radial-gradient(circle at 20% 30%, rgba(91, 91, 214, 0.25) 0%, transparent 50%),
         radial-gradient(circle at 80% 70%, rgba(13, 158, 138, 0.2) 0%, transparent 50%),
         radial-gradient(circle at 50% 50%, rgba(232, 93, 117, 0.15) 0%, transparent 60%);
       animation: loginGlow 12s ease-in-out infinite alternate;
     }
-
-    @keyframes loginGlow {
-      0% { opacity: 0.6; transform: scale(1); }
-      100% { opacity: 1; transform: scale(1.1); }
-    }
+    @keyframes loginGlow { 0% { opacity: 0.6; transform: scale(1); } 100% { opacity: 1; transform: scale(1.1); } }
 
     .login-card {
       position: relative;
@@ -115,351 +89,185 @@
       backdrop-filter: blur(20px);
       border-radius: 32px;
       padding: 44px 40px;
-      width: 100%;
-      max-width: 420px;
+      width: 100%; max-width: 420px;
       box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4);
       animation: loginIn 0.6s cubic-bezier(0.2, 0, 0, 1);
     }
+    @keyframes loginIn { from { opacity: 0; transform: translateY(24px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-    @keyframes loginIn {
-      from { opacity: 0; transform: translateY(24px) scale(0.97); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .login-logo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 32px;
-    }
-
+    .login-logo { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-bottom: 32px; }
     .login-logo-icon {
-      width: 68px;
-      height: 68px;
+      width: 68px; height: 68px;
       background: linear-gradient(135deg, #5b5bd6, #8b5bd6);
-      color: white;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: white; border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
       font-size: 1.8rem;
       box-shadow: 0 12px 28px rgba(91, 91, 214, 0.4);
     }
-
-    .login-logo h1 {
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: #1a1c22;
-    }
-
-    .login-logo p {
-      font-size: 0.85rem;
-      color: #8e919f;
-      margin-top: -6px;
-    }
+    .login-logo h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; }
+    .login-logo p { font-size: 0.85rem; color: #8e919f; margin-top: -6px; }
 
     .login-card .form-group { margin-bottom: 18px; }
     .login-card .form-label { color: #5b5e6b; font-size: 0.8rem; }
-    .login-card .form-input {
-      background: #f5f6fa;
-      border-color: #eceef4;
-      height: 48px;
-      border-radius: 14px;
-    }
+    .login-card .form-input { background: #f5f6fa; border-color: #eceef4; height: 48px; border-radius: 14px; }
     .login-card .form-input:focus { background: white; }
 
     .login-btn {
-      width: 100%;
-      height: 50px;
-      border-radius: 14px;
-      border: none;
+      width: 100%; height: 50px; border-radius: 14px; border: none;
       background: linear-gradient(135deg, #5b5bd6, #7b5bd6);
-      color: white;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
+      color: white; font-weight: 700; font-size: 0.95rem; cursor: pointer;
       transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
       font-family: var(--font);
       margin-top: 8px;
       box-shadow: 0 8px 20px rgba(91, 91, 214, 0.3);
     }
-
     .login-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(91, 91, 214, 0.4); }
     .login-btn:active { transform: translateY(0); }
     .login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
     .login-error {
-      background: #fdeaea;
-      color: #e03e3e;
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      margin-bottom: 18px;
-      display: none;
-      align-items: center;
-      gap: 8px;
+      background: #fdeaea; color: #e03e3e;
+      padding: 12px 16px; border-radius: 12px;
+      font-size: 0.8rem; margin-bottom: 18px;
+      display: none; align-items: center; gap: 8px;
     }
     .login-error.show { display: flex; }
-
-    .login-footer {
-      text-align: center;
-      margin-top: 24px;
-      font-size: 0.75rem;
-      color: #b0b3c0;
-    }
+    .login-footer { text-align: center; margin-top: 24px; font-size: 0.75rem; color: #b0b3c0; }
 
     /* ==================== TOP NAVIGATION ==================== */
     .topnav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      position: fixed; top: 0; left: 0; right: 0;
       height: var(--nav-height);
       background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-light);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px; z-index: 100;
       transition: box-shadow var(--transition);
     }
-
     .topnav.scrolled { box-shadow: var(--shadow-sm); }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 1.15rem;
-      letter-spacing: -0.03em;
-    }
-
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.03em; }
     .logo-icon {
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       background: linear-gradient(135deg, #5b5bd6, #8b5bd6);
-      color: white;
-      border-radius: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      box-shadow: 0 4px 12px rgba(91, 91, 214, 0.25);
+      color: white; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; box-shadow: 0 4px 12px rgba(91, 91, 214, 0.25);
     }
+    .logo-text span { background: linear-gradient(135deg, #5b5bd6, #8b5bd6); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
-    .logo-text span {
-      background: linear-gradient(135deg, #5b5bd6, #8b5bd6);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
     .btn-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      font-size: 1.05rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 40px; height: 40px; border-radius: 12px; border: none;
+      background: transparent; color: var(--text-secondary);
+      font-size: 1.05rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
       transition: background var(--transition), color var(--transition);
     }
-
     .btn-icon:hover { background: var(--bg); color: var(--text-primary); }
     .btn-icon:active { transform: scale(0.95); }
 
     .btn-primary {
       background: linear-gradient(135deg, #5b5bd6, #7b5bd6);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      padding: 0 18px;
-      height: 42px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      color: white; border: none; border-radius: 12px;
+      padding: 0 18px; height: 42px;
+      font-weight: 600; font-size: 0.9rem;
+      display: flex; align-items: center; gap: 8px;
       cursor: pointer;
       box-shadow: 0 4px 14px rgba(91, 91, 214, 0.3);
       transition: all var(--transition);
       font-family: var(--font);
     }
-
     .btn-primary:hover { box-shadow: 0 6px 20px rgba(91, 91, 214, 0.4); transform: translateY(-1px); }
     .btn-primary:active { transform: scale(0.97); }
     .btn-primary i { font-size: 0.85rem; }
 
     /* ==================== SIDEBAR ==================== */
     .sidebar {
-      position: fixed;
-      top: var(--nav-height);
-      left: 0;
-      bottom: 0;
+      position: fixed; top: var(--nav-height); left: 0; bottom: 0;
       width: var(--sidebar-width);
       background: var(--surface);
       border-right: 1px solid var(--border-light);
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       z-index: 90;
       transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
       overflow: hidden;
     }
-
-    .sidebar-header {
-      padding: 20px 18px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .sidebar-header h3 {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-tertiary);
-      font-weight: 700;
-    }
-
+    .sidebar-header { padding: 20px 18px 12px; display: flex; align-items: center; justify-content: space-between; }
+    .sidebar-header h3 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-tertiary); font-weight: 700; }
     .btn-add-cat {
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      border: none;
-      background: var(--bg);
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 28px; height: 28px; border-radius: 8px; border: none;
+      background: var(--bg); color: var(--text-secondary);
+      font-size: 0.8rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
       transition: background var(--transition);
     }
-
     .btn-add-cat:hover { background: var(--accent-soft); color: var(--accent); }
 
     .sidebar-nav {
-      flex: 1;
-      overflow-y: auto;
+      flex: 1; overflow-y: auto;
       padding: 8px 12px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
+      display: flex; flex-direction: column; gap: 3px;
     }
 
     .sidebar-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 12px;
-      border-radius: 12px;
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px; border-radius: 12px;
       cursor: pointer;
       transition: background var(--transition), color var(--transition);
       position: relative;
       color: var(--text-secondary);
-      font-size: 0.88rem;
-      font-weight: 500;
-      border: none;
+      font-size: 0.88rem; font-weight: 500;
       background: transparent;
-      width: 100%;
-      text-align: left;
+      width: 100%; text-align: left;
       font-family: var(--font);
+      user-select: none;
     }
-
     .sidebar-item:hover { background: var(--bg); color: var(--text-primary); }
-    .sidebar-item.active {
-      background: linear-gradient(135deg, #ececfd, #f3f0fe);
-      color: var(--accent);
-      font-weight: 600;
-    }
+    .sidebar-item.active { background: linear-gradient(135deg, #ececfd, #f3f0fe); color: var(--accent); font-weight: 600; }
 
     .sidebar-item .cat-icon {
-      width: 24px;
-      height: 24px;
-      text-align: center;
-      font-size: 0.95rem;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
+      width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; flex-shrink: 0;
     }
-
     .sidebar-item .cat-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    .sidebar-item .cat-actions {
-      display: flex;
-      gap: 2px;
+    .cat-reorder {
+      display: flex; flex-direction: column; gap: 1px;
       opacity: 0;
       transition: opacity var(--transition);
+      flex-shrink: 0;
     }
-
-    .sidebar-item:hover .cat-actions { opacity: 1; }
-
-    .cat-action-btn {
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      border: none;
-      background: transparent;
-      color: var(--text-tertiary);
-      font-size: 0.7rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .sidebar-item:hover .cat-reorder { opacity: 1; }
+    .cat-move-btn {
+      width: 20px; height: 14px; border-radius: 4px; border: none;
+      background: transparent; color: var(--text-tertiary);
+      font-size: 0.5rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
       transition: background var(--transition), color var(--transition);
     }
+    .cat-move-btn:hover { background: var(--accent-soft); color: var(--accent); }
+    .cat-move-btn:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
 
-    .cat-action-btn:hover { background: rgba(0,0,0,0.06); color: var(--text-primary); }
-    .cat-action-btn.danger:hover { background: var(--danger-soft); color: var(--danger); }
+    .sidebar-divider { height: 1px; background: var(--border-light); margin: 10px 6px; }
 
     .sidebar-footer {
       padding: 12px 18px;
       border-top: 1px solid var(--border-light);
-      font-size: 0.7rem;
-      color: var(--text-tertiary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 0.7rem; color: var(--text-tertiary);
+      display: flex; align-items: center; gap: 8px;
     }
-
     .connection-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--success);
-      flex-shrink: 0;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--success); flex-shrink: 0;
       box-shadow: 0 0 0 3px var(--success-soft);
     }
-
     .connection-dot.offline { background: var(--danger); box-shadow: 0 0 0 3px var(--danger-soft); }
-
     .logout-btn {
-      margin-left: auto;
-      background: transparent;
-      border: none;
-      color: var(--text-tertiary);
-      font-size: 0.8rem;
-      cursor: pointer;
-      padding: 4px;
-      border-radius: 6px;
+      margin-left: auto; background: transparent; border: none;
+      color: var(--text-tertiary); font-size: 0.8rem; cursor: pointer;
+      padding: 4px; border-radius: 6px;
     }
     .logout-btn:hover { color: var(--danger); }
 
@@ -470,81 +278,33 @@
       min-height: calc(100vh - var(--nav-height));
       transition: margin-left 0.3s cubic-bezier(0.2, 0, 0, 1);
     }
-
     .page-head {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
+      display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
+      gap: 16px; margin-bottom: 24px;
     }
+    .page-title { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; }
+    .page-sub { color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px; display: flex; align-items: center; gap: 8px; }
 
-    .page-title {
-      font-size: 1.7rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-    }
-
-    .page-sub {
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      margin-top: 4px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .search-box {
-      position: relative;
-      min-width: 220px;
-      flex: 0 1 280px;
-    }
-
-    .search-box i {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-tertiary);
-      font-size: 0.85rem;
-      pointer-events: none;
-    }
-
+    .search-box { position: relative; min-width: 220px; flex: 0 1 280px; }
+    .search-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); font-size: 0.85rem; pointer-events: none; }
     .search-box input {
-      width: 100%;
-      height: 44px;
-      border-radius: 13px;
+      width: 100%; height: 44px; border-radius: 13px;
       border: 1px solid var(--border-default);
-      background: var(--surface);
-      padding: 0 14px 0 40px;
-      font-size: 0.85rem;
-      font-family: var(--font);
-      color: var(--text-primary);
+      background: var(--surface); padding: 0 14px 0 40px;
+      font-size: 0.85rem; font-family: var(--font); color: var(--text-primary);
       outline: none;
       transition: border var(--transition), box-shadow var(--transition);
       box-shadow: var(--shadow-sm);
     }
-
     .search-box input::placeholder { color: var(--text-tertiary); }
     .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 
     /* ==================== DASHBOARD ==================== */
-    .dashboard-section {
-      margin-bottom: 32px;
-    }
-
+    .dashboard-section { margin-bottom: 32px; }
     .dashboard-section h2 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
     }
-
     .dashboard-section h2 i { color: var(--accent); font-size: 1rem; }
 
     .dash-cat-card {
@@ -555,331 +315,213 @@
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-light);
       transition: box-shadow var(--transition), transform var(--transition);
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-
     .dash-cat-card::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+      background: var(--cat-grad, linear-gradient(180deg, var(--accent), var(--accent-2)));
       border-radius: 4px 0 0 4px;
     }
-
     .dash-cat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
 
-    .dash-cat-head {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
+    .dash-cat-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
     .dash-cat-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent-soft), #f3f0fe);
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.05rem;
-      flex-shrink: 0;
+      width: 40px; height: 40px; border-radius: 12px;
+      background: var(--cat-soft, linear-gradient(135deg, var(--accent-soft), #f3f0fe));
+      color: var(--cat-primary, var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem; flex-shrink: 0;
     }
-
-    .dash-cat-name {
-      font-weight: 700;
-      font-size: 1rem;
-      letter-spacing: -0.01em;
+    .dash-cat-name { font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; flex: 1; }
+    .dash-cat-actions { display: flex; gap: 4px; flex-shrink: 0; }
+    .dash-action-btn {
+      width: 30px; height: 30px; border-radius: 8px; border: none;
+      background: var(--bg); color: var(--text-tertiary);
+      font-size: 0.72rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition), color var(--transition);
     }
+    .dash-action-btn:hover { background: var(--accent-soft); color: var(--accent); }
+    .dash-action-btn.danger:hover { background: var(--danger-soft); color: var(--danger); }
 
-    .dash-subs {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      margin-bottom: 12px;
-    }
-
+    .dash-subs { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
     .dash-sub-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 6px 10px;
-      border-radius: 10px;
-      background: var(--bg);
-      font-size: 0.82rem;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 6px 10px; border-radius: 10px;
+      background: var(--bg); font-size: 0.82rem; gap: 8px;
     }
-
-    .dash-sub-row .sub-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--text-secondary);
-    }
-
-    .dash-sub-row .sub-left i { font-size: 0.8rem; color: var(--text-tertiary); width: 16px; text-align: center; }
+    .dash-sub-row .sub-left { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); flex: 1; min-width: 0; }
+    .dash-sub-row .sub-left i { font-size: 0.8rem; color: var(--text-tertiary); width: 16px; text-align: center; flex-shrink: 0; }
+    .dash-sub-row .sub-left .sub-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     .dash-sub-count {
-      font-size: 0.72rem;
-      font-weight: 700;
-      background: white;
-      color: var(--accent);
-      padding: 2px 10px;
-      border-radius: 20px;
-      border: 1px solid var(--border-light);
+      font-size: 0.72rem; font-weight: 700;
+      background: white; color: var(--accent);
+      padding: 2px 10px; border-radius: 20px;
+      border: 1px solid var(--border-light); flex-shrink: 0;
     }
+    .dash-sub-actions { display: flex; gap: 2px; flex-shrink: 0; }
+    .dash-sub-action-btn {
+      width: 22px; height: 22px; border-radius: 6px; border: none;
+      background: transparent; color: var(--text-tertiary);
+      font-size: 0.55rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition), color var(--transition);
+    }
+    .dash-sub-action-btn:hover { background: var(--accent-soft); color: var(--accent); }
+    .dash-sub-action-btn.danger:hover { background: var(--danger-soft); color: var(--danger); }
+    .dash-sub-action-btn:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
 
     .dash-cat-total {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 12px;
-      border-top: 1px dashed var(--border-default);
-      font-size: 0.82rem;
-      font-weight: 600;
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 12px; border-top: 1px dashed var(--border-default);
+      font-size: 0.82rem; font-weight: 600;
     }
-
     .dash-cat-total .total-label { color: var(--text-secondary); }
     .dash-cat-total .total-val {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: white;
-      padding: 3px 14px;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 700;
+      background: var(--cat-grad, linear-gradient(135deg, var(--accent), var(--accent-2)));
+      color: white; padding: 3px 14px; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 700;
     }
-
     .dash-empty {
-      background: var(--surface);
-      border-radius: var(--radius-lg);
-      padding: 32px 20px;
-      text-align: center;
-      color: var(--text-secondary);
-      border: 1px dashed var(--border-default);
-      font-size: 0.85rem;
+      background: var(--surface); border-radius: var(--radius-lg);
+      padding: 32px 20px; text-align: center; color: var(--text-secondary);
+      border: 1px dashed var(--border-default); font-size: 0.85rem;
     }
 
     /* Attention items */
-    .attention-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
+    .attention-list { display: flex; flex-direction: column; gap: 8px; }
     .attention-item {
-      background: var(--surface);
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      border: 1px solid var(--border-light);
+      background: var(--surface); border-radius: var(--radius-md);
+      padding: 14px 18px; border: 1px solid var(--border-light);
       border-left: 4px solid var(--accent-4);
       box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      display: flex; flex-direction: column; gap: 4px;
     }
-
-    .attention-title {
-      font-weight: 700;
-      font-size: 0.88rem;
-      color: var(--text-primary);
-    }
-
+    .attention-title { font-weight: 700; font-size: 0.88rem; color: var(--text-primary); }
     .attention-title .sep { color: var(--text-tertiary); font-weight: 400; margin: 0 4px; }
-
-    .attention-cond {
-      font-size: 0.78rem;
-      color: var(--accent-4);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
+    .attention-cond { font-size: 0.78rem; color: var(--accent-4); font-weight: 600; display: flex; align-items: center; gap: 6px; }
     .attention-cond.empty-cond { color: var(--danger); }
 
+    /* ==================== LOCATIONS ACCORDION ==================== */
+    .loc-accordion {
+      background: var(--surface); border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      margin-bottom: 10px; overflow: hidden; box-shadow: var(--shadow-sm);
+    }
+    .loc-accordion-head {
+      width: 100%; display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; background: transparent; border: none;
+      cursor: pointer; font-family: var(--font); text-align: left;
+    }
+    .loc-acc-icon {
+      width: 32px; height: 32px; border-radius: 10px;
+      background: var(--accent-soft); color: var(--accent);
+      display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .loc-acc-name { flex: 1; font-weight: 600; font-size: 0.92rem; }
+    .loc-acc-count {
+      background: var(--bg); color: var(--text-secondary);
+      font-size: 0.72rem; font-weight: 700;
+      padding: 2px 10px; border-radius: 20px; flex-shrink: 0;
+    }
+    .loc-acc-chevron { color: var(--text-tertiary); font-size: 0.75rem; transition: transform 0.25s; flex-shrink: 0; }
+    .loc-accordion.open .loc-acc-chevron { transform: rotate(180deg); }
+    .loc-accordion-body { display: none; padding: 0 16px 14px 60px; }
+    .loc-accordion.open .loc-accordion-body { display: block; }
+    .loc-acc-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 0; font-size: 0.85rem;
+      border-top: 1px dashed var(--border-light);
+    }
+    .loc-item-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .loc-item-name { color: var(--text-primary); font-weight: 500; }
+    .loc-acc-empty { font-size: 0.8rem; color: var(--text-tertiary); padding: 8px 0; }
+
+    /* ==================== IMAGE LINKS CARD ==================== */
+    .imglinks-card {
+      background: var(--surface); border-radius: var(--radius-lg);
+      padding: 26px; box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light); max-width: 640px;
+    }
+    .imglinks-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .imglinks-card h3 i { color: var(--accent); }
+    .imglinks-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5; }
+
     /* ==================== TABS ==================== */
-    .tabs-wrap {
-      margin-bottom: 20px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding-bottom: 4px;
-    }
+    .tabs-wrap { margin-bottom: 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px; }
     .tabs-wrap::-webkit-scrollbar { display: none; }
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-      min-width: max-content;
-    }
-
+    .tabs { display: flex; gap: 8px; min-width: max-content; }
     .tab {
-      padding: 8px 18px;
-      border-radius: 100px;
+      padding: 8px 18px; border-radius: 100px;
       border: 1px solid var(--border-default);
-      background: var(--surface);
-      color: var(--text-secondary);
-      font-size: 0.82rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition);
-      white-space: nowrap;
+      background: var(--surface); color: var(--text-secondary);
+      font-size: 0.82rem; font-weight: 500; cursor: pointer;
+      transition: all var(--transition); white-space: nowrap;
       font-family: var(--font);
-      display: flex;
-      align-items: center;
-      gap: 7px;
+      display: flex; align-items: center; gap: 7px;
       box-shadow: var(--shadow-sm);
     }
-
     .tab:hover { border-color: var(--accent); color: var(--accent); }
     .tab.active {
-      background: linear-gradient(135deg, #5b5bd6, #7b5bd6);
-      border-color: transparent;
-      color: white;
-      font-weight: 600;
+      background: var(--cat-grad, linear-gradient(135deg, #5b5bd6, #7b5bd6));
+      border-color: transparent; color: white; font-weight: 600;
       box-shadow: 0 4px 14px rgba(91, 91, 214, 0.3);
     }
     .tab .tab-count { font-size: 0.65rem; opacity: 0.8; }
     .tab .tab-icon { font-size: 0.75rem; }
 
     /* ==================== ITEM CARDS ==================== */
-    .items-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
+    .items-grid { display: flex; flex-direction: column; gap: 16px; }
     .item-card {
-      background: var(--surface);
-      border-radius: var(--radius-lg);
-      padding: 16px;
-      display: flex;
-      gap: 18px;
+      background: var(--surface); border-radius: var(--radius-lg);
+      padding: 16px; display: flex; gap: 18px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-light);
+      border-left: 3px solid var(--cat-primary, var(--border-light));
       transition: box-shadow var(--transition), transform var(--transition), border var(--transition);
-      position: relative;
-      align-items: stretch;
+      position: relative; align-items: stretch;
     }
+    .item-card:hover { box-shadow: var(--shadow-md); }
 
-    .item-card:hover { box-shadow: var(--shadow-md); border-color: var(--border-default); }
-
-    /* Large image — ~40% of available width */
     .item-thumb {
-      width: 40%;
-      aspect-ratio: 1 / 1;
-      min-width: 140px;
-      max-width: 320px;
+      width: 40%; aspect-ratio: 1 / 1;
+      min-width: 140px; max-width: 320px;
       border-radius: var(--radius-md);
       background: linear-gradient(135deg, #f0f1f6, #e8eaf2);
-      flex-shrink: 0;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--border-light);
-      position: relative;
+      flex-shrink: 0; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border-light); position: relative;
     }
-
-    .item-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1);
-    }
-
+    .item-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1); }
     .item-card:hover .item-thumb img { transform: scale(1.04); }
+    .item-thumb .placeholder-icon { font-size: 2.8rem; color: var(--text-tertiary); opacity: 0.35; }
 
-    .item-thumb .placeholder-icon {
-      font-size: 2.8rem;
-      color: var(--text-tertiary);
-      opacity: 0.35;
-    }
-
-    .item-info {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 8px;
-      padding: 4px 0;
-    }
-
-    .item-name {
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-      line-height: 1.3;
-    }
-
-    .item-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 20px;
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      align-items: center;
-    }
-
+    .item-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 4px 0; }
+    .item-name { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--text-primary); line-height: 1.3; }
+    .item-meta { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 0.8rem; color: var(--text-secondary); align-items: center; }
     .meta-label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-tertiary);
-      font-weight: 500;
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      display: flex; align-items: center; gap: 6px;
+      color: var(--text-tertiary); font-weight: 500;
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
     }
-
-    .meta-label i { font-size: 0.7rem; width: 12px; text-align: center; color: var(--accent); }
+    .meta-label i { font-size: 0.7rem; width: 12px; text-align: center; color: var(--cat-primary, var(--accent)); }
     .meta-value { color: var(--text-primary); font-weight: 600; font-size: 0.82rem; }
-
-    .item-path {
-      font-size: 0.72rem;
-      color: var(--text-tertiary);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 2px;
-    }
+    .item-path { font-size: 0.72rem; color: var(--text-tertiary); display: flex; align-items: center; gap: 6px; margin-top: 2px; }
     .item-path i { font-size: 0.65rem; }
 
-    .item-actions {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
+    .item-actions { display: flex; flex-direction: column; justify-content: center; gap: 8px; flex-shrink: 0; }
     .btn-sm {
-      height: 36px;
-      padding: 0 14px;
-      border-radius: 10px;
+      height: 36px; padding: 0 14px; border-radius: 10px;
       border: 1px solid var(--border-default);
-      background: var(--surface);
-      color: var(--text-secondary);
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      background: var(--surface); color: var(--text-secondary);
+      font-size: 0.75rem; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
       transition: all var(--transition);
-      font-family: var(--font);
-      white-space: nowrap;
+      font-family: var(--font); white-space: nowrap;
       box-shadow: var(--shadow-sm);
     }
-
     .btn-sm:hover { background: var(--bg); color: var(--text-primary); border-color: var(--border-default); }
     .btn-sm.danger { color: var(--danger); border-color: transparent; }
     .btn-sm.danger:hover { background: var(--danger-soft); }
@@ -887,338 +529,183 @@
 
     /* ==================== EMPTY & LOADING ==================== */
     .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 24px;
-      background: var(--surface);
-      border-radius: var(--radius-lg);
-      border: 1px dashed var(--border-default);
-      text-align: center;
-      color: var(--text-secondary);
-      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 60px 24px; background: var(--surface);
+      border-radius: var(--radius-lg); border: 1px dashed var(--border-default);
+      text-align: center; color: var(--text-secondary); box-shadow: var(--shadow-sm);
     }
-
     .empty-state .empty-icon { font-size: 2.6rem; color: var(--text-tertiary); opacity: 0.4; margin-bottom: 16px; }
     .empty-state h4 { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
     .empty-state p { font-size: 0.85rem; max-width: 320px; }
 
-    .loading-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 24px;
-      gap: 16px;
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-    }
-
-    .spinner {
-      width: 32px;
-      height: 32px;
-      border: 3px solid var(--border-light);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
+    .loading-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 24px; gap: 16px; color: var(--text-secondary); font-size: 0.85rem; }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--border-light); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ==================== MODALS ==================== */
     .modal-overlay {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: rgba(20, 22, 28, 0.45);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-      padding: 20px;
-      opacity: 0;
-      visibility: hidden;
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200; padding: 20px;
+      opacity: 0; visibility: hidden;
       transition: opacity 0.25s ease, visibility 0.25s ease;
     }
-
     .modal-overlay.open { opacity: 1; visibility: visible; }
-
     .modal {
-      background: var(--surface);
-      border-radius: var(--radius-xl);
-      width: 100%;
-      max-width: 540px;
-      max-height: 90vh;
-      overflow-y: auto;
+      background: var(--surface); border-radius: var(--radius-xl);
+      width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto;
       box-shadow: var(--shadow-lg);
       transform: translateY(12px) scale(0.98);
       transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
-      padding: 26px;
-      position: relative;
+      padding: 26px; position: relative;
     }
-
     .modal-overlay.open .modal { transform: translateY(0) scale(1); }
-
-    .modal-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
+    .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
     .modal-head h3 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em; }
-
     .modal-close {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      border: none;
-      background: var(--bg);
-      color: var(--text-secondary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 34px; height: 34px; border-radius: 10px; border: none;
+      background: var(--bg); color: var(--text-secondary);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
       transition: background var(--transition);
     }
-
     .modal-close:hover { background: var(--border-light); }
 
     /* ==================== FORMS ==================== */
     .form-group { margin-bottom: 16px; }
-
-    .form-label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-      letter-spacing: 0.01em;
-    }
-
+    .form-label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; letter-spacing: 0.01em; }
     .form-label .required { color: var(--danger); margin-left: 2px; }
-
     .form-input, .form-select, .form-textarea {
-      width: 100%;
-      height: 46px;
-      border-radius: 12px;
+      width: 100%; height: 46px; border-radius: 12px;
       border: 1px solid var(--border-default);
-      background: var(--surface);
-      padding: 0 14px;
-      font-size: 0.88rem;
-      font-family: var(--font);
-      color: var(--text-primary);
+      background: var(--surface); padding: 0 14px;
+      font-size: 0.88rem; font-family: var(--font); color: var(--text-primary);
       outline: none;
       transition: border var(--transition), box-shadow var(--transition);
     }
-
     .form-textarea { height: 80px; padding: 12px 14px; resize: vertical; line-height: 1.4; }
     .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
     .form-input::placeholder, .form-textarea::placeholder { color: var(--text-tertiary); }
     .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238e919f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
-
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
     .error-msg { font-size: 0.72rem; color: var(--danger); margin-top: 4px; display: none; }
     .form-input.invalid, .form-select.invalid { border-color: var(--danger); }
-
-    .form-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      margin-top: 24px;
-    }
-
+    .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
     .btn-secondary {
-      height: 46px;
-      padding: 0 20px;
-      border-radius: 12px;
+      height: 46px; padding: 0 20px; border-radius: 12px;
       border: 1px solid var(--border-default);
-      background: var(--surface);
-      color: var(--text-secondary);
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      font-family: var(--font);
+      background: var(--surface); color: var(--text-secondary);
+      font-weight: 600; font-size: 0.85rem; cursor: pointer;
+      transition: all var(--transition); font-family: var(--font);
     }
-
     .btn-secondary:hover { background: var(--bg); color: var(--text-primary); }
 
-    .modal-tabs {
-      display: flex;
-      gap: 4px;
-      background: var(--bg);
-      border-radius: 12px;
-      padding: 4px;
-      margin-bottom: 20px;
-    }
-
+    .modal-tabs { display: flex; gap: 4px; background: var(--bg); border-radius: 12px; padding: 4px; margin-bottom: 20px; flex-wrap: wrap; }
     .modal-tab {
-      flex: 1;
-      height: 38px;
-      border-radius: 9px;
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      font-weight: 600;
-      font-size: 0.78rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      font-family: var(--font);
+      flex: 1; min-width: 80px; height: 38px; border-radius: 9px; border: none;
+      background: transparent; color: var(--text-secondary);
+      font-weight: 600; font-size: 0.78rem; cursor: pointer;
+      transition: all var(--transition); font-family: var(--font);
     }
-
     .modal-tab.active { background: var(--surface); color: var(--text-primary); box-shadow: var(--shadow-sm); }
-
     .form-pane { display: none; }
     .form-pane.active { display: block; }
 
-    /* Image preview */
     .image-preview {
-      width: 100%;
-      height: 120px;
-      border-radius: var(--radius-md);
-      border: 1px dashed var(--border-default);
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 8px;
-      overflow: hidden;
-      color: var(--text-tertiary);
-      font-size: 0.75rem;
-      gap: 6px;
+      width: 100%; height: 120px; border-radius: var(--radius-md);
+      border: 1px dashed var(--border-default); background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 8px; overflow: hidden;
+      color: var(--text-tertiary); font-size: 0.75rem; gap: 6px;
       position: relative;
     }
-
     .image-preview img { width: 100%; height: 100%; object-fit: cover; }
-    .image-preview .remove-img { position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; border-radius: 50%; background: rgba(0,0,0,0.5); color: white; border: none; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; }
 
     /* ==================== ICON PICKER ==================== */
     .icon-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 8px;
-      max-height: 200px;
-      overflow-y: auto;
-      padding: 4px;
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;
+      max-height: 200px; overflow-y: auto; padding: 4px;
     }
-
     .icon-option {
-      aspect-ratio: 1;
-      border-radius: 10px;
+      aspect-ratio: 1; border-radius: 10px;
       border: 1px solid var(--border-default);
       background: var(--surface);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all var(--transition);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: var(--text-secondary);
+      cursor: pointer; transition: all var(--transition);
     }
-
     .icon-option:hover { border-color: var(--accent); color: var(--accent); }
     .icon-option.selected { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
 
-    /* ==================== LOCATION MANAGEMENT ==================== */
-    .loc-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-top: 8px;
-      max-height: 180px;
-      overflow-y: auto;
+    /* ==================== THEME PICKER ==================== */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+      gap: 8px; max-height: 190px; overflow-y: auto; padding: 6px 4px 4px;
     }
-
-    .loc-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 12px;
-      border-radius: 10px;
-      background: var(--bg);
-      font-size: 0.85rem;
-    }
-
-    .loc-row button {
-      background: transparent;
-      border: none;
-      color: var(--danger);
+    .theme-swatch {
+      aspect-ratio: 1; border-radius: 10px;
+      border: 2px solid transparent;
       cursor: pointer;
-      font-size: 0.8rem;
-      padding: 4px 8px;
-      border-radius: 6px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      position: relative;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.35);
     }
-    .loc-row button:hover { background: var(--danger-soft); }
+    .theme-swatch:hover { transform: scale(1.08); }
+    .theme-swatch.selected {
+      border-color: var(--text-primary);
+      box-shadow: 0 0 0 2px white inset, 0 0 0 1px white;
+    }
+    .theme-swatch.selected::after {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 0.7rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+    }
 
-    .loc-add-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
+    /* ==================== LOCATION MANAGEMENT ==================== */
+    .loc-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; max-height: 180px; overflow-y: auto; }
+    .loc-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 10px; background: var(--bg); font-size: 0.85rem; }
+    .loc-row button { background: transparent; border: none; color: var(--danger); cursor: pointer; font-size: 0.8rem; padding: 4px 8px; border-radius: 6px; }
+    .loc-row button:hover { background: var(--danger-soft); }
+    .loc-add-row { display: flex; gap: 8px; margin-top: 10px; }
     .loc-add-row input {
-      flex: 1;
-      height: 42px;
-      border-radius: 10px;
+      flex: 1; height: 42px; border-radius: 10px;
       border: 1px solid var(--border-default);
-      padding: 0 12px;
-      font-size: 0.85rem;
-      font-family: var(--font);
+      padding: 0 12px; font-size: 0.85rem; font-family: var(--font);
       outline: none;
     }
     .loc-add-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
     .loc-add-row button {
-      height: 42px;
-      padding: 0 16px;
-      border-radius: 10px;
-      border: none;
-      background: var(--accent);
-      color: white;
-      font-weight: 600;
-      font-size: 0.8rem;
-      cursor: pointer;
+      height: 42px; padding: 0 16px; border-radius: 10px; border: none;
+      background: var(--accent); color: white;
+      font-weight: 600; font-size: 0.8rem; cursor: pointer;
       font-family: var(--font);
     }
 
     /* ==================== TOAST ==================== */
     .toast-container {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 300;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      align-items: center;
-      pointer-events: none;
-      width: calc(100% - 40px);
-      max-width: 400px;
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      z-index: 300; display: flex; flex-direction: column; gap: 8px;
+      align-items: center; pointer-events: none;
+      width: calc(100% - 40px); max-width: 400px;
     }
-
     .toast {
-      background: var(--text-primary);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 14px;
-      font-size: 0.82rem;
-      font-weight: 500;
+      background: var(--text-primary); color: white;
+      padding: 12px 20px; border-radius: 14px;
+      font-size: 0.82rem; font-weight: 500;
       box-shadow: var(--shadow-lg);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: flex; align-items: center; gap: 10px;
       animation: toastIn 0.3s cubic-bezier(0.2, 0, 0, 1);
-      pointer-events: auto;
-      width: 100%;
+      pointer-events: auto; width: 100%;
     }
-
     .toast.success { background: linear-gradient(135deg, #1e9e6a, #22b578); }
     .toast.error { background: linear-gradient(135deg, #e03e3e, #e85d75); }
     .toast i { font-size: 0.9rem; }
-
     @keyframes toastIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ==================== CONFIRM MODAL ==================== */
@@ -1241,23 +728,13 @@
 
     @media (max-width: 768px) {
       .menu-btn { display: flex; }
-      .sidebar {
-        transform: translateX(-100%);
-        width: 290px;
-        box-shadow: none;
-        border-right: none;
-      }
+      .sidebar { transform: translateX(-100%); width: 290px; box-shadow: none; border-right: none; }
       .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
       .main { margin-left: 0; padding: 16px 16px 80px; }
       .sidebar-overlay {
-        display: block;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.35);
-        backdrop-filter: blur(2px);
-        z-index: 80;
-        opacity: 0;
-        visibility: hidden;
+        display: block; position: fixed; inset: 0;
+        background: rgba(0,0,0,0.35); backdrop-filter: blur(2px);
+        z-index: 80; opacity: 0; visibility: hidden;
         transition: opacity 0.25s, visibility 0.25s;
       }
       .sidebar-overlay.open { opacity: 1; visibility: visible; }
@@ -1267,7 +744,7 @@
       .item-thumb { width: 40%; min-width: 100px; max-width: 180px; }
       .item-name { font-size: 0.95rem; }
       .item-card { padding: 12px; gap: 12px; }
-      .item-actions { flex-direction: row; align-items: center; }
+      .item-actions { flex-direction: column; align-items: center; gap: 6px; }
       .btn-sm { height: 32px; padding: 0 10px; font-size: 0.7rem; }
       .btn-sm .btn-label { display: none; }
       .btn-sm i { font-size: 0.72rem; }
@@ -1276,9 +753,10 @@
       .logo-text { font-size: 1rem; }
       .modal { padding: 20px; border-radius: var(--radius-lg); }
       .form-row { grid-template-columns: 1fr; }
-      .modal-tabs { flex-direction: row; }
       .icon-grid { grid-template-columns: repeat(5, 1fr); }
       .login-card { padding: 32px 24px; }
+      .cat-reorder { opacity: 0.7; }
+      .dash-sub-action-btn { width: 24px; height: 24px; font-size: 0.6rem; }
     }
 
     @media (max-width: 400px) {
@@ -1286,6 +764,7 @@
       .item-meta { gap: 6px 12px; font-size: 0.74rem; }
       .topnav { padding: 0 12px; }
       .icon-grid { grid-template-columns: repeat(4, 1fr); }
+      .dash-sub-action-btn { width: 22px; height: 22px; font-size: 0.55rem; }
     }
   </style>
 </head>
@@ -1362,7 +841,6 @@
 
   <!-- ==================== MAIN CONTENT ==================== -->
   <main class="main" id="mainContent">
-    <!-- Page heading -->
     <div class="page-head">
       <div>
         <h1 class="page-title" id="pageTitle">Dashboard</h1>
@@ -1374,12 +852,10 @@
       </div>
     </div>
 
-    <!-- Subcategory tabs -->
     <div class="tabs-wrap" id="tabsWrap">
       <div class="tabs" id="subcategoryTabs"></div>
     </div>
 
-    <!-- Items list -->
     <div id="itemsContainer">
       <div class="loading-state">
         <div class="spinner"></div>
@@ -1456,6 +932,10 @@
           <div class="form-group">
             <label class="form-label">Icon</label>
             <div class="icon-grid" id="iconPicker"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Color Theme</label>
+            <div class="theme-grid" id="themePicker"></div>
           </div>
           <div class="form-actions">
             <button type="button" class="btn-secondary" data-close="addModal">Cancel</button>
@@ -1539,6 +1019,60 @@
     </div>
   </div>
 
+  <!-- ==================== EDIT CATEGORY MODAL ==================== -->
+  <div class="modal-overlay" id="editCategoryModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Edit Category</h3>
+        <button class="modal-close" data-close="editCategoryModal"><i class="fas fa-xmark"></i></button>
+      </div>
+      <form id="editCategoryForm">
+        <input type="hidden" id="editCategoryId">
+        <div class="form-group">
+          <label class="form-label">Category Name <span class="required">*</span></label>
+          <input type="text" class="form-input" id="editCategoryName" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Icon</label>
+          <div class="icon-grid" id="editCatIconPicker"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Color Theme</label>
+          <div class="theme-grid" id="editThemePicker"></div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" data-close="editCategoryModal">Cancel</button>
+          <button type="submit" class="btn-primary"><i class="fas fa-check"></i> Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== EDIT SUBCATEGORY MODAL ==================== -->
+  <div class="modal-overlay" id="editSubcategoryModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Edit Subcategory</h3>
+        <button class="modal-close" data-close="editSubcategoryModal"><i class="fas fa-xmark"></i></button>
+      </div>
+      <form id="editSubcategoryForm">
+        <input type="hidden" id="editSubcategoryId">
+        <div class="form-group">
+          <label class="form-label">Subcategory Name <span class="required">*</span></label>
+          <input type="text" class="form-input" id="editSubcategoryName" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Icon</label>
+          <div class="icon-grid" id="editSubIconPicker"></div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" data-close="editSubcategoryModal">Cancel</button>
+          <button type="submit" class="btn-primary"><i class="fas fa-check"></i> Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- ==================== CONFIRMATION MODAL ==================== -->
   <div class="modal-overlay confirm-modal" id="confirmModal">
     <div class="modal">
@@ -1559,7 +1093,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
-      getDatabase, ref, onValue, push, set, update, remove, get, serverTimestamp
+      getDatabase, ref, onValue, push, set, update, remove
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
     import {
       getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
@@ -1580,6 +1114,68 @@
     const db = getDatabase(app);
     const auth = getAuth(app);
 
+    // ---------- Themes (55 premium themes) ----------
+    const THEMES = [
+      { id:'royal-blue', name:'Royal Blue', primary:'#4361ee', soft:'#eef1ff', grad:'linear-gradient(135deg,#4361ee,#3a0ca3)' },
+      { id:'ocean', name:'Ocean', primary:'#0077b6', soft:'#e3f2fd', grad:'linear-gradient(135deg,#0077b6,#00b4d8)' },
+      { id:'sky', name:'Sky', primary:'#0096c7', soft:'#e0f7fa', grad:'linear-gradient(135deg,#0096c7,#48cae4)' },
+      { id:'teal', name:'Teal', primary:'#0d9488', soft:'#e0f2f1', grad:'linear-gradient(135deg,#0d9488,#14b8a6)' },
+      { id:'emerald', name:'Emerald', primary:'#059669', soft:'#e7f6ef', grad:'linear-gradient(135deg,#059669,#10b981)' },
+      { id:'forest', name:'Forest', primary:'#2d6a4f', soft:'#e6f2ec', grad:'linear-gradient(135deg,#2d6a4f,#40916c)' },
+      { id:'lime', name:'Lime', primary:'#65a30d', soft:'#f1f8e3', grad:'linear-gradient(135deg,#65a30d,#84cc16)' },
+      { id:'olive', name:'Olive', primary:'#6b8e23', soft:'#f1f5e1', grad:'linear-gradient(135deg,#6b8e23,#94a82a)' },
+      { id:'amber', name:'Amber', primary:'#d97706', soft:'#fef3e2', grad:'linear-gradient(135deg,#d97706,#f59e0b)' },
+      { id:'orange', name:'Orange', primary:'#ea580c', soft:'#ffede0', grad:'linear-gradient(135deg,#ea580c,#f97316)' },
+      { id:'coral', name:'Coral', primary:'#f97316', soft:'#ffefe3', grad:'linear-gradient(135deg,#f97316,#fb923c)' },
+      { id:'tomato', name:'Tomato', primary:'#dc2626', soft:'#fdeaea', grad:'linear-gradient(135deg,#dc2626,#ef4444)' },
+      { id:'crimson', name:'Crimson', primary:'#b91c1c', soft:'#fbe6e6', grad:'linear-gradient(135deg,#b91c1c,#dc2626)' },
+      { id:'rose', name:'Rose', primary:'#e11d48', soft:'#fde7ec', grad:'linear-gradient(135deg,#e11d48,#f43f5e)' },
+      { id:'pink', name:'Pink', primary:'#db2777', soft:'#fce7f0', grad:'linear-gradient(135deg,#db2777,#ec4899)' },
+      { id:'fuchsia', name:'Fuchsia', primary:'#c026d3', soft:'#fbe7fc', grad:'linear-gradient(135deg,#c026d3,#d946ef)' },
+      { id:'purple', name:'Purple', primary:'#9333ea', soft:'#f3e8fd', grad:'linear-gradient(135deg,#9333ea,#a855f7)' },
+      { id:'violet', name:'Violet', primary:'#7c3aed', soft:'#f0e9fe', grad:'linear-gradient(135deg,#7c3aed,#8b5cf6)' },
+      { id:'indigo', name:'Indigo', primary:'#4f46e5', soft:'#ebe9fe', grad:'linear-gradient(135deg,#4f46e5,#6366f1)' },
+      { id:'slate', name:'Slate', primary:'#475569', soft:'#eef1f5', grad:'linear-gradient(135deg,#475569,#64748b)' },
+      { id:'graphite', name:'Graphite', primary:'#374151', soft:'#eaecef', grad:'linear-gradient(135deg,#374151,#4b5563)' },
+      { id:'charcoal', name:'Charcoal', primary:'#1f2937', soft:'#e6e8ec', grad:'linear-gradient(135deg,#1f2937,#374151)' },
+      { id:'coffee', name:'Coffee', primary:'#78350f', soft:'#f5ece3', grad:'linear-gradient(135deg,#78350f,#92400e)' },
+      { id:'mocha', name:'Mocha', primary:'#8b5a2b', soft:'#f5ede3', grad:'linear-gradient(135deg,#8b5a2b,#a0653a)' },
+      { id:'sand', name:'Sand', primary:'#b45309', soft:'#fdf3e0', grad:'linear-gradient(135deg,#b45309,#d97706)' },
+      { id:'gold', name:'Gold', primary:'#b8860b', soft:'#faf2da', grad:'linear-gradient(135deg,#b8860b,#daa520)' },
+      { id:'mustard', name:'Mustard', primary:'#a16207', soft:'#f8f1d9', grad:'linear-gradient(135deg,#a16207,#ca8a04)' },
+      { id:'mint', name:'Mint', primary:'#10b981', soft:'#e3faf1', grad:'linear-gradient(135deg,#10b981,#34d399)' },
+      { id:'aqua', name:'Aqua', primary:'#06b6d4', soft:'#e0f7fb', grad:'linear-gradient(135deg,#06b6d4,#22d3ee)' },
+      { id:'cyan', name:'Cyan', primary:'#0891b2', soft:'#e0f5fa', grad:'linear-gradient(135deg,#0891b2,#06b6d4)' },
+      { id:'azure', name:'Azure', primary:'#2563eb', soft:'#e7eeff', grad:'linear-gradient(135deg,#2563eb,#3b82f6)' },
+      { id:'navy', name:'Navy', primary:'#1e3a8a', soft:'#e4e9f7', grad:'linear-gradient(135deg,#1e3a8a,#1d4ed8)' },
+      { id:'lavender', name:'Lavender', primary:'#a78bfa', soft:'#f1ecfe', grad:'linear-gradient(135deg,#a78bfa,#c4b5fd)' },
+      { id:'lilac', name:'Lilac', primary:'#b388eb', soft:'#f3ecfd', grad:'linear-gradient(135deg,#b388eb,#c9a7f1)' },
+      { id:'plum', name:'Plum', primary:'#7e22ce', soft:'#f0e7fa', grad:'linear-gradient(135deg,#7e22ce,#9333ea)' },
+      { id:'magenta', name:'Magenta', primary:'#be185d', soft:'#fbe7f0', grad:'linear-gradient(135deg,#be185d,#db2777)' },
+      { id:'cherry', name:'Cherry', primary:'#9f1239', soft:'#f9e5ea', grad:'linear-gradient(135deg,#9f1239,#be123c)' },
+      { id:'maroon', name:'Maroon', primary:'#7f1d1d', soft:'#f5e5e5', grad:'linear-gradient(135deg,#7f1d1d,#991b1b)' },
+      { id:'rust', name:'Rust', primary:'#9a3412', soft:'#f7eae3', grad:'linear-gradient(135deg,#9a3412,#c2410c)' },
+      { id:'copper', name:'Copper', primary:'#b45309', soft:'#f9ebdd', grad:'linear-gradient(135deg,#b45309,#d97706)' },
+      { id:'bronze', name:'Bronze', primary:'#92400e', soft:'#f7ece0', grad:'linear-gradient(135deg,#92400e,#b45309)' },
+      { id:'steel', name:'Steel', primary:'#64748b', soft:'#eef1f6', grad:'linear-gradient(135deg,#64748b,#94a3b8)' },
+      { id:'storm', name:'Storm', primary:'#475569', soft:'#ecf0f5', grad:'linear-gradient(135deg,#475569,#64748b)' },
+      { id:'smoke', name:'Smoke', primary:'#6b7280', soft:'#f0f1f4', grad:'linear-gradient(135deg,#6b7280,#9ca3af)' },
+      { id:'cream', name:'Cream', primary:'#ca8a04', soft:'#fdf6e3', grad:'linear-gradient(135deg,#ca8a04,#eab308)' },
+      { id:'peach', name:'Peach', primary:'#fb923c', soft:'#fff0e5', grad:'linear-gradient(135deg,#fb923c,#fdba74)' },
+      { id:'salmon', name:'Salmon', primary:'#f87171', soft:'#feecec', grad:'linear-gradient(135deg,#f87171,#fca5a5)' },
+      { id:'berry', name:'Berry', primary:'#a21caf', soft:'#f8e7fa', grad:'linear-gradient(135deg,#a21caf,#c026d3)' },
+      { id:'orchid', name:'Orchid', primary:'#c084fc', soft:'#f6edfe', grad:'linear-gradient(135deg,#c084fc,#d8b4fe)' },
+      { id:'turquoise', name:'Turquoise', primary:'#14b8a6', soft:'#e0f7f4', grad:'linear-gradient(135deg,#14b8a6,#2dd4bf)' },
+      { id:'sea-green', name:'Sea Green', primary:'#2e8b57', soft:'#e4f3ea', grad:'linear-gradient(135deg,#2e8b57,#3cb371)' },
+      { id:'pine', name:'Pine', primary:'#166534', soft:'#e4f0e9', grad:'linear-gradient(135deg,#166534,#15803d)' },
+      { id:'sapphire', name:'Sapphire', primary:'#1d4ed8', soft:'#e6ecfe', grad:'linear-gradient(135deg,#1d4ed8,#2563eb)' },
+      { id:'periwinkle', name:'Periwinkle', primary:'#818cf8', soft:'#eef0ff', grad:'linear-gradient(135deg,#818cf8,#a5b4fc)' },
+      { id:'mulberry', name:'Mulberry', primary:'#86198f', soft:'#f6e6f8', grad:'linear-gradient(135deg,#86198f,#a21caf)' }
+    ];
+    const themeMap = Object.fromEntries(THEMES.map(t => [t.id, t]));
+    const DEFAULT_THEME = 'royal-blue';
+    function getTheme(id) { return themeMap[id] || themeMap[DEFAULT_THEME]; }
+
     // ---------- App State ----------
     const state = {
       categories: {},
@@ -1592,7 +1188,8 @@
       loading: true,
       connectionOk: true,
       user: null,
-      dashboardMode: true, // true when Dashboard selected
+      viewMode: 'dashboard', // dashboard | category | locations | imagelinks
+      openLocation: null,
       listenersAttached: false
     };
 
@@ -1601,7 +1198,6 @@
     const sidebarNav = $('sidebarNav');
     const mainContent = $('mainContent');
     const pageTitle = $('pageTitle');
-    const pageSub = $('pageSub');
     const itemCountLabel = $('itemCountLabel');
     const subcategoryTabs = $('subcategoryTabs');
     const itemsContainer = $('itemsContainer');
@@ -1609,6 +1205,8 @@
     const searchWrap = $('searchWrap');
     const addModal = $('addModal');
     const editModal = $('editModal');
+    const editCategoryModal = $('editCategoryModal');
+    const editSubcategoryModal = $('editSubcategoryModal');
     const confirmModal = $('confirmModal');
     const toastContainer = $('toastContainer');
     const sidebar = $('sidebar');
@@ -1623,73 +1221,7 @@
     const loginErrorText = $('loginErrorText');
     const loginBtn = $('loginBtn');
 
-    // ---------- Icon Library (expanded) ----------
-    const iconLibrary = {
-      general: [
-        'fa-box', 'fa-boxes-stacked', 'fa-layer-group', 'fa-cube', 'fa-shapes', 'fa-archive',
-        'fa-folder', 'fa-tag', 'fa-star', 'fa-heart', 'fa-crown', 'fa-gem'
-      ],
-      clothing: [
-        'fa-shirt', 'fa-vest', 'fa-socks', 'fa-hat-cowboy', 'fa-shoe-prints',
-        'fa-mitten', 'fa-scarf', 'fa-sunglasses', 'fa-glasses', 'fa-crown',
-        'fa-vest-patches', 'fa-person-dress', 'fa-user-tie', 'fa-user-nurse',
-        'fa-child', 'fa-baby', 'fa-bag-shopping', 'fa-tshirt'
-      ],
-      stationery: [
-        'fa-pen', 'fa-pencil', 'fa-paintbrush', 'fa-palette', 'fa-book',
-        'fa-bookmark', 'fa-newspaper', 'fa-file-lines', 'fa-note-sticky',
-        'fa-clipboard', 'fa-scissors', 'fa-ruler', 'fa-eraser', 'fa-paperclip',
-        'fa-stapler', 'fa-highlighter', 'fa-calculator'
-      ],
-      documents: [
-        'fa-file', 'fa-file-lines', 'fa-file-pdf', 'fa-file-contract', 'fa-passport',
-        'fa-id-card', 'fa-address-book', 'fa-folder-open', 'fa-certificate',
-        'fa-stamp', 'fa-signature', 'fa-envelope', 'fa-inbox'
-      ],
-      accessories: [
-        'fa-ring', 'fa-gem', 'fa-glasses', 'fa-sunglasses', 'fa-watch',
-        'fa-clock', 'fa-key', 'fa-wallet', 'fa-bag-shopping', 'fa-umbrella',
-        'fa-hat-cowboy', 'fa-scarf', 'fa-mobile-screen', 'fa-headphones',
-        'fa-ear-listen', 'fa-hand-sparkles'
-      ],
-      footwear: [
-        'fa-shoe-prints', 'fa-socks', 'fa-boot', 'fa-shoe-prints'
-      ],
-      bags: [
-        'fa-bag-shopping', 'fa-briefcase', 'fa-backpack', 'fa-suitcase',
-        'fa-luggage-cart', 'fa-hand-holding-heart', 'fa-purse'
-      ],
-      electronics: [
-        'fa-laptop', 'fa-mobile-screen', 'fa-tablet', 'fa-desktop', 'fa-keyboard',
-        'fa-computer-mouse', 'fa-headphones', 'fa-camera', 'fa-video', 'fa-tv',
-        'fa-gamepad', 'fa-plug', 'fa-battery-full', 'fa-wifi', 'fa-bluetooth',
-        'fa-hard-drive', 'fa-sim-card', 'fa-usb', 'fa-microchip', 'fa-robot'
-      ],
-      personal: [
-        'fa-heart', 'fa-star', 'fa-crown', 'fa-gem', 'fa-ring', 'fa-glasses',
-        'fa-clock', 'fa-mug-hot', 'fa-utensils', 'fa-bed', 'fa-couch',
-        'fa-tooth', 'fa-pump-soap', 'fa-spa', 'fa-bath', 'fa-brush'
-      ],
-      home: [
-        'fa-house', 'fa-couch', 'fa-bed', 'fa-chair', 'fa-table', 'fa-lamp',
-        'fa-tv', 'fa-kitchen-set', 'fa-utensils', 'fa-mug-hot', 'fa-wine-glass',
-        'fa-blender', 'fa-bowl-food', 'fa-toilet', 'fa-shower', 'fa-fan'
-      ],
-      other: [
-        'fa-gift', 'fa-paw', 'fa-leaf', 'fa-sun', 'fa-moon', 'fa-cloud',
-        'fa-fire', 'fa-droplet', 'fa-wind', 'fa-bolt', 'fa-snowflake',
-        'fa-utensils', 'fa-bicycle', 'fa-car', 'fa-plane', 'fa-train',
-        'fa-futbol', 'fa-basketball', 'fa-guitar', 'fa-music'
-      ]
-    };
-
-    // Flat list for picker
-    const allIcons = [];
-    Object.values(iconLibrary).forEach(arr => arr.forEach(ic => {
-      if (!allIcons.includes(ic)) allIcons.push(ic);
-    }));
-
-    // Default icon options for picker (show most relevant first)
+    // ---------- Icon Picker (expanded) ----------
     const defaultPickerIcons = [
       'fa-shirt', 'fa-vest', 'fa-socks', 'fa-hat-cowboy', 'fa-shoe-prints',
       'fa-bag-shopping', 'fa-pen', 'fa-book', 'fa-file-lines', 'fa-passport',
@@ -1705,7 +1237,7 @@
       'fa-bookmark', 'fa-clipboard', 'fa-scissors', 'fa-paperclip', 'fa-calculator'
     ];
 
-    // ---------- Utility Functions ----------
+    // ---------- Utilities ----------
     function toast(message, type = 'success') {
       const div = document.createElement('div');
       div.className = `toast ${type}`;
@@ -1713,11 +1245,9 @@
       toastContainer.appendChild(div);
       setTimeout(() => { div.style.opacity = '0'; div.style.transition = 'opacity 0.3s'; setTimeout(() => div.remove(), 300); }, 3200);
     }
-
     function showLoading(container, text = 'Loading…') {
       container.innerHTML = `<div class="loading-state"><div class="spinner"></div><span>${text}</span></div>`;
     }
-
     function showEmptyState(container, title, message) {
       container.innerHTML = `
         <div class="empty-state">
@@ -1726,12 +1256,10 @@
           <p>${message}</p>
         </div>`;
     }
-
     function escapeHtml(str) {
-      if (!str) return '';
+      if (str === null || str === undefined) return '';
       return String(str).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
     }
-
     function confirmDelete(title, message, onConfirm) {
       $('confirmTitle').textContent = title;
       $('confirmMessage').textContent = message;
@@ -1744,22 +1272,17 @@
         onConfirm();
       });
     }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('open');
-    }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
     // ---------- Auth ----------
     onAuthStateChanged(auth, (user) => {
       state.user = user;
       if (user) {
         loginScreen.classList.add('hidden');
-        // Attach data listeners only once
         if (!state.listenersAttached) {
           state.listenersAttached = true;
           listenToData();
         }
-        // Load locations from DB
         loadLocations();
       } else {
         loginScreen.classList.remove('hidden');
@@ -1771,10 +1294,7 @@
       e.preventDefault();
       const email = $('loginEmail').value.trim();
       const password = $('loginPassword').value;
-      if (!email || !password) {
-        showLoginError('Please enter both email and password.');
-        return;
-      }
+      if (!email || !password) { showLoginError('Please enter both email and password.'); return; }
       loginBtn.disabled = true;
       loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in…';
       loginError.classList.remove('show');
@@ -1794,43 +1314,28 @@
         loginBtn.innerHTML = '<i class="fas fa-arrow-right-to-bracket"></i> Sign In';
       }
     });
-
-    function showLoginError(msg) {
-      loginErrorText.textContent = msg;
-      loginError.classList.add('show');
-    }
+    function showLoginError(msg) { loginErrorText.textContent = msg; loginError.classList.add('show'); }
 
     $('logoutBtn').addEventListener('click', () => {
       confirmDelete('Sign out?', 'You will need to sign in again to access your belongings.', async () => {
-        try {
-          await signOut(auth);
-          toast('Signed out');
-        } catch (err) {
-          toast('Failed to sign out', 'error');
-        }
+        try { await signOut(auth); toast('Signed out'); } catch (err) { toast('Failed to sign out', 'error'); }
       });
     });
 
-    // ---------- Location Management (stored in DB) ----------
+    // ---------- Location Management ----------
     function loadLocations() {
       onValue(ref(db, 'locations'), (snapshot) => {
         const val = snapshot.val();
-        if (val && Array.isArray(val)) {
-          state.locations = val;
-        } else if (val && typeof val === 'object') {
-          state.locations = Object.values(val);
-        }
-        // Ensure defaults present if empty
+        if (val && Array.isArray(val)) state.locations = val;
+        else if (val && typeof val === 'object') state.locations = Object.values(val);
         if (!state.locations || state.locations.length === 0) {
           state.locations = ['Bedroom', 'Living Room', 'Kitchen', 'Wardrobe', 'Storage Room', 'Office', 'Garage', 'Other'];
         }
         populateLocationSelects();
         renderLocList();
-      }, (err) => {
-        console.warn('Locations load error (using defaults)', err);
-      });
+        if (state.viewMode === 'locations') renderLocationsPage();
+      }, (err) => { console.warn('Locations load error', err); });
     }
-
     async function saveLocations(newLocations) {
       try {
         await set(ref(db, 'locations'), newLocations);
@@ -1838,11 +1343,8 @@
         populateLocationSelects();
         renderLocList();
         toast('Locations updated');
-      } catch (err) {
-        toast('Failed to save locations', 'error');
-      }
+      } catch (err) { toast('Failed to save locations', 'error'); }
     }
-
     function renderLocList() {
       const list = $('locList');
       if (!list) return;
@@ -1855,20 +1357,17 @@
       list.querySelectorAll('[data-loc-idx]').forEach(btn => {
         btn.addEventListener('click', () => {
           const idx = parseInt(btn.dataset.locIdx);
-          const newLocs = state.locations.filter((_, i) => i !== idx);
-          saveLocations(newLocs);
+          saveLocations(state.locations.filter((_, i) => i !== idx));
         });
       });
     }
-
     $('addLocBtn').addEventListener('click', () => {
       const input = $('newLocInput');
       const val = input.value.trim();
       if (!val) { toast('Enter a location name', 'error'); return; }
       if (state.locations.includes(val)) { toast('Location already exists', 'error'); return; }
-      const newLocs = [...state.locations, val];
       input.value = '';
-      saveLocations(newLocs);
+      saveLocations([...state.locations, val]);
     });
 
     // ---------- Firebase Listeners ----------
@@ -1883,11 +1382,7 @@
         }
         renderMain();
         updateConnectionStatus(true);
-      }, (error) => {
-        console.error('Categories listener error:', error);
-        updateConnectionStatus(false);
-        toast('Failed to load categories', 'error');
-      });
+      }, (error) => { console.error(error); updateConnectionStatus(false); toast('Failed to load categories', 'error'); });
 
       onValue(ref(db, 'subcategories'), (snapshot) => {
         state.subcategories = snapshot.val() || {};
@@ -1899,10 +1394,7 @@
         }
         renderMain();
         populateSubcategorySelect();
-      }, (error) => {
-        console.error('Subcategories listener error:', error);
-        updateConnectionStatus(false);
-      });
+      }, (error) => { console.error(error); updateConnectionStatus(false); });
 
       onValue(ref(db, 'items'), (snapshot) => {
         state.items = snapshot.val() || {};
@@ -1910,28 +1402,40 @@
         renderMain();
         updateConnectionStatus(true);
       }, (error) => {
-        console.error('Items listener error:', error);
-        state.loading = false;
-        updateConnectionStatus(false);
-        renderMain();
-        toast('Failed to load items', 'error');
+        console.error(error); state.loading = false; updateConnectionStatus(false);
+        renderMain(); toast('Failed to load items', 'error');
       });
     }
-
     function updateConnectionStatus(ok) {
       state.connectionOk = ok;
       connectionDot.classList.toggle('offline', !ok);
       connectionText.textContent = ok ? 'Connected' : 'Offline';
     }
 
-    // ---------- Helper getters ----------
+    // ---------- Sorting helpers ----------
+    function getSortedCategories() {
+      return Object.entries(state.categories).map(([id, c]) => ({ id, ...c })).sort((a, b) => {
+        const oa = typeof a.order === 'number' ? a.order : null;
+        const ob = typeof b.order === 'number' ? b.order : null;
+        if (oa !== null && ob !== null) return oa - ob;
+        if (oa !== null) return -1;
+        if (ob !== null) return 1;
+        return (a.name || '').localeCompare(b.name || '');
+      });
+    }
     function getSubcategoriesForCategory(catId) {
       return Object.entries(state.subcategories)
         .filter(([_, s]) => s.categoryId === catId)
         .map(([id, s]) => ({ id, ...s }))
-        .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+        .sort((a, b) => {
+          const oa = typeof a.order === 'number' ? a.order : null;
+          const ob = typeof b.order === 'number' ? b.order : null;
+          if (oa !== null && ob !== null) return oa - ob;
+          if (oa !== null) return -1;
+          if (ob !== null) return 1;
+          return (a.name || '').localeCompare(b.name || '');
+        });
     }
-
     function getItemsFor(categoryId, subcategoryId = null) {
       let items = Object.entries(state.items).map(([id, v]) => ({ id, ...v }));
       if (categoryId) items = items.filter(i => i.categoryId === categoryId);
@@ -1947,42 +1451,81 @@
       return items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
     }
 
+    // ---------- Reordering ----------
+    async function moveCategory(catId, dir) {
+      const list = getSortedCategories();
+      const idx = list.findIndex(c => c.id === catId);
+      const newIdx = idx + dir;
+      if (idx < 0 || newIdx < 0 || newIdx >= list.length) return;
+      const reordered = [...list];
+      const [moved] = reordered.splice(idx, 1);
+      reordered.splice(newIdx, 0, moved);
+      const updates = {};
+      reordered.forEach((c, i) => { updates[`categories/${c.id}/order`] = i; });
+      try { await update(ref(db), updates); } catch (e) { toast('Failed to reorder', 'error'); }
+    }
+    async function moveSubcategory(subId, dir) {
+      const sub = state.subcategories[subId];
+      if (!sub) return;
+      const list = getSubcategoriesForCategory(sub.categoryId);
+      const idx = list.findIndex(s => s.id === subId);
+      const newIdx = idx + dir;
+      if (idx < 0 || newIdx < 0 || newIdx >= list.length) return;
+      const reordered = [...list];
+      const [moved] = reordered.splice(idx, 1);
+      reordered.splice(newIdx, 0, moved);
+      const updates = {};
+      reordered.forEach((s, i) => { updates[`subcategories/${s.id}/order`] = i; });
+      try { await update(ref(db), updates); } catch (e) { toast('Failed to reorder', 'error'); }
+    }
+
     // ---------- Render Sidebar ----------
     function renderSidebar() {
-      const cats = Object.entries(state.categories).sort((a, b) => (a[1].name || '').localeCompare(b[1].name || ''));
+      const cats = getSortedCategories();
       let html = '';
 
-      // Dashboard item
-      html += `<button class="sidebar-item ${state.dashboardMode ? 'active' : ''}" data-dashboard="true">
+      // Dashboard
+      html += `<div class="sidebar-item ${state.viewMode === 'dashboard' ? 'active' : ''}" data-view="dashboard" role="button" tabindex="0">
         <span class="cat-icon"><i class="fas fa-chart-pie" style="color:var(--accent);"></i></span>
         <span class="cat-name">Dashboard</span>
-      </button>`;
+      </div>`;
 
-      // All belongings
-      html += `<button class="sidebar-item ${!state.dashboardMode && !state.selectedCategoryId ? 'active' : ''}" data-cat-id="">
-        <span class="cat-icon"><i class="fas fa-layer-group"></i></span>
-        <span class="cat-name">All Belongings</span>
-      </button>`;
-
-      for (const [id, cat] of cats) {
-        const active = (!state.dashboardMode && state.selectedCategoryId === id) ? 'active' : '';
+      // Categories
+      cats.forEach((cat, idx) => {
+        const active = state.viewMode === 'category' && state.selectedCategoryId === cat.id;
         const iconClass = cat.icon || 'fa-folder';
+        const theme = getTheme(cat.theme);
+        const styleAttr = active
+          ? `style="background:${theme.soft};color:${theme.primary};"`
+          : '';
         html += `
-          <button class="sidebar-item ${active}" data-cat-id="${id}">
+          <div class="sidebar-item ${active ? 'active' : ''}" data-cat-id="${cat.id}" ${styleAttr} role="button" tabindex="0">
             <span class="cat-icon"><i class="fas ${iconClass}"></i></span>
             <span class="cat-name">${escapeHtml(cat.name || 'Untitled')}</span>
-            <span class="cat-actions">
-              <button class="cat-action-btn" data-rename-cat="${id}" title="Rename"><i class="fas fa-pencil"></i></button>
-              <button class="cat-action-btn danger" data-delete-cat="${id}" title="Delete"><i class="fas fa-trash"></i></button>
+            <span class="cat-reorder">
+              <button class="cat-move-btn" data-move-cat-up="${cat.id}" title="Move up" ${idx === 0 ? 'disabled' : ''}><i class="fas fa-chevron-up"></i></button>
+              <button class="cat-move-btn" data-move-cat-down="${cat.id}" title="Move down" ${idx === cats.length - 1 ? 'disabled' : ''}><i class="fas fa-chevron-down"></i></button>
             </span>
-          </button>`;
-      }
+          </div>`;
+      });
+
+      // Divider + extra views
+      html += `<div class="sidebar-divider"></div>`;
+      html += `<div class="sidebar-item ${state.viewMode === 'locations' ? 'active' : ''}" data-view="locations" role="button" tabindex="0">
+        <span class="cat-icon"><i class="fas fa-location-dot" style="color:#0d9e8a;"></i></span>
+        <span class="cat-name">Locations</span>
+      </div>`;
+      html += `<div class="sidebar-item ${state.viewMode === 'imagelinks' ? 'active' : ''}" data-view="imagelinks" role="button" tabindex="0">
+        <span class="cat-icon"><i class="fas fa-link" style="color:#e85d75;"></i></span>
+        <span class="cat-name">Image Links</span>
+      </div>`;
+
       sidebarNav.innerHTML = html;
 
       // Dashboard click
-      sidebarNav.querySelectorAll('[data-dashboard]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          state.dashboardMode = true;
+      sidebarNav.querySelectorAll('[data-view="dashboard"]').forEach(el => {
+        el.addEventListener('click', () => {
+          state.viewMode = 'dashboard';
           state.selectedCategoryId = null;
           state.selectedSubcategoryId = null;
           state.searchQuery = '';
@@ -1993,12 +1536,37 @@
         });
       });
 
-      // Category clicks
-      sidebarNav.querySelectorAll('[data-cat-id]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          if (e.target.closest('.cat-action-btn')) return;
-          state.dashboardMode = false;
-          state.selectedCategoryId = btn.dataset.catId || null;
+      // Locations
+      sidebarNav.querySelectorAll('[data-view="locations"]').forEach(el => {
+        el.addEventListener('click', () => {
+          state.viewMode = 'locations';
+          state.openLocation = null;
+          state.selectedCategoryId = null;
+          state.selectedSubcategoryId = null;
+          renderSidebar();
+          renderMain();
+          closeMobileSidebar();
+        });
+      });
+
+      // Image Links
+      sidebarNav.querySelectorAll('[data-view="imagelinks"]').forEach(el => {
+        el.addEventListener('click', () => {
+          state.viewMode = 'imagelinks';
+          state.selectedCategoryId = null;
+          state.selectedSubcategoryId = null;
+          renderSidebar();
+          renderMain();
+          closeMobileSidebar();
+        });
+      });
+
+      // Category click
+      sidebarNav.querySelectorAll('[data-cat-id]').forEach(el => {
+        el.addEventListener('click', (e) => {
+          if (e.target.closest('.cat-move-btn')) return;
+          state.viewMode = 'category';
+          state.selectedCategoryId = el.dataset.catId;
           state.selectedSubcategoryId = null;
           state.searchQuery = '';
           searchInput.value = '';
@@ -2008,58 +1576,20 @@
         });
       });
 
-      // Rename category
-      sidebarNav.querySelectorAll('[data-rename-cat]').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-          e.stopPropagation();
-          const id = btn.dataset.renameCat;
-          const cat = state.categories[id];
-          if (!cat) return;
-          const newName = prompt('Rename category:', cat.name || '');
-          if (newName && newName.trim() && newName.trim() !== cat.name) {
-            try {
-              await update(ref(db, `categories/${id}`), { name: newName.trim() });
-              toast('Category renamed');
-            } catch (err) { toast('Failed to rename', 'error'); }
-          }
-        });
+      // Category reorder buttons
+      sidebarNav.querySelectorAll('[data-move-cat-up]').forEach(btn => {
+        btn.addEventListener('click', (e) => { e.stopPropagation(); moveCategory(btn.dataset.moveCatUp, -1); });
       });
-
-      // Delete category
-      sidebarNav.querySelectorAll('[data-delete-cat]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const id = btn.dataset.deleteCat;
-          const cat = state.categories[id];
-          if (!cat) return;
-          confirmDelete('Delete category?', `"${cat.name}" and all its subcategories and items will be removed.`, async () => {
-            try {
-              const updates = {};
-              Object.entries(state.subcategories).forEach(([sid, s]) => {
-                if (s.categoryId === id) updates[`subcategories/${sid}`] = null;
-              });
-              Object.entries(state.items).forEach(([iid, item]) => {
-                if (item.categoryId === id) updates[`items/${iid}`] = null;
-              });
-              updates[`categories/${id}`] = null;
-              await update(ref(db), updates);
-              if (state.selectedCategoryId === id) {
-                state.selectedCategoryId = null;
-                state.selectedSubcategoryId = null;
-              }
-              toast('Category deleted');
-            } catch (err) { toast('Failed to delete category', 'error'); }
-          });
-        });
+      sidebarNav.querySelectorAll('[data-move-cat-down]').forEach(btn => {
+        btn.addEventListener('click', (e) => { e.stopPropagation(); moveCategory(btn.dataset.moveCatDown, 1); });
       });
     }
-
     function closeMobileSidebar() {
       sidebar.classList.remove('open');
       sidebarOverlay.classList.remove('open');
     }
 
-    // ---------- Dashboard render ----------
+    // ---------- Dashboard ----------
     function renderDashboard() {
       pageTitle.textContent = 'Dashboard';
       const totalItems = Object.keys(state.items).length;
@@ -2067,38 +1597,47 @@
       searchWrap.style.display = 'none';
       tabsWrap.style.display = 'none';
 
-      const cats = Object.entries(state.categories).sort((a, b) => (a[1].name || '').localeCompare(b[1].name || ''));
-
+      const cats = getSortedCategories();
       let html = '';
 
-      // Category summary cards
       html += `<div class="dashboard-section">
         <h2><i class="fas fa-layer-group"></i> Category Summary</h2>`;
 
       if (cats.length === 0) {
         html += `<div class="dash-empty">No categories yet. Tap "+ Add New" to create your first category.</div>`;
       } else {
-        for (const [catId, cat] of cats) {
-          const subs = getSubcategoriesForCategory(catId);
-          const catItems = Object.values(state.items).filter(i => i.categoryId === catId);
+        cats.forEach((cat) => {
+          const subs = getSubcategoriesForCategory(cat.id);
+          const catItems = Object.values(state.items).filter(i => i.categoryId === cat.id);
           const catIcon = cat.icon || 'fa-folder';
-          html += `<div class="dash-cat-card">
+          const theme = getTheme(cat.theme);
+          html += `<div class="dash-cat-card" style="--cat-primary:${theme.primary};--cat-soft:${theme.soft};--cat-grad:${theme.grad};">
             <div class="dash-cat-head">
               <div class="dash-cat-icon"><i class="fas ${catIcon}"></i></div>
               <div class="dash-cat-name">${escapeHtml(cat.name || 'Untitled')}</div>
+              <div class="dash-cat-actions">
+                <button class="dash-action-btn" data-edit-cat="${cat.id}" title="Edit category"><i class="fas fa-pencil"></i></button>
+                <button class="dash-action-btn danger" data-del-cat="${cat.id}" title="Delete category"><i class="fas fa-trash"></i></button>
+              </div>
             </div>`;
           if (subs.length === 0) {
             html += `<div style="font-size:0.8rem;color:var(--text-tertiary);padding:4px 10px;">No subcategories</div>`;
           } else {
             html += `<div class="dash-subs">`;
-            for (const sub of subs) {
+            subs.forEach((sub, sIdx) => {
               const subCount = Object.values(state.items).filter(i => i.subcategoryId === sub.id).length;
               const subIcon = sub.icon || 'fa-tag';
               html += `<div class="dash-sub-row">
-                <span class="sub-left"><i class="fas ${subIcon}"></i> ${escapeHtml(sub.name)}</span>
-                <span class="dash-sub-count">${subCount} item${subCount !== 1 ? 's' : ''}</span>
+                <span class="sub-left"><i class="fas ${subIcon}"></i> <span class="sub-name">${escapeHtml(sub.name)}</span></span>
+                <span class="dash-sub-count">${subCount}</span>
+                <span class="dash-sub-actions">
+                  <button class="dash-sub-action-btn" data-move-sub-up="${sub.id}" title="Move up" ${sIdx === 0 ? 'disabled' : ''}><i class="fas fa-chevron-up"></i></button>
+                  <button class="dash-sub-action-btn" data-move-sub-down="${sub.id}" title="Move down" ${sIdx === subs.length - 1 ? 'disabled' : ''}><i class="fas fa-chevron-down"></i></button>
+                  <button class="dash-sub-action-btn" data-edit-sub="${sub.id}" title="Edit subcategory"><i class="fas fa-pencil"></i></button>
+                  <button class="dash-sub-action-btn danger" data-del-sub="${sub.id}" title="Delete subcategory"><i class="fas fa-trash"></i></button>
+                </span>
               </div>`;
-            }
+            });
             html += `</div>`;
           }
           html += `<div class="dash-cat-total">
@@ -2106,11 +1645,11 @@
             <span class="total-val">${catItems.length} item${catItems.length !== 1 ? 's' : ''}</span>
           </div>
         </div>`;
-        }
+        });
       }
       html += `</div>`;
 
-      // Items requiring attention
+      // Attention items
       html += `<div class="dashboard-section">
         <h2><i class="fas fa-triangle-exclamation" style="color:var(--accent-4);"></i> Items Requiring Attention</h2>`;
 
@@ -2128,7 +1667,7 @@
         </div>`;
       } else {
         html += `<div class="attention-list">`;
-        for (const item of attentionItems) {
+        attentionItems.forEach(item => {
           const catName = state.categories[item.categoryId]?.name || 'Unknown Category';
           const subName = state.subcategories[item.subcategoryId]?.name || 'Unknown Subcategory';
           const condText = (item.condition || '').trim();
@@ -2145,35 +1684,224 @@
               ${!condText ? 'No condition specified' : escapeHtml(condText)}
             </div>
           </div>`;
-        }
+        });
         html += `</div>`;
       }
       html += `</div>`;
 
       itemsContainer.innerHTML = html;
+
+      // Bind category edit/delete
+      itemsContainer.querySelectorAll('[data-edit-cat]').forEach(btn => {
+        btn.addEventListener('click', () => openEditCategoryModal(btn.dataset.editCat));
+      });
+      itemsContainer.querySelectorAll('[data-del-cat]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.delCat;
+          const cat = state.categories[id];
+          if (!cat) return;
+          confirmDelete('Delete category?', `"${cat.name}" and all its subcategories and items will be removed.`, async () => {
+            try {
+              const updates = {};
+              Object.entries(state.subcategories).forEach(([sid, s]) => { if (s.categoryId === id) updates[`subcategories/${sid}`] = null; });
+              Object.entries(state.items).forEach(([iid, item]) => { if (item.categoryId === id) updates[`items/${iid}`] = null; });
+              updates[`categories/${id}`] = null;
+              await update(ref(db), updates);
+              toast('Category deleted');
+            } catch (err) { toast('Failed to delete category', 'error'); }
+          });
+        });
+      });
+
+      // Bind subcategory edit/delete/move
+      itemsContainer.querySelectorAll('[data-edit-sub]').forEach(btn => {
+        btn.addEventListener('click', () => openEditSubcategoryModal(btn.dataset.editSub));
+      });
+      itemsContainer.querySelectorAll('[data-del-sub]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.delSub;
+          const sub = state.subcategories[id];
+          if (!sub) return;
+          confirmDelete('Delete subcategory?', `"${sub.name}" and all its items will be removed.`, async () => {
+            try {
+              const updates = {};
+              Object.entries(state.items).forEach(([iid, item]) => { if (item.subcategoryId === id) updates[`items/${iid}`] = null; });
+              updates[`subcategories/${id}`] = null;
+              await update(ref(db), updates);
+              toast('Subcategory deleted');
+            } catch (err) { toast('Failed to delete subcategory', 'error'); }
+          });
+        });
+      });
+      itemsContainer.querySelectorAll('[data-move-sub-up]').forEach(btn => {
+        btn.addEventListener('click', () => moveSubcategory(btn.dataset.moveSubUp, -1));
+      });
+      itemsContainer.querySelectorAll('[data-move-sub-down]').forEach(btn => {
+        btn.addEventListener('click', () => moveSubcategory(btn.dataset.moveSubDown, 1));
+      });
     }
 
-    // ---------- Render Main Content ----------
-    function renderMain() {
-      if (state.dashboardMode) {
-        renderDashboard();
+    // ---------- Locations Page ----------
+    function renderLocationsPage() {
+      pageTitle.textContent = 'Locations';
+      searchWrap.style.display = 'none';
+      tabsWrap.style.display = 'none';
+
+      const grouped = {};
+      state.locations.forEach(loc => { grouped[loc] = grouped[loc] || []; });
+      Object.values(state.items).forEach(item => {
+        const loc = (item.location || '').trim() || 'Unassigned';
+        if (!grouped[loc]) grouped[loc] = [];
+        grouped[loc].push(item);
+      });
+
+      const orderedLocs = [];
+      state.locations.forEach(l => orderedLocs.push(l));
+      Object.keys(grouped).forEach(k => { if (!orderedLocs.includes(k)) orderedLocs.push(k); });
+
+      itemCountLabel.textContent = `${orderedLocs.length} location${orderedLocs.length !== 1 ? 's' : ''}`;
+
+      if (orderedLocs.length === 0) {
+        showEmptyState(itemsContainer, 'No locations defined', 'Add locations from the Add New modal to see items grouped here.');
         return;
       }
 
+      let html = '';
+      orderedLocs.forEach(loc => {
+        const locItems = (grouped[loc] || []).slice().sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+        const isOpen = state.openLocation === loc;
+        html += `<div class="loc-accordion ${isOpen ? 'open' : ''}">
+          <button class="loc-accordion-head" data-loc-toggle="${escapeHtml(loc)}">
+            <span class="loc-acc-icon"><i class="fas fa-location-dot"></i></span>
+            <span class="loc-acc-name">${escapeHtml(loc)}</span>
+            <span class="loc-acc-count">${locItems.length}</span>
+            <i class="fas fa-chevron-down loc-acc-chevron"></i>
+          </button>
+          <div class="loc-accordion-body">
+            ${locItems.length === 0
+              ? '<div class="loc-acc-empty">No items at this location.</div>'
+              : locItems.map(it => {
+                  const cat = state.categories[it.categoryId];
+                  const theme = getTheme(cat?.theme);
+                  return `<div class="loc-acc-item">
+                    <span class="loc-item-dot" style="background:${theme.primary}"></span>
+                    <span class="loc-item-name">${escapeHtml(it.name || 'Untitled')}</span>
+                  </div>`;
+                }).join('')
+            }
+          </div>
+        </div>`;
+      });
+      itemsContainer.innerHTML = html;
+
+      itemsContainer.querySelectorAll('[data-loc-toggle]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const loc = btn.dataset.locToggle;
+          state.openLocation = state.openLocation === loc ? null : loc;
+          renderLocationsPage();
+        });
+      });
+    }
+
+    // ---------- Image Links Page ----------
+    function convertDriveLink(url) {
+      if (!url) return null;
+      const patterns = [
+        /\/file\/d\/([a-zA-Z0-9_-]+)/,
+        /[?&]id=([a-zA-Z0-9_-]+)/,
+        /\/d\/([a-zA-Z0-9_-]+)/
+      ];
+      for (const p of patterns) {
+        const m = url.match(p);
+        if (m && m[1]) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+      }
+      return null;
+    }
+    function renderImageLinksPage() {
+      pageTitle.textContent = 'Image Links';
+      searchWrap.style.display = 'none';
+      tabsWrap.style.display = 'none';
+      itemCountLabel.textContent = 'Convert Google Drive links';
+
+      itemsContainer.innerHTML = `
+        <div class="imglinks-card">
+          <h3><i class="fab fa-google-drive"></i> Google Drive Link Converter</h3>
+          <p class="imglinks-desc">Paste a Google Drive image share link below. It will be converted into a direct-view URL you can use as an item image.</p>
+          <div class="form-group">
+            <label class="form-label">Google Drive Link</label>
+            <input type="text" class="form-input" id="driveInput" placeholder="https://drive.google.com/file/d/FILE_ID/view?usp=sharing">
+          </div>
+          <div style="display:flex; gap:8px; margin-bottom:16px;">
+            <button class="btn-primary" id="genLinkBtn"><i class="fas fa-bolt"></i> Generate</button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Converted Link</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" class="form-input" id="driveOutput" placeholder="https://lh3.googleusercontent.com/d/..." readonly>
+              <button class="btn-secondary" id="copyLinkBtn" style="padding: 0 16px; flex-shrink:0;"><i class="fas fa-copy"></i></button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('genLinkBtn').addEventListener('click', () => {
+        const input = document.getElementById('driveInput').value.trim();
+        const output = document.getElementById('driveOutput');
+        const converted = convertDriveLink(input);
+        if (converted) {
+          output.value = converted;
+          toast('Link generated');
+        } else {
+          output.value = '';
+          toast('Invalid Google Drive link', 'error');
+        }
+      });
+
+      document.getElementById('copyLinkBtn').addEventListener('click', async () => {
+        const val = document.getElementById('driveOutput').value;
+        if (!val) { toast('Nothing to copy', 'error'); return; }
+        try {
+          await navigator.clipboard.writeText(val);
+          toast('Link copied');
+        } catch (e) {
+          const out = document.getElementById('driveOutput');
+          out.select(); document.execCommand('copy');
+          toast('Link copied');
+        }
+      });
+    }
+
+    // ---------- Render Main ----------
+    function renderMain() {
+      // Clear theme vars when not in category view
+      if (state.viewMode !== 'category') {
+        mainContent.style.removeProperty('--cat-primary');
+        mainContent.style.removeProperty('--cat-soft');
+        mainContent.style.removeProperty('--cat-grad');
+      }
+
+      if (state.viewMode === 'dashboard') { renderDashboard(); return; }
+      if (state.viewMode === 'locations') { renderLocationsPage(); return; }
+      if (state.viewMode === 'imagelinks') { renderImageLinksPage(); return; }
+
+      // Category view
       searchWrap.style.display = '';
       tabsWrap.style.display = '';
 
-      if (state.loading) {
-        showLoading(itemsContainer, 'Fetching your belongings…');
-        return;
-      }
+      if (state.loading) { showLoading(itemsContainer, 'Fetching your belongings…'); return; }
 
       const catId = state.selectedCategoryId;
-      const catName = catId ? (state.categories[catId]?.name || 'Category') : 'All Belongings';
+      const catName = catId ? (state.categories[catId]?.name || 'Category') : 'Category';
       pageTitle.textContent = catName;
 
-      // Subcategory tabs
-      let subs = catId ? getSubcategoriesForCategory(catId) : [];
+      if (catId) {
+        const theme = getTheme(state.categories[catId]?.theme);
+        mainContent.style.setProperty('--cat-primary', theme.primary);
+        mainContent.style.setProperty('--cat-soft', theme.soft);
+        mainContent.style.setProperty('--cat-grad', theme.grad);
+      }
+
+      const subs = catId ? getSubcategoriesForCategory(catId) : [];
       let tabsHtml = '';
       if (catId) {
         tabsHtml += `<button class="tab ${!state.selectedSubcategoryId ? 'active' : ''}" data-sub-id="">All</button>`;
@@ -2183,11 +1911,7 @@
           const subIcon = s.icon || 'fa-tag';
           tabsHtml += `<button class="tab ${active}" data-sub-id="${s.id}"><i class="fas ${subIcon} tab-icon"></i>${escapeHtml(s.name)} <span class="tab-count">${count}</span></button>`;
         });
-        if (!subs.length) {
-          tabsHtml += `<span style="font-size:0.8rem;color:var(--text-tertiary);padding:8px 12px;">No subcategories yet</span>`;
-        }
-      } else {
-        tabsHtml = `<span style="font-size:0.8rem;color:var(--text-tertiary);padding:8px 12px;">Select a category to see subcategories</span>`;
+        if (!subs.length) tabsHtml += `<span style="font-size:0.8rem;color:var(--text-tertiary);padding:8px 12px;">No subcategories yet</span>`;
       }
       subcategoryTabs.innerHTML = tabsHtml;
 
@@ -2198,29 +1922,20 @@
         });
       });
 
-      // Items
       const items = getItemsFor(catId, state.selectedSubcategoryId);
       itemCountLabel.textContent = `${items.length} item${items.length !== 1 ? 's' : ''}`;
 
-      if (!catId && !state.searchQuery) {
-        if (items.length === 0) {
-          showEmptyState(itemsContainer, 'No belongings yet', 'Tap "+ Add New" to create your first item.');
-          return;
-        }
-      } else if (items.length === 0) {
+      if (items.length === 0) {
         showEmptyState(itemsContainer, 'No items found', state.searchQuery ? 'Try a different search term.' : 'Add your first item to this category.');
         return;
       }
 
       let html = '<div class="items-grid">';
-      for (const item of items) {
+      items.forEach(item => {
         const imgUrl = item.imageUrl || '';
         const thumbContent = imgUrl
           ? `<img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-image placeholder-icon\\'></i>'">`
           : `<i class="fas fa-image placeholder-icon"></i>`;
-        const catLabel = state.categories[item.categoryId]?.name || '';
-        const subLabel = state.subcategories[item.subcategoryId]?.name || '';
-        const subIcon = state.subcategories[item.subcategoryId]?.icon || 'fa-tag';
         html += `
           <div class="item-card" data-item-id="${item.id}">
             <div class="item-thumb">${thumbContent}</div>
@@ -2234,14 +1949,13 @@
                 <span class="meta-label"><i class="fas fa-tag"></i> Condition</span>
                 <span class="meta-value">${escapeHtml(item.condition || '—')}</span>
               </div>
-              ${!state.selectedCategoryId ? `<div class="item-path"><i class="fas ${state.categories[item.categoryId]?.icon || 'fa-folder'}"></i> ${escapeHtml(catLabel)} <i class="fas fa-chevron-right" style="font-size:0.5rem;"></i> <i class="fas ${subIcon}"></i> ${escapeHtml(subLabel)}</div>` : ''}
             </div>
             <div class="item-actions">
               <button class="btn-sm" data-edit-item="${item.id}"><i class="fas fa-pen"></i><span class="btn-label">Edit</span></button>
               <button class="btn-sm danger" data-delete-item="${item.id}"><i class="fas fa-trash"></i><span class="btn-label">Delete</span></button>
             </div>
           </div>`;
-      }
+      });
       html += '</div>';
       itemsContainer.innerHTML = html;
 
@@ -2253,10 +1967,7 @@
           const id = btn.dataset.deleteItem;
           const item = state.items[id];
           confirmDelete('Delete item?', `"${item?.name || 'This item'}" will be permanently removed.`, async () => {
-            try {
-              await remove(ref(db, `items/${id}`));
-              toast('Item deleted');
-            } catch (err) { toast('Failed to delete item', 'error'); }
+            try { await remove(ref(db, `items/${id}`)); toast('Item deleted'); } catch (err) { toast('Failed to delete item', 'error'); }
           });
         });
       });
@@ -2264,14 +1975,13 @@
 
     // ---------- Populate selects ----------
     function populateCategorySelects() {
-      const cats = Object.entries(state.categories).sort((a, b) => (a[1].name || '').localeCompare(b[1].name || ''));
-      const options = cats.map(([id, c]) => `<option value="${id}">${escapeHtml(c.name || 'Untitled')}</option>`).join('');
+      const cats = getSortedCategories();
+      const options = cats.map(c => `<option value="${c.id}">${escapeHtml(c.name || 'Untitled')}</option>`).join('');
       const addCatSelect = $('itemCategory');
       const subParentSelect = $('subParentCategory');
       if (addCatSelect) addCatSelect.innerHTML = '<option value="">Select category…</option>' + options;
       if (subParentSelect) subParentSelect.innerHTML = '<option value="">Select category…</option>' + options;
     }
-
     function populateSubcategorySelect() {
       const catId = $('itemCategory').value;
       const subSelect = $('itemSubcategory');
@@ -2280,20 +1990,20 @@
       subSelect.innerHTML = '<option value="">Select subcategory…</option>' +
         subs.map(s => `<option value="${s.id}">${escapeHtml(s.name)}</option>`).join('');
     }
-
     function populateLocationSelects() {
-      const opts = state.locations.map(l => `<option value="${l}">${escapeHtml(l)}</option>`).join('');
+      const opts = state.locations.map(l => `<option value="${escapeHtml(l)}">${escapeHtml(l)}</option>`).join('');
       const itemLoc = $('itemLocation');
       const editLoc = $('editLocation');
       if (itemLoc) itemLoc.innerHTML = opts;
       if (editLoc) editLoc.innerHTML = opts;
     }
 
-    // ---------- Icon Picker (category + subcategory) ----------
+    // ---------- Icon & Theme Pickers ----------
     function renderIconPickerFor(containerId, selectedIcon = null) {
       const grid = document.getElementById(containerId);
       if (!grid) return;
-      const icons = defaultPickerIcons;
+      let icons = defaultPickerIcons.slice();
+      if (selectedIcon && !icons.includes(selectedIcon)) icons = [selectedIcon, ...icons];
       grid.innerHTML = icons.map((ic, i) =>
         `<button type="button" class="icon-option ${(selectedIcon ? ic === selectedIcon : i === 0) ? 'selected' : ''}" data-icon="${ic}"><i class="fas ${ic}"></i></button>`
       ).join('');
@@ -2304,39 +2014,47 @@
         });
       });
     }
+    function renderThemePickerFor(containerId, selectedId) {
+      const grid = document.getElementById(containerId);
+      if (!grid) return;
+      const sel = selectedId || DEFAULT_THEME;
+      grid.innerHTML = THEMES.map(t =>
+        `<button type="button" class="theme-swatch ${t.id === sel ? 'selected' : ''}" data-theme-id="${t.id}" style="background:${t.grad}" title="${t.name}"></button>`
+      ).join('');
+      grid.querySelectorAll('.theme-swatch').forEach(btn => {
+        btn.addEventListener('click', () => {
+          grid.querySelectorAll('.theme-swatch').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+        });
+      });
+    }
 
-    // ---------- Add New Modal logic ----------
+    // ---------- Add New Modal ----------
     $('addNewBtn').addEventListener('click', () => {
       populateCategorySelects();
       populateLocationSelects();
       populateSubcategorySelect();
       renderIconPickerFor('iconPicker');
       renderIconPickerFor('subIconPicker');
+      renderThemePickerFor('themePicker', DEFAULT_THEME);
       renderLocList();
       addModal.classList.add('open');
       switchModalTab('pane-item');
     });
-
     $('addCategoryQuick').addEventListener('click', () => {
       renderIconPickerFor('iconPicker');
+      renderThemePickerFor('themePicker', DEFAULT_THEME);
       addModal.classList.add('open');
       switchModalTab('pane-category');
     });
-
     function switchModalTab(paneId) {
-      document.querySelectorAll('.modal-tab').forEach(t => {
-        t.classList.toggle('active', t.dataset.pane === paneId);
-      });
-      document.querySelectorAll('.form-pane').forEach(p => {
-        p.classList.toggle('active', p.id === paneId);
-      });
+      document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.pane === paneId));
+      document.querySelectorAll('.form-pane').forEach(p => p.classList.toggle('active', p.id === paneId));
       if (paneId === 'pane-location') renderLocList();
     }
-
     document.querySelectorAll('.modal-tab').forEach(tab => {
       tab.addEventListener('click', () => switchModalTab(tab.dataset.pane));
     });
-
     $('itemCategory').addEventListener('change', populateSubcategorySelect);
 
     $('itemImageUrl').addEventListener('input', (e) => {
@@ -2348,7 +2066,6 @@
         preview.innerHTML = '<i class="fas fa-image"></i> No image';
       }
     });
-
     $('itemImageFile').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -2378,7 +2095,6 @@
       else { $('itemCategoryError').style.display = 'none'; $('itemCategory').classList.remove('invalid'); }
       if (!subcategoryId) { $('itemSubcategoryError').style.display = 'block'; $('itemSubcategory').classList.add('invalid'); valid = false; }
       else { $('itemSubcategoryError').style.display = 'none'; $('itemSubcategory').classList.remove('invalid'); }
-
       if (!valid) return;
 
       const fileInput = $('itemImageFile');
@@ -2390,28 +2106,20 @@
       try {
         const newItemRef = push(ref(db, 'items'));
         await set(newItemRef, {
-          name,
-          categoryId,
-          subcategoryId,
-          location,
-          condition,
+          name, categoryId, subcategoryId, location, condition,
           imageUrl: imageUrl || '',
-          createdAt: Date.now(),
-          updatedAt: Date.now()
+          createdAt: Date.now(), updatedAt: Date.now()
         });
         toast('Item added successfully');
         closeModal('addModal');
         $('addItemForm').reset();
         $('addImagePreview').innerHTML = '<i class="fas fa-image"></i> No image';
-        state.dashboardMode = false;
+        state.viewMode = 'category';
         state.selectedCategoryId = categoryId;
         state.selectedSubcategoryId = subcategoryId;
         renderSidebar();
         renderMain();
-      } catch (err) {
-        console.error(err);
-        toast('Failed to add item', 'error');
-      }
+      } catch (err) { console.error(err); toast('Failed to add item', 'error'); }
     });
 
     // ---------- Add Category Submit ----------
@@ -2422,21 +2130,20 @@
       $('categoryNameError').style.display = 'none';
       $('categoryName').classList.remove('invalid');
       const icon = document.querySelector('#iconPicker .icon-option.selected')?.dataset.icon || 'fa-folder';
+      const theme = document.querySelector('#themePicker .theme-swatch.selected')?.dataset.themeId || DEFAULT_THEME;
 
       try {
         const newRef = push(ref(db, 'categories'));
-        await set(newRef, { name, icon });
+        await set(newRef, { name, icon, theme, order: Date.now() });
         toast('Category created');
         closeModal('addModal');
         $('addCategoryForm').reset();
-        state.dashboardMode = false;
+        state.viewMode = 'category';
         state.selectedCategoryId = newRef.key;
         state.selectedSubcategoryId = null;
         renderSidebar();
         renderMain();
-      } catch (err) {
-        toast('Failed to create category', 'error');
-      }
+      } catch (err) { toast('Failed to create category', 'error'); }
     });
 
     // ---------- Add Subcategory Submit ----------
@@ -2455,18 +2162,16 @@
 
       try {
         const newRef = push(ref(db, 'subcategories'));
-        await set(newRef, { name, categoryId: parentId, icon });
+        await set(newRef, { name, categoryId: parentId, icon, order: Date.now() });
         toast('Subcategory created');
         closeModal('addModal');
         $('addSubcategoryForm').reset();
-        state.dashboardMode = false;
+        state.viewMode = 'category';
         state.selectedCategoryId = parentId;
         state.selectedSubcategoryId = newRef.key;
         renderSidebar();
         renderMain();
-      } catch (err) {
-        toast('Failed to create subcategory', 'error');
-      }
+      } catch (err) { toast('Failed to create subcategory', 'error'); }
     });
 
     // ---------- Edit Item Modal ----------
@@ -2480,11 +2185,9 @@
       populateLocationSelects();
       $('editLocation').value = item.location || state.locations[0];
       const preview = $('editImagePreview');
-      if (item.imageUrl) {
-        preview.innerHTML = `<img src="${escapeHtml(item.imageUrl)}" alt="current">`;
-      } else {
-        preview.innerHTML = '<i class="fas fa-image"></i> No image';
-      }
+      preview.innerHTML = item.imageUrl
+        ? `<img src="${escapeHtml(item.imageUrl)}" alt="current">`
+        : '<i class="fas fa-image"></i> No image';
       editModal.classList.add('open');
 
       $('editImageUrl').oninput = (e) => {
@@ -2496,7 +2199,6 @@
         }
       };
     }
-
     $('editItemForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const id = $('editItemId').value;
@@ -2505,49 +2207,81 @@
       const location = $('editLocation').value;
       const condition = $('editCondition').value.trim();
       const newImageUrl = $('editImageUrl').value.trim();
-      const updates = {
-        name,
-        location,
-        condition,
-        updatedAt: Date.now()
-      };
+      const updates = { name, location, condition, updatedAt: Date.now() };
       if (newImageUrl) updates.imageUrl = newImageUrl;
-
       try {
         await update(ref(db, `items/${id}`), updates);
         toast('Item updated');
         closeModal('editModal');
-      } catch (err) {
-        toast('Failed to update item', 'error');
-      }
+      } catch (err) { toast('Failed to update item', 'error'); }
+    });
+
+    // ---------- Edit Category Modal ----------
+    function openEditCategoryModal(catId) {
+      const cat = state.categories[catId];
+      if (!cat) return;
+      $('editCategoryId').value = catId;
+      $('editCategoryName').value = cat.name || '';
+      renderIconPickerFor('editCatIconPicker', cat.icon || 'fa-folder');
+      renderThemePickerFor('editThemePicker', cat.theme || DEFAULT_THEME);
+      editCategoryModal.classList.add('open');
+    }
+    $('editCategoryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = $('editCategoryId').value;
+      const name = $('editCategoryName').value.trim();
+      if (!name) { toast('Category name is required', 'error'); return; }
+      const icon = document.querySelector('#editCatIconPicker .icon-option.selected')?.dataset.icon || 'fa-folder';
+      const theme = document.querySelector('#editThemePicker .theme-swatch.selected')?.dataset.themeId || DEFAULT_THEME;
+      try {
+        await update(ref(db, `categories/${id}`), { name, icon, theme });
+        toast('Category updated');
+        closeModal('editCategoryModal');
+      } catch (err) { toast('Failed to update category', 'error'); }
+    });
+
+    // ---------- Edit Subcategory Modal ----------
+    function openEditSubcategoryModal(subId) {
+      const sub = state.subcategories[subId];
+      if (!sub) return;
+      $('editSubcategoryId').value = subId;
+      $('editSubcategoryName').value = sub.name || '';
+      renderIconPickerFor('editSubIconPicker', sub.icon || 'fa-tag');
+      editSubcategoryModal.classList.add('open');
+    }
+    $('editSubcategoryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = $('editSubcategoryId').value;
+      const name = $('editSubcategoryName').value.trim();
+      if (!name) { toast('Subcategory name is required', 'error'); return; }
+      const icon = document.querySelector('#editSubIconPicker .icon-option.selected')?.dataset.icon || 'fa-tag';
+      try {
+        await update(ref(db, `subcategories/${id}`), { name, icon });
+        toast('Subcategory updated');
+        closeModal('editSubcategoryModal');
+      } catch (err) { toast('Failed to update subcategory', 'error'); }
     });
 
     // ---------- Search ----------
     searchInput.addEventListener('input', (e) => {
       state.searchQuery = e.target.value.trim();
-      if (state.dashboardMode) {
-        state.dashboardMode = false;
-        renderSidebar();
+      if (state.viewMode !== 'category') {
+        // Don't switch views; search only applies to category view
+        return;
       }
       renderMain();
     });
 
     // ---------- Refresh ----------
-    $('refreshBtn').addEventListener('click', () => {
-      toast('Refreshing data…');
-      renderMain();
-    });
+    $('refreshBtn').addEventListener('click', () => { toast('Refreshing data…'); renderMain(); });
 
     // ---------- Modal close handlers ----------
     document.querySelectorAll('[data-close]').forEach(btn => {
       btn.addEventListener('click', () => closeModal(btn.dataset.close));
     });
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) overlay.classList.remove('open');
-      });
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
     });
-
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
@@ -2566,13 +2300,13 @@
       document.getElementById('topnav').classList.toggle('scrolled', window.scrollY > 10);
     });
 
-    // ---------- Initialization (after auth) ----------
+    // ---------- Init ----------
     function init() {
       populateLocationSelects();
       renderIconPickerFor('iconPicker');
       renderIconPickerFor('subIconPicker');
+      renderThemePickerFor('themePicker', DEFAULT_THEME);
     }
-
     init();
   </script>
 </body>

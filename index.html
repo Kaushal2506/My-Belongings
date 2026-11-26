@@ -29,6 +29,8 @@
       --danger-soft: #fdeaea;
       --success: #1e9e6a;
       --success-soft: #e6f7ef;
+      --pin: #7c3aed;
+      --pin-soft: #f3e8ff;
       --shadow-sm: 0 1px 3px rgba(26, 28, 34, 0.03), 0 1px 2px rgba(26, 28, 34, 0.04);
       --shadow-md: 0 4px 16px rgba(26, 28, 34, 0.06), 0 2px 6px rgba(26, 28, 34, 0.03);
       --shadow-lg: 0 12px 40px rgba(26, 28, 34, 0.1), 0 4px 12px rgba(26, 28, 34, 0.04);
@@ -252,6 +254,14 @@
 
     .sidebar-divider { height: 1px; background: var(--border-light); margin: 10px 6px; }
 
+    .sidebar-badge {
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: white;
+      font-size: 0.65rem; font-weight: 700;
+      padding: 2px 8px; border-radius: 20px;
+      flex-shrink: 0; min-width: 22px; text-align: center;
+    }
+
     .sidebar-footer {
       padding: 12px 18px;
       border-top: 1px solid var(--border-light);
@@ -332,7 +342,7 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 1.05rem; flex-shrink: 0;
     }
-    .dash-cat-name { font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; flex: 1; }
+    .dash-cat-name { font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .dash-cat-actions { display: flex; gap: 4px; flex-shrink: 0; }
     .dash-action-btn {
       width: 30px; height: 30px; border-radius: 8px; border: none;
@@ -402,6 +412,49 @@
     .attention-title .sep { color: var(--text-tertiary); font-weight: 400; margin: 0 4px; }
     .attention-cond { font-size: 0.78rem; color: var(--accent-4); font-weight: 600; display: flex; align-items: center; gap: 6px; }
     .attention-cond.empty-cond { color: var(--danger); }
+
+    /* ==================== HIDDEN PAGE ==================== */
+    .hidden-page-head {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 20px;
+      background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+      border-radius: var(--radius-lg);
+      border: 1px solid #e9d5ff;
+      margin-bottom: 24px;
+    }
+    .hidden-lock-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
+    }
+    .hidden-head-text { flex: 1; min-width: 0; }
+    .hidden-head-text h2 { font-size: 1.1rem; font-weight: 800; margin: 0; }
+    .hidden-head-text p { font-size: 0.78rem; color: #7c3aed; margin-top: 2px; font-weight: 500; }
+
+    .hidden-list { display: flex; flex-direction: column; gap: 8px; }
+    .hidden-row {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .hidden-row-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: var(--bg);
+      color: var(--text-secondary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; flex-shrink: 0;
+      overflow: hidden; border: 1px solid var(--border-light);
+    }
+    .hidden-row-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .hidden-row-content { flex: 1; min-width: 0; }
+    .hidden-row-title { font-weight: 600; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .hidden-row-sub { font-size: 0.72rem; color: var(--text-tertiary); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     /* ==================== LOCATIONS ACCORDION ==================== */
     .loc-accordion {
@@ -572,6 +625,50 @@
     }
     .modal-close:hover { background: var(--border-light); }
 
+    /* PIN modal specific */
+    .pin-modal .modal { max-width: 380px; text-align: center; }
+    .pin-modal .pin-icon {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin: 0 auto 18px;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+    }
+    .pin-modal h3 { margin-bottom: 6px; }
+    .pin-modal p { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.4; }
+    .pin-modal .pin-input {
+      width: 100%; height: 60px; border-radius: 16px;
+      border: 2px solid var(--border-default);
+      background: var(--bg);
+      padding: 0 16px;
+      font-size: 1.6rem; font-weight: 800;
+      letter-spacing: 0.5em;
+      text-align: center;
+      font-family: var(--font);
+      color: var(--text-primary);
+      outline: none;
+      transition: all var(--transition);
+    }
+    .pin-modal .pin-input:focus {
+      border-color: var(--pin);
+      background: white;
+      box-shadow: 0 0 0 4px var(--pin-soft);
+    }
+    .pin-modal .pin-error {
+      font-size: 0.78rem; color: var(--danger); margin-top: 10px;
+      display: none; font-weight: 600;
+    }
+    .pin-modal .pin-error.show { display: block; }
+    @keyframes pinShake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+    .pin-modal .modal.shake { animation: pinShake 0.4s; }
+
     /* ==================== FORMS ==================== */
     .form-group { margin-bottom: 16px; }
     .form-label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; letter-spacing: 0.01em; }
@@ -705,6 +802,7 @@
     }
     .toast.success { background: linear-gradient(135deg, #1e9e6a, #22b578); }
     .toast.error { background: linear-gradient(135deg, #e03e3e, #e85d75); }
+    .toast.info { background: linear-gradient(135deg, #7c3aed, #a855f7); }
     .toast i { font-size: 0.9rem; }
     @keyframes toastIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -756,7 +854,10 @@
       .icon-grid { grid-template-columns: repeat(5, 1fr); }
       .login-card { padding: 32px 24px; }
       .cat-reorder { opacity: 0.7; }
-      .dash-sub-action-btn { width: 24px; height: 24px; font-size: 0.6rem; }
+      .dash-sub-action-btn { width: 20px; height: 20px; font-size: 0.5rem; }
+      .hidden-page-head { padding: 14px 16px; gap: 12px; }
+      .hidden-lock-icon { width: 42px; height: 42px; font-size: 1.05rem; }
+      .hidden-head-text h2 { font-size: 1rem; }
     }
 
     @media (max-width: 400px) {
@@ -764,7 +865,8 @@
       .item-meta { gap: 6px 12px; font-size: 0.74rem; }
       .topnav { padding: 0 12px; }
       .icon-grid { grid-template-columns: repeat(4, 1fr); }
-      .dash-sub-action-btn { width: 22px; height: 22px; font-size: 0.55rem; }
+      .dash-sub-action-btn { width: 19px; height: 19px; font-size: 0.48rem; }
+      .dash-sub-count { font-size: 0.65rem; padding: 2px 8px; }
     }
   </style>
 </head>
@@ -1073,6 +1175,23 @@
     </div>
   </div>
 
+  <!-- ==================== PIN MODAL ==================== -->
+  <div class="modal-overlay pin-modal" id="pinModal">
+    <div class="modal">
+      <div class="pin-icon"><i class="fas fa-lock"></i></div>
+      <h3>PIN Protected</h3>
+      <p>Enter the 4-digit PIN to access your hidden belongings.</p>
+      <form id="pinForm">
+        <input type="password" class="pin-input" id="pinInput" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off">
+        <div class="pin-error" id="pinError">Incorrect PIN. Try again.</div>
+        <div class="form-actions" style="justify-content:center; margin-top: 22px;">
+          <button type="button" class="btn-secondary" data-close="pinModal">Cancel</button>
+          <button type="submit" class="btn-primary"><i class="fas fa-unlock"></i> Unlock</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- ==================== CONFIRMATION MODAL ==================== -->
   <div class="modal-overlay confirm-modal" id="confirmModal">
     <div class="modal">
@@ -1099,7 +1218,6 @@
       getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    // ---------- Firebase Config ----------
     const firebaseConfig = {
       apiKey: "AIzaSyAbMv8SFBlEO0Ucl-QTbGU2SvN0bC-ODDg",
       authDomain: "my-belongings-ee454.firebaseapp.com",
@@ -1114,7 +1232,10 @@
     const db = getDatabase(app);
     const auth = getAuth(app);
 
-    // ---------- Themes (55 premium themes) ----------
+    // ---------- Secret PIN ----------
+    const SECRET_PIN = '1259';
+
+    // ---------- Themes ----------
     const THEMES = [
       { id:'royal-blue', name:'Royal Blue', primary:'#4361ee', soft:'#eef1ff', grad:'linear-gradient(135deg,#4361ee,#3a0ca3)' },
       { id:'ocean', name:'Ocean', primary:'#0077b6', soft:'#e3f2fd', grad:'linear-gradient(135deg,#0077b6,#00b4d8)' },
@@ -1176,7 +1297,7 @@
     const DEFAULT_THEME = 'royal-blue';
     function getTheme(id) { return themeMap[id] || themeMap[DEFAULT_THEME]; }
 
-    // ---------- App State ----------
+    // ---------- State ----------
     const state = {
       categories: {},
       subcategories: {},
@@ -1188,8 +1309,9 @@
       loading: true,
       connectionOk: true,
       user: null,
-      viewMode: 'dashboard', // dashboard | category | locations | imagelinks
+      viewMode: 'dashboard',
       openLocation: null,
+      pinUnlocked: false,
       listenersAttached: false
     };
 
@@ -1207,6 +1329,7 @@
     const editModal = $('editModal');
     const editCategoryModal = $('editCategoryModal');
     const editSubcategoryModal = $('editSubcategoryModal');
+    const pinModal = $('pinModal');
     const confirmModal = $('confirmModal');
     const toastContainer = $('toastContainer');
     const sidebar = $('sidebar');
@@ -1221,27 +1344,139 @@
     const loginErrorText = $('loginErrorText');
     const loginBtn = $('loginBtn');
 
-    // ---------- Icon Picker (expanded) ----------
+    // ---------- Icons ----------
     const defaultPickerIcons = [
-      'fa-shirt', 'fa-vest', 'fa-socks', 'fa-hat-cowboy', 'fa-shoe-prints',
-      'fa-bag-shopping', 'fa-pen', 'fa-book', 'fa-file-lines', 'fa-passport',
-      'fa-ring', 'fa-gem', 'fa-glasses', 'fa-watch', 'fa-key',
-      'fa-wallet', 'fa-laptop', 'fa-mobile-screen', 'fa-headphones', 'fa-camera',
-      'fa-house', 'fa-couch', 'fa-bed', 'fa-kitchen-set', 'fa-box',
-      'fa-boxes-stacked', 'fa-folder', 'fa-tag', 'fa-star', 'fa-heart',
-      'fa-crown', 'fa-archive', 'fa-gift', 'fa-paw', 'fa-leaf',
-      'fa-briefcase', 'fa-backpack', 'fa-suitcase', 'fa-umbrella', 'fa-clock',
-      'fa-mug-hot', 'fa-utensils', 'fa-gamepad', 'fa-tv', 'fa-plug',
-      'fa-bicycle', 'fa-car', 'fa-plane', 'fa-music', 'fa-guitar',
-      'fa-futbol', 'fa-basketball', 'fa-fire', 'fa-sun', 'fa-cloud',
-      'fa-bookmark', 'fa-clipboard', 'fa-scissors', 'fa-paperclip', 'fa-calculator'
-    ];
+  // CLOTHING & UNIFORMS
+  'fa-shirt', 'fa-vest', 'fa-socks', 'fa-hat-cowboy',
+  'fa-shoe-prints', 'fa-mitten', 'fa-mask', 'fa-glasses',
+  'fa-user-tie', 'fa-person', 'fa-person-dress',
+  'fa-user-astronaut', 'fa-person-walking', 'fa-person-running',
+
+  // FOOTWEAR
+  'fa-shoe-prints', 'fa-person-walking', 'fa-person-running',
+  'fa-person-hiking', 'fa-person-biking', 'fa-person-swimming',
+
+  // ACCESSORIES
+  'fa-ring', 'fa-gem', 'fa-key', 'fa-wallet',
+  'fa-glasses', 'fa-crown', 'fa-clock', 'fa-user-tie',
+  'fa-hat-cowboy', 'fa-umbrella',
+
+  // MERCHANT NAVY & PROFESSIONS
+  'fa-anchor', 'fa-ship', 'fa-sailboat', 'fa-compass',
+  'fa-plane', 'fa-helicopter', 'fa-user-tie',
+  'fa-user-astronaut', 'fa-user-graduate', 'fa-user-doctor',
+  'fa-user-nurse', 'fa-user-shield', 'fa-user-gear',
+  'fa-helmet-safety', 'fa-life-ring', 'fa-fire-extinguisher',
+  'fa-industry', 'fa-gears', 'fa-wrench',
+
+  // BAGS & LUGGAGE
+  'fa-bag-shopping', 'fa-suitcase',
+  'fa-briefcase', 'fa-box', 'fa-box-open',
+  'fa-boxes-stacked', 'fa-basket-shopping',
+  'fa-cart-shopping', 'fa-folder', 'fa-folder-open',
+
+  // ELECTRONICS & DEVICES
+  'fa-laptop', 'fa-mobile-screen-button',
+  'fa-tablet-screen-button', 'fa-desktop',
+  'fa-keyboard', 'fa-computer-mouse',
+  'fa-headphones', 'fa-headset', 'fa-camera',
+  'fa-video', 'fa-tv', 'fa-gamepad',
+  'fa-plug', 'fa-charging-station',
+  'fa-battery-full', 'fa-battery-half',
+  'fa-power-off', 'fa-lightbulb', 'fa-print',
+  'fa-hard-drive', 'fa-microchip',
+  'fa-wifi', 'fa-tower-broadcast',
+
+  // STUDY & BOOKS
+  'fa-book', 'fa-book-open', 'fa-bookmark',
+  'fa-graduation-cap', 'fa-school', 'fa-chalkboard',
+  'fa-brain', 'fa-lightbulb', 'fa-file-lines',
+  'fa-note-sticky', 'fa-clipboard',
+  'fa-clipboard-list', 'fa-clipboard-check',
+
+  // STATIONERY & DRAWING
+  'fa-pen', 'fa-pen-to-square', 'fa-pencil',
+  'fa-highlighter', 'fa-marker', 'fa-eraser',
+  'fa-ruler', 'fa-ruler-combined', 'fa-compass-drafting',
+  'fa-scissors', 'fa-paperclip', 'fa-thumbtack',
+  'fa-calculator', 'fa-paint-brush',
+  'fa-palette', 'fa-pen-nib',
+
+  // DOCUMENTS & IDENTIFICATION
+  'fa-file', 'fa-file-lines', 'fa-file-pdf',
+  'fa-file-word', 'fa-file-excel', 'fa-file-image',
+  'fa-folder', 'fa-folder-open',
+  'fa-passport', 'fa-id-card', 'fa-address-card',
+  'fa-id-badge', 'fa-certificate', 'fa-stamp',
+  'fa-signature', 'fa-envelope', 'fa-receipt',
+  'fa-list-check',
+
+  // SPORTS & FITNESS
+  'fa-futbol', 'fa-basketball', 'fa-volleyball',
+  'fa-baseball', 'fa-football',
+  'fa-table-tennis-paddle-ball',
+  'fa-person-swimming', 'fa-person-running',
+  'fa-person-biking', 'fa-person-hiking',
+  'fa-dumbbell', 'fa-weight-hanging',
+  'fa-heart-pulse', 'fa-stopwatch',
+  'fa-medal', 'fa-trophy', 'fa-award',
+  'fa-bicycle', 'fa-mountain',
+
+  // ENGINEERING & TOOLS
+  'fa-gear', 'fa-gears', 'fa-wrench',
+  'fa-screwdriver', 'fa-screwdriver-wrench',
+  'fa-hammer', 'fa-toolbox', 'fa-microscope',
+  'fa-flask', 'fa-gauge', 'fa-bolt',
+  'fa-magnet', 'fa-fan', 'fa-cube',
+  'fa-cubes', 'fa-diagram-project',
+  'fa-temperature-high', 'fa-temperature-half',
+
+  // BEDROOM & BEDDING
+  'fa-bed', 'fa-couch', 'fa-chair',
+  'fa-house', 'fa-house-user', 'fa-door-closed',
+  'fa-lightbulb', 'fa-fan', 'fa-box', 'fa-box-open',
+
+  // HOUSEHOLD & KITCHEN
+  'fa-utensils', 'fa-mug-hot', 'fa-wine-bottle',
+  'fa-wine-glass', 'fa-flask', 'fa-vial',
+  'fa-mug-hot', 'fa-prescription-bottle',
+  'fa-prescription-bottle-medical',
+  'fa-bath', 'fa-toilet', 'fa-broom',
+  'fa-trash', 'fa-recycle', 'fa-soap',
+  'fa-shower', 'fa-pump-soap',
+
+  // PERSONAL CARE
+  'fa-tooth', 'fa-droplet', 'fa-spray-can',
+  'fa-pills', 'fa-hand', 'fa-heart',
+  'fa-sun', 'fa-umbrella', 'fa-glasses',
+
+  // TRANSPORT
+  'fa-car', 'fa-bus', 'fa-truck',
+  'fa-motorcycle', 'fa-plane', 'fa-train',
+  'fa-ship', 'fa-bicycle',
+
+  // MUSIC & ENTERTAINMENT
+  'fa-music', 'fa-guitar', 'fa-gamepad',
+  'fa-tv', 'fa-headphones', 'fa-camera',
+  'fa-image', 'fa-images',
+
+  // STORAGE & MISCELLANEOUS
+  'fa-box-archive', 'fa-boxes-stacked',
+  'fa-tag', 'fa-tags', 'fa-star',
+  'fa-heart', 'fa-bookmark', 'fa-gift',
+  'fa-clock', 'fa-calendar', 'fa-calendar-days',
+  'fa-lock', 'fa-unlock', 'fa-paw',
+  'fa-leaf', 'fa-fire', 'fa-snowflake',
+  'fa-cloud', 'fa-water'
+];
+
 
     // ---------- Utilities ----------
     function toast(message, type = 'success') {
       const div = document.createElement('div');
       div.className = `toast ${type}`;
-      div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}"></i> ${message}`;
+      const icon = type === 'success' ? 'fa-circle-check' : (type === 'info' ? 'fa-circle-info' : 'fa-circle-exclamation');
+      div.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
       toastContainer.appendChild(div);
       setTimeout(() => { div.style.opacity = '0'; div.style.transition = 'opacity 0.3s'; setTimeout(() => div.remove(), 300); }, 3200);
     }
@@ -1274,6 +1509,78 @@
     }
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
+    // ---------- Hidden-state helpers ----------
+    function isCategoryHidden(catId) {
+      return state.categories[catId]?.hidden === true;
+    }
+    function isSubcategoryHidden(subId) {
+      const sub = state.subcategories[subId];
+      if (!sub) return true;
+      return sub.hidden === true || isCategoryHidden(sub.categoryId);
+    }
+    function isItemHidden(item) {
+      if (!item) return true;
+      if (item.hidden === true) return true;
+      return isSubcategoryHidden(item.subcategoryId);
+    }
+
+    // ---------- Sorting + visible lists ----------
+    function getAllCategories() {
+      return Object.entries(state.categories).map(([id, c]) => ({ id, ...c })).sort((a, b) => {
+        const oa = typeof a.order === 'number' ? a.order : null;
+        const ob = typeof b.order === 'number' ? b.order : null;
+        if (oa !== null && ob !== null) return oa - ob;
+        if (oa !== null) return -1;
+        if (ob !== null) return 1;
+        return (a.name || '').localeCompare(b.name || '');
+      });
+    }
+    function getSortedCategories() { return getAllCategories().filter(c => c.hidden !== true); }
+    function getHiddenCategories() { return getAllCategories().filter(c => c.hidden === true); }
+
+    function getAllSubcategoriesForCategory(catId) {
+      return Object.entries(state.subcategories)
+        .filter(([_, s]) => s.categoryId === catId)
+        .map(([id, s]) => ({ id, ...s }))
+        .sort((a, b) => {
+          const oa = typeof a.order === 'number' ? a.order : null;
+          const ob = typeof b.order === 'number' ? b.order : null;
+          if (oa !== null && ob !== null) return oa - ob;
+          if (oa !== null) return -1;
+          if (ob !== null) return 1;
+          return (a.name || '').localeCompare(b.name || '');
+        });
+    }
+    function getSubcategoriesForCategory(catId) {
+      return getAllSubcategoriesForCategory(catId).filter(s => s.hidden !== true);
+    }
+    function getHiddenSubcategories() {
+      return Object.entries(state.subcategories)
+        .filter(([_, s]) => s.hidden === true)
+        .map(([id, s]) => ({ id, ...s }));
+    }
+    function getHiddenItems() {
+      return Object.entries(state.items)
+        .filter(([_, i]) => i.hidden === true)
+        .map(([id, i]) => ({ id, ...i }));
+    }
+
+    function getItemsFor(categoryId, subcategoryId = null) {
+      let items = Object.entries(state.items).map(([id, v]) => ({ id, ...v }));
+      if (categoryId) items = items.filter(i => i.categoryId === categoryId);
+      if (subcategoryId) items = items.filter(i => i.subcategoryId === subcategoryId);
+      items = items.filter(i => !isItemHidden(i));
+      if (state.searchQuery) {
+        const q = state.searchQuery.toLowerCase();
+        items = items.filter(i =>
+          (i.name || '').toLowerCase().includes(q) ||
+          (i.condition || '').toLowerCase().includes(q) ||
+          (i.location || '').toLowerCase().includes(q)
+        );
+      }
+      return items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    }
+
     // ---------- Auth ----------
     onAuthStateChanged(auth, (user) => {
       state.user = user;
@@ -1287,6 +1594,7 @@
       } else {
         loginScreen.classList.remove('hidden');
         state.listenersAttached = false;
+        state.pinUnlocked = false;
       }
     });
 
@@ -1318,11 +1626,15 @@
 
     $('logoutBtn').addEventListener('click', () => {
       confirmDelete('Sign out?', 'You will need to sign in again to access your belongings.', async () => {
-        try { await signOut(auth); toast('Signed out'); } catch (err) { toast('Failed to sign out', 'error'); }
+        try {
+          state.pinUnlocked = false;
+          await signOut(auth);
+          toast('Signed out');
+        } catch (err) { toast('Failed to sign out', 'error'); }
       });
     });
 
-    // ---------- Location Management ----------
+    // ---------- Locations ----------
     function loadLocations() {
       onValue(ref(db, 'locations'), (snapshot) => {
         const val = snapshot.val();
@@ -1370,7 +1682,7 @@
       saveLocations([...state.locations, val]);
     });
 
-    // ---------- Firebase Listeners ----------
+    // ---------- Firebase listeners ----------
     function listenToData() {
       onValue(ref(db, 'categories'), (snapshot) => {
         state.categories = snapshot.val() || {};
@@ -1412,48 +1724,9 @@
       connectionText.textContent = ok ? 'Connected' : 'Offline';
     }
 
-    // ---------- Sorting helpers ----------
-    function getSortedCategories() {
-      return Object.entries(state.categories).map(([id, c]) => ({ id, ...c })).sort((a, b) => {
-        const oa = typeof a.order === 'number' ? a.order : null;
-        const ob = typeof b.order === 'number' ? b.order : null;
-        if (oa !== null && ob !== null) return oa - ob;
-        if (oa !== null) return -1;
-        if (ob !== null) return 1;
-        return (a.name || '').localeCompare(b.name || '');
-      });
-    }
-    function getSubcategoriesForCategory(catId) {
-      return Object.entries(state.subcategories)
-        .filter(([_, s]) => s.categoryId === catId)
-        .map(([id, s]) => ({ id, ...s }))
-        .sort((a, b) => {
-          const oa = typeof a.order === 'number' ? a.order : null;
-          const ob = typeof b.order === 'number' ? b.order : null;
-          if (oa !== null && ob !== null) return oa - ob;
-          if (oa !== null) return -1;
-          if (ob !== null) return 1;
-          return (a.name || '').localeCompare(b.name || '');
-        });
-    }
-    function getItemsFor(categoryId, subcategoryId = null) {
-      let items = Object.entries(state.items).map(([id, v]) => ({ id, ...v }));
-      if (categoryId) items = items.filter(i => i.categoryId === categoryId);
-      if (subcategoryId) items = items.filter(i => i.subcategoryId === subcategoryId);
-      if (state.searchQuery) {
-        const q = state.searchQuery.toLowerCase();
-        items = items.filter(i =>
-          (i.name || '').toLowerCase().includes(q) ||
-          (i.condition || '').toLowerCase().includes(q) ||
-          (i.location || '').toLowerCase().includes(q)
-        );
-      }
-      return items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-    }
-
     // ---------- Reordering ----------
     async function moveCategory(catId, dir) {
-      const list = getSortedCategories();
+      const list = getAllCategories();
       const idx = list.findIndex(c => c.id === catId);
       const newIdx = idx + dir;
       if (idx < 0 || newIdx < 0 || newIdx >= list.length) return;
@@ -1467,7 +1740,7 @@
     async function moveSubcategory(subId, dir) {
       const sub = state.subcategories[subId];
       if (!sub) return;
-      const list = getSubcategoriesForCategory(sub.categoryId);
+      const list = getAllSubcategoriesForCategory(sub.categoryId);
       const idx = list.findIndex(s => s.id === subId);
       const newIdx = idx + dir;
       if (idx < 0 || newIdx < 0 || newIdx >= list.length) return;
@@ -1479,9 +1752,28 @@
       try { await update(ref(db), updates); } catch (e) { toast('Failed to reorder', 'error'); }
     }
 
-    // ---------- Render Sidebar ----------
+    // ---------- Hide / Unhide ----------
+    async function hideEntity(path, label = 'Item') {
+      try {
+        await update(ref(db, path), { hidden: true });
+        toast(`${label} hidden`, 'info');
+      } catch (err) { toast(`Failed to hide ${label.toLowerCase()}`, 'error'); }
+    }
+    async function unhideEntity(path, label = 'Item') {
+      try {
+        await update(ref(db, path), { hidden: false });
+        toast(`${label} restored`, 'success');
+      } catch (err) { toast(`Failed to restore ${label.toLowerCase()}`, 'error'); }
+    }
+
+    // ---------- Render sidebar ----------
     function renderSidebar() {
       const cats = getSortedCategories();
+      const hiddenCount =
+        Object.values(state.categories).filter(c => c.hidden === true).length +
+        Object.values(state.subcategories).filter(s => s.hidden === true).length +
+        Object.values(state.items).filter(i => i.hidden === true).length;
+
       let html = '';
 
       // Dashboard
@@ -1495,9 +1787,7 @@
         const active = state.viewMode === 'category' && state.selectedCategoryId === cat.id;
         const iconClass = cat.icon || 'fa-folder';
         const theme = getTheme(cat.theme);
-        const styleAttr = active
-          ? `style="background:${theme.soft};color:${theme.primary};"`
-          : '';
+        const styleAttr = active ? `style="background:${theme.soft};color:${theme.primary};"` : '';
         html += `
           <div class="sidebar-item ${active ? 'active' : ''}" data-cat-id="${cat.id}" ${styleAttr} role="button" tabindex="0">
             <span class="cat-icon"><i class="fas ${iconClass}"></i></span>
@@ -1509,12 +1799,22 @@
           </div>`;
       });
 
-      // Divider + extra views
       html += `<div class="sidebar-divider"></div>`;
+
+      // Hidden (above Locations)
+      html += `<div class="sidebar-item ${state.viewMode === 'hidden' ? 'active' : ''}" data-view="hidden" role="button" tabindex="0">
+        <span class="cat-icon"><i class="fas ${state.pinUnlocked ? 'fa-lock-open' : 'fa-lock'}" style="color:var(--pin);"></i></span>
+        <span class="cat-name">Hidden</span>
+        ${hiddenCount > 0 ? `<span class="sidebar-badge">${hiddenCount}</span>` : ''}
+      </div>`;
+
+      // Locations
       html += `<div class="sidebar-item ${state.viewMode === 'locations' ? 'active' : ''}" data-view="locations" role="button" tabindex="0">
         <span class="cat-icon"><i class="fas fa-location-dot" style="color:#0d9e8a;"></i></span>
         <span class="cat-name">Locations</span>
       </div>`;
+
+      // Image Links
       html += `<div class="sidebar-item ${state.viewMode === 'imagelinks' ? 'active' : ''}" data-view="imagelinks" role="button" tabindex="0">
         <span class="cat-icon"><i class="fas fa-link" style="color:#e85d75;"></i></span>
         <span class="cat-name">Image Links</span>
@@ -1522,7 +1822,6 @@
 
       sidebarNav.innerHTML = html;
 
-      // Dashboard click
       sidebarNav.querySelectorAll('[data-view="dashboard"]').forEach(el => {
         el.addEventListener('click', () => {
           state.viewMode = 'dashboard';
@@ -1536,7 +1835,21 @@
         });
       });
 
-      // Locations
+      sidebarNav.querySelectorAll('[data-view="hidden"]').forEach(el => {
+        el.addEventListener('click', () => {
+          closeMobileSidebar();
+          if (!state.pinUnlocked) {
+            openPinModal();
+            return;
+          }
+          state.viewMode = 'hidden';
+          state.selectedCategoryId = null;
+          state.selectedSubcategoryId = null;
+          renderSidebar();
+          renderMain();
+        });
+      });
+
       sidebarNav.querySelectorAll('[data-view="locations"]').forEach(el => {
         el.addEventListener('click', () => {
           state.viewMode = 'locations';
@@ -1549,7 +1862,6 @@
         });
       });
 
-      // Image Links
       sidebarNav.querySelectorAll('[data-view="imagelinks"]').forEach(el => {
         el.addEventListener('click', () => {
           state.viewMode = 'imagelinks';
@@ -1561,7 +1873,6 @@
         });
       });
 
-      // Category click
       sidebarNav.querySelectorAll('[data-cat-id]').forEach(el => {
         el.addEventListener('click', (e) => {
           if (e.target.closest('.cat-move-btn')) return;
@@ -1576,7 +1887,6 @@
         });
       });
 
-      // Category reorder buttons
       sidebarNav.querySelectorAll('[data-move-cat-up]').forEach(btn => {
         btn.addEventListener('click', (e) => { e.stopPropagation(); moveCategory(btn.dataset.moveCatUp, -1); });
       });
@@ -1589,10 +1899,39 @@
       sidebarOverlay.classList.remove('open');
     }
 
+    // ---------- PIN ----------
+    function openPinModal() {
+      $('pinInput').value = '';
+      $('pinError').classList.remove('show');
+      pinModal.classList.add('open');
+      setTimeout(() => $('pinInput').focus(), 120);
+    }
+    $('pinForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = $('pinInput').value.trim();
+      if (val === SECRET_PIN) {
+        state.pinUnlocked = true;
+        closeModal('pinModal');
+        state.viewMode = 'hidden';
+        state.selectedCategoryId = null;
+        state.selectedSubcategoryId = null;
+        renderSidebar();
+        renderMain();
+        toast('Section unlocked', 'info');
+      } else {
+        $('pinError').classList.add('show');
+        $('pinInput').value = '';
+        $('pinInput').focus();
+        const modalEl = pinModal.querySelector('.modal');
+        modalEl.classList.add('shake');
+        setTimeout(() => modalEl.classList.remove('shake'), 400);
+      }
+    });
+
     // ---------- Dashboard ----------
     function renderDashboard() {
       pageTitle.textContent = 'Dashboard';
-      const totalItems = Object.keys(state.items).length;
+      const totalItems = Object.values(state.items).filter(i => !isItemHidden(i)).length;
       itemCountLabel.textContent = `${totalItems} item${totalItems !== 1 ? 's' : ''} total`;
       searchWrap.style.display = 'none';
       tabsWrap.style.display = 'none';
@@ -1608,7 +1947,7 @@
       } else {
         cats.forEach((cat) => {
           const subs = getSubcategoriesForCategory(cat.id);
-          const catItems = Object.values(state.items).filter(i => i.categoryId === cat.id);
+          const catItems = Object.values(state.items).filter(i => i.categoryId === cat.id && !isItemHidden(i));
           const catIcon = cat.icon || 'fa-folder';
           const theme = getTheme(cat.theme);
           html += `<div class="dash-cat-card" style="--cat-primary:${theme.primary};--cat-soft:${theme.soft};--cat-grad:${theme.grad};">
@@ -1616,6 +1955,7 @@
               <div class="dash-cat-icon"><i class="fas ${catIcon}"></i></div>
               <div class="dash-cat-name">${escapeHtml(cat.name || 'Untitled')}</div>
               <div class="dash-cat-actions">
+                <button class="dash-action-btn" data-hide-cat="${cat.id}" title="Hide category"><i class="fas fa-eye-slash"></i></button>
                 <button class="dash-action-btn" data-edit-cat="${cat.id}" title="Edit category"><i class="fas fa-pencil"></i></button>
                 <button class="dash-action-btn danger" data-del-cat="${cat.id}" title="Delete category"><i class="fas fa-trash"></i></button>
               </div>
@@ -1625,7 +1965,7 @@
           } else {
             html += `<div class="dash-subs">`;
             subs.forEach((sub, sIdx) => {
-              const subCount = Object.values(state.items).filter(i => i.subcategoryId === sub.id).length;
+              const subCount = Object.values(state.items).filter(i => i.subcategoryId === sub.id && !isItemHidden(i)).length;
               const subIcon = sub.icon || 'fa-tag';
               html += `<div class="dash-sub-row">
                 <span class="sub-left"><i class="fas ${subIcon}"></i> <span class="sub-name">${escapeHtml(sub.name)}</span></span>
@@ -1633,6 +1973,7 @@
                 <span class="dash-sub-actions">
                   <button class="dash-sub-action-btn" data-move-sub-up="${sub.id}" title="Move up" ${sIdx === 0 ? 'disabled' : ''}><i class="fas fa-chevron-up"></i></button>
                   <button class="dash-sub-action-btn" data-move-sub-down="${sub.id}" title="Move down" ${sIdx === subs.length - 1 ? 'disabled' : ''}><i class="fas fa-chevron-down"></i></button>
+                  <button class="dash-sub-action-btn" data-hide-sub="${sub.id}" title="Hide subcategory"><i class="fas fa-eye-slash"></i></button>
                   <button class="dash-sub-action-btn" data-edit-sub="${sub.id}" title="Edit subcategory"><i class="fas fa-pencil"></i></button>
                   <button class="dash-sub-action-btn danger" data-del-sub="${sub.id}" title="Delete subcategory"><i class="fas fa-trash"></i></button>
                 </span>
@@ -1653,7 +1994,9 @@
       html += `<div class="dashboard-section">
         <h2><i class="fas fa-triangle-exclamation" style="color:var(--accent-4);"></i> Items Requiring Attention</h2>`;
 
-      const attentionItems = Object.entries(state.items).map(([id, item]) => ({ id, ...item }))
+      const attentionItems = Object.entries(state.items)
+        .map(([id, item]) => ({ id, ...item }))
+        .filter(item => !isItemHidden(item))
         .filter(item => {
           const cond = (item.condition || '').trim().toLowerCase();
           if (!cond) return true;
@@ -1691,7 +2034,10 @@
 
       itemsContainer.innerHTML = html;
 
-      // Bind category edit/delete
+      // Bind category actions
+      itemsContainer.querySelectorAll('[data-hide-cat]').forEach(btn => {
+        btn.addEventListener('click', () => hideEntity(`categories/${btn.dataset.hideCat}`, 'Category'));
+      });
       itemsContainer.querySelectorAll('[data-edit-cat]').forEach(btn => {
         btn.addEventListener('click', () => openEditCategoryModal(btn.dataset.editCat));
       });
@@ -1713,7 +2059,10 @@
         });
       });
 
-      // Bind subcategory edit/delete/move
+      // Bind subcategory actions
+      itemsContainer.querySelectorAll('[data-hide-sub]').forEach(btn => {
+        btn.addEventListener('click', () => hideEntity(`subcategories/${btn.dataset.hideSub}`, 'Subcategory'));
+      });
       itemsContainer.querySelectorAll('[data-edit-sub]').forEach(btn => {
         btn.addEventListener('click', () => openEditSubcategoryModal(btn.dataset.editSub));
       });
@@ -1741,7 +2090,132 @@
       });
     }
 
-    // ---------- Locations Page ----------
+    // ---------- Hidden page ----------
+    function renderHiddenPage() {
+      pageTitle.textContent = 'Hidden Items';
+      searchWrap.style.display = 'none';
+      tabsWrap.style.display = 'none';
+
+      const hiddenCats = getHiddenCategories();
+      const hiddenSubs = getHiddenSubcategories();
+      const hiddenIts = getHiddenItems();
+      const total = hiddenCats.length + hiddenSubs.length + hiddenIts.length;
+      itemCountLabel.textContent = `${total} hidden record${total !== 1 ? 's' : ''}`;
+
+      let html = `
+        <div class="hidden-page-head">
+          <div class="hidden-lock-icon"><i class="fas fa-lock-open"></i></div>
+          <div class="hidden-head-text">
+            <h2>Hidden Section</h2>
+            <p>PIN protected · Only you can see these</p>
+          </div>
+          <button class="btn-secondary" id="relockBtn"><i class="fas fa-lock"></i> Lock</button>
+        </div>
+      `;
+
+      if (total === 0) {
+        html += `<div class="empty-state" style="margin-top:20px;">
+          <div class="empty-icon"><i class="fas fa-eye"></i></div>
+          <h4>Nothing hidden</h4>
+          <p>Items, categories, and subcategories you hide will appear here.</p>
+        </div>`;
+        itemsContainer.innerHTML = html;
+        bindRelockBtn();
+        return;
+      }
+
+      // Hidden categories
+      if (hiddenCats.length > 0) {
+        html += `<div class="dashboard-section">
+          <h2><i class="fas fa-folder"></i> Hidden Categories</h2>
+          <div class="hidden-list">`;
+        hiddenCats.forEach(cat => {
+          const theme = getTheme(cat.theme);
+          const icon = cat.icon || 'fa-folder';
+          html += `<div class="hidden-row">
+            <div class="hidden-row-icon" style="background:${theme.soft};color:${theme.primary};border-color:transparent;"><i class="fas ${icon}"></i></div>
+            <div class="hidden-row-content">
+              <div class="hidden-row-title">${escapeHtml(cat.name || 'Untitled')}</div>
+              <div class="hidden-row-sub">Category</div>
+            </div>
+            <button class="btn-sm" data-unhide-cat="${cat.id}"><i class="fas fa-eye"></i> Restore</button>
+          </div>`;
+        });
+        html += `</div></div>`;
+      }
+
+      // Hidden subcategories
+      if (hiddenSubs.length > 0) {
+        html += `<div class="dashboard-section">
+          <h2><i class="fas fa-tag"></i> Hidden Subcategories</h2>
+          <div class="hidden-list">`;
+        hiddenSubs.forEach(sub => {
+          const cat = state.categories[sub.categoryId];
+          const icon = sub.icon || 'fa-tag';
+          html += `<div class="hidden-row">
+            <div class="hidden-row-icon"><i class="fas ${icon}"></i></div>
+            <div class="hidden-row-content">
+              <div class="hidden-row-title">${escapeHtml(sub.name || 'Untitled')}</div>
+              <div class="hidden-row-sub">${escapeHtml(cat?.name || 'Unknown category')}</div>
+            </div>
+            <button class="btn-sm" data-unhide-sub="${sub.id}"><i class="fas fa-eye"></i> Restore</button>
+          </div>`;
+        });
+        html += `</div></div>`;
+      }
+
+      // Hidden items
+      if (hiddenIts.length > 0) {
+        html += `<div class="dashboard-section">
+          <h2><i class="fas fa-box"></i> Hidden Items</h2>
+          <div class="hidden-list">`;
+        hiddenIts.forEach(item => {
+          const cat = state.categories[item.categoryId];
+          const sub = state.subcategories[item.subcategoryId];
+          const img = item.imageUrl
+            ? `<img src="${escapeHtml(item.imageUrl)}" alt="" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-image\\'></i>'">`
+            : `<i class="fas fa-image"></i>`;
+          html += `<div class="hidden-row">
+            <div class="hidden-row-icon hidden-row-thumb">${img}</div>
+            <div class="hidden-row-content">
+              <div class="hidden-row-title">${escapeHtml(item.name || 'Untitled')}</div>
+              <div class="hidden-row-sub">${escapeHtml(cat?.name || '?')} › ${escapeHtml(sub?.name || '?')}</div>
+            </div>
+            <button class="btn-sm" data-unhide-item="${item.id}"><i class="fas fa-eye"></i> Restore</button>
+          </div>`;
+        });
+        html += `</div></div>`;
+      }
+
+      itemsContainer.innerHTML = html;
+      bindRelockBtn();
+
+      itemsContainer.querySelectorAll('[data-unhide-cat]').forEach(btn => {
+        btn.addEventListener('click', () => unhideEntity(`categories/${btn.dataset.unhideCat}`, 'Category'));
+      });
+      itemsContainer.querySelectorAll('[data-unhide-sub]').forEach(btn => {
+        btn.addEventListener('click', () => unhideEntity(`subcategories/${btn.dataset.unhideSub}`, 'Subcategory'));
+      });
+      itemsContainer.querySelectorAll('[data-unhide-item]').forEach(btn => {
+        btn.addEventListener('click', () => unhideEntity(`items/${btn.dataset.unhideItem}`, 'Item'));
+      });
+    }
+    function bindRelockBtn() {
+      const btn = $('relockBtn');
+      if (btn) {
+        btn.addEventListener('click', () => {
+          state.pinUnlocked = false;
+          state.viewMode = 'dashboard';
+          state.selectedCategoryId = null;
+          state.selectedSubcategoryId = null;
+          renderSidebar();
+          renderMain();
+          toast('Section locked', 'info');
+        });
+      }
+    }
+
+    // ---------- Locations page ----------
     function renderLocationsPage() {
       pageTitle.textContent = 'Locations';
       searchWrap.style.display = 'none';
@@ -1750,6 +2224,7 @@
       const grouped = {};
       state.locations.forEach(loc => { grouped[loc] = grouped[loc] || []; });
       Object.values(state.items).forEach(item => {
+        if (isItemHidden(item)) return;
         const loc = (item.location || '').trim() || 'Unassigned';
         if (!grouped[loc]) grouped[loc] = [];
         grouped[loc].push(item);
@@ -1803,7 +2278,7 @@
       });
     }
 
-    // ---------- Image Links Page ----------
+    // ---------- Image Links page ----------
     function convertDriveLink(url) {
       if (!url) return null;
       const patterns = [
@@ -1871,16 +2346,30 @@
       });
     }
 
-    // ---------- Render Main ----------
+    // ---------- Render main ----------
     function renderMain() {
-      // Clear theme vars when not in category view
       if (state.viewMode !== 'category') {
         mainContent.style.removeProperty('--cat-primary');
         mainContent.style.removeProperty('--cat-soft');
         mainContent.style.removeProperty('--cat-grad');
       }
 
+      // Auto-fallback if current category/subcategory got hidden
+      if (state.viewMode === 'category') {
+        if (state.selectedCategoryId && isCategoryHidden(state.selectedCategoryId)) {
+          state.viewMode = 'dashboard';
+          state.selectedCategoryId = null;
+          state.selectedSubcategoryId = null;
+        } else if (state.selectedSubcategoryId && isSubcategoryHidden(state.selectedSubcategoryId)) {
+          state.selectedSubcategoryId = null;
+        }
+      }
+      if (state.viewMode === 'hidden' && !state.pinUnlocked) {
+        state.viewMode = 'dashboard';
+      }
+
       if (state.viewMode === 'dashboard') { renderDashboard(); return; }
+      if (state.viewMode === 'hidden') { renderHiddenPage(); return; }
       if (state.viewMode === 'locations') { renderLocationsPage(); return; }
       if (state.viewMode === 'imagelinks') { renderImageLinksPage(); return; }
 
@@ -1907,7 +2396,7 @@
         tabsHtml += `<button class="tab ${!state.selectedSubcategoryId ? 'active' : ''}" data-sub-id="">All</button>`;
         subs.forEach(s => {
           const active = state.selectedSubcategoryId === s.id ? 'active' : '';
-          const count = Object.values(state.items).filter(i => i.subcategoryId === s.id).length;
+          const count = Object.values(state.items).filter(i => i.subcategoryId === s.id && !isItemHidden(i)).length;
           const subIcon = s.icon || 'fa-tag';
           tabsHtml += `<button class="tab ${active}" data-sub-id="${s.id}"><i class="fas ${subIcon} tab-icon"></i>${escapeHtml(s.name)} <span class="tab-count">${count}</span></button>`;
         });
@@ -1951,6 +2440,7 @@
               </div>
             </div>
             <div class="item-actions">
+              <button class="btn-sm" data-hide-item="${item.id}"><i class="fas fa-eye-slash"></i><span class="btn-label">Hide</span></button>
               <button class="btn-sm" data-edit-item="${item.id}"><i class="fas fa-pen"></i><span class="btn-label">Edit</span></button>
               <button class="btn-sm danger" data-delete-item="${item.id}"><i class="fas fa-trash"></i><span class="btn-label">Delete</span></button>
             </div>
@@ -1959,6 +2449,9 @@
       html += '</div>';
       itemsContainer.innerHTML = html;
 
+      itemsContainer.querySelectorAll('[data-hide-item]').forEach(btn => {
+        btn.addEventListener('click', () => hideEntity(`items/${btn.dataset.hideItem}`, 'Item'));
+      });
       itemsContainer.querySelectorAll('[data-edit-item]').forEach(btn => {
         btn.addEventListener('click', () => openEditModal(btn.dataset.editItem));
       });
@@ -1998,7 +2491,7 @@
       if (editLoc) editLoc.innerHTML = opts;
     }
 
-    // ---------- Icon & Theme Pickers ----------
+    // ---------- Icon & theme pickers ----------
     function renderIconPickerFor(containerId, selectedIcon = null) {
       const grid = document.getElementById(containerId);
       if (!grid) return;
@@ -2029,7 +2522,7 @@
       });
     }
 
-    // ---------- Add New Modal ----------
+    // ---------- Add modal ----------
     $('addNewBtn').addEventListener('click', () => {
       populateCategorySelects();
       populateLocationSelects();
@@ -2078,7 +2571,7 @@
       }
     });
 
-    // ---------- Add Item Submit ----------
+    // ---------- Add Item ----------
     $('addItemForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = $('itemName').value.trim();
@@ -2122,7 +2615,7 @@
       } catch (err) { console.error(err); toast('Failed to add item', 'error'); }
     });
 
-    // ---------- Add Category Submit ----------
+    // ---------- Add Category ----------
     $('addCategoryForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = $('categoryName').value.trim();
@@ -2146,7 +2639,7 @@
       } catch (err) { toast('Failed to create category', 'error'); }
     });
 
-    // ---------- Add Subcategory Submit ----------
+    // ---------- Add Subcategory ----------
     $('addSubcategoryForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const parentId = $('subParentCategory').value;
@@ -2174,7 +2667,7 @@
       } catch (err) { toast('Failed to create subcategory', 'error'); }
     });
 
-    // ---------- Edit Item Modal ----------
+    // ---------- Edit Item ----------
     function openEditModal(itemId) {
       const item = state.items[itemId];
       if (!item) return;
@@ -2216,7 +2709,7 @@
       } catch (err) { toast('Failed to update item', 'error'); }
     });
 
-    // ---------- Edit Category Modal ----------
+    // ---------- Edit Category ----------
     function openEditCategoryModal(catId) {
       const cat = state.categories[catId];
       if (!cat) return;
@@ -2240,7 +2733,7 @@
       } catch (err) { toast('Failed to update category', 'error'); }
     });
 
-    // ---------- Edit Subcategory Modal ----------
+    // ---------- Edit Subcategory ----------
     function openEditSubcategoryModal(subId) {
       const sub = state.subcategories[subId];
       if (!sub) return;
@@ -2265,14 +2758,9 @@
     // ---------- Search ----------
     searchInput.addEventListener('input', (e) => {
       state.searchQuery = e.target.value.trim();
-      if (state.viewMode !== 'category') {
-        // Don't switch views; search only applies to category view
-        return;
-      }
-      renderMain();
+      if (state.viewMode === 'category') renderMain();
     });
 
-    // ---------- Refresh ----------
     $('refreshBtn').addEventListener('click', () => { toast('Refreshing data…'); renderMain(); });
 
     // ---------- Modal close handlers ----------
@@ -2289,7 +2777,7 @@
       }
     });
 
-    // Mobile sidebar
+    // ---------- Mobile sidebar ----------
     menuToggle.addEventListener('click', () => {
       sidebar.classList.toggle('open');
       sidebarOverlay.classList.toggle('open');
